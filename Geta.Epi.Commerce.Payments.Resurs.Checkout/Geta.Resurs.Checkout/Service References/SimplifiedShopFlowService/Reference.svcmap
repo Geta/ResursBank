@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="45279f75-88e8-467b-98e7-77bfeb713167" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="https://ResursBankServiceClient.resurs.com/ecommerce-ResursBankServiceClient/ws/V4/SimplifiedShopFlowService?wsdl" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="Exceptions.xsd" MetadataType="Schema" ID="1cedf5d6-1132-43e4-85ac-3084abb8eca0" SourceId="1" SourceUrl="https://ResursBankServiceClient.resurs.com/ecommerce-ResursBankServiceClient/ws/V4/SimplifiedShopFlowService?xsd=schemas/messages/Exceptions.xsd" />
+    <MetadataFile FileName="shopflow.xsd" MetadataType="Schema" ID="0be00a20-9ca3-4f22-a0f0-9f23bc50d857" SourceId="1" SourceUrl="https://ResursBankServiceClient.resurs.com/ecommerce-ResursBankServiceClient/ws/V4/SimplifiedShopFlowService?xsd=schemas/types/shopflow.xsd" />
+    <MetadataFile FileName="SimplifiedShopFlowServiceMessages.xsd" MetadataType="Schema" ID="bc72c29c-2fa9-49ad-baf0-7d48d6ef75dc" SourceId="1" SourceUrl="https://ResursBankServiceClient.resurs.com/ecommerce-ResursBankServiceClient/ws/V4/SimplifiedShopFlowService?xsd=schemas/messages/SimplifiedShopFlowServiceMessages.xsd" />
+    <MetadataFile FileName="simplifiedshopflow.xsd" MetadataType="Schema" ID="e914f43b-27de-424d-840f-8412abe2c552" SourceId="1" SourceUrl="https://ResursBankServiceClient.resurs.com/ecommerce-ResursBankServiceClient/ws/V4/SimplifiedShopFlowService?xsd=schemas/types/simplifiedshopflow.xsd" />
+    <MetadataFile FileName="SimplifiedShopFlowService.wsdl" MetadataType="Wsdl" ID="ec89e005-fb76-4515-9a37-f1029eacc7e8" SourceId="1" SourceUrl="https://ResursBankServiceClient.resurs.com/ecommerce-ResursBankServiceClient/ws/V4/SimplifiedShopFlowService?wsdl" />
+    <MetadataFile FileName="common.xsd" MetadataType="Schema" ID="314d1af7-2f86-43aa-977a-5a774ca9c40e" SourceId="1" SourceUrl="https://ResursBankServiceClient.resurs.com/ecommerce-ResursBankServiceClient/ws/V4/SimplifiedShopFlowService?xsd=schemas/types/common.xsd" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

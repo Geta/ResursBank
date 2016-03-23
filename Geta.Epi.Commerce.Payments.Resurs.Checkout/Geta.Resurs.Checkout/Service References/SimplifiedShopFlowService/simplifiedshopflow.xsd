@@ -1,0 +1,295 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:tns="http://ecommerce.resurs.com/v4/types/simplifiedshopflow" xmlns:common="http://ecommerce.resurs.com/v4/types/common" xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://ecommerce.resurs.com/v4/types/simplifiedshopflow" version="4.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:import schemaLocation="https://ResursBankServiceClient.resurs.com/ecommerce-ResursBankServiceClient/ws/V4/SimplifiedShopFlowService?xsd=schemas/types/common.xsd" namespace="http://ecommerce.resurs.com/v4/types/common" />
+  <xsd:simpleType name="bookPaymentStatus">
+    <xsd:annotation>
+      <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                The status of the payment when a booking is done
+            </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="FINALIZED">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The payment is finalized.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="BOOKED">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The payment is booked and you will have to finalize it on your own.
+                        To finalize booked payments automaticly you could set a flag in the bookPayment.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="FROZEN">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The payment is currently frozen. This typically means that there is something that
+                        needs further investigation before the payment can be finalized.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="DENIED">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The payment is denied.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="SIGNING">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The payment requires Signing.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="bookPaymentResult">
+    <xsd:annotation>
+      <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                The result of the payment booking attempt.
+            </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="paymentId" type="common:id">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The identity of the payment.
+                        <br xmlns="http://www.w3.org/1999/xhtml" /><strong>NB:</strong>This is<strong>not</strong>the same as the payment session identity.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="bookPaymentStatus" type="tns:bookPaymentStatus">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The status of the payment
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="signingUrl" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The status of the payment
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="approvedAmount" type="common:positiveDecimal">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The limit amount approved for the payment.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="customer" type="common:customer">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The customer that has made the payment. Contains the billing address.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="extendedCustomer">
+    <xsd:complexContent mixed="false">
+      <xsd:extension base="common:customer">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="cellPhone" nillable="true" type="xsd:string">
+            <xsd:annotation>
+              <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">The Cell phone number of the
+                                customer.
+                            </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="yourCustomerId" nillable="true" type="xsd:string">
+            <xsd:annotation>
+              <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                                The customer id you uses internaly for your customer, don't have to be specified.
+                            </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="deliveryAddress" nillable="true" type="common:address">
+            <xsd:annotation>
+              <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">The adress where the the objects
+                                should be delivered.
+                                <br />
+                                if not specified will use the adress for this. the other adress is the billing adress.
+                                <br /><strong>Setting this will trigger a signing requirenment.</strong></xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="contactGovernmentId" nillable="true" type="xsd:string">
+            <xsd:annotation>
+              <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                                The contact governmentId if the application is for a Corparate.
+                                <ul><li>SE: Personnummer</li><li>DK: CPR-number</li><li>NO: Fødselsnummer</li><li>FI: Henkilötunnus</li></ul></xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="additionalData" nillable="true" type="common:mapEntry">
+            <xsd:annotation>
+              <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                                Meta data added to the payment.
+                                <p />Can be used to piggy-back key,value pairs on the payment, and Resurs mostly don't look
+                                at the metadata, with a few exceptions.
+                                <a href="https://ResursBankServiceClient.resurs.com/docs/x/DgAv">Read more about metadata, including which keys
+                                    have special meaning to us</a></xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="cardData">
+    <xsd:annotation>
+      <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                The result of the payment booking attempt.
+            </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="cardNumber" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        If the payment is for a card, the number should be specified here. else leave it empty.
+                        <p />
+                        * Either set amount, or cardNumber. Both should not be set.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="amount" nillable="true" type="common:positiveDecimal">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        If the customer apply for a new card, the amount of credit on the card they apply for should be
+                        here. When we check if the customer has enough limit we will check this value.
+                        <p />
+                        * Either set amount, or cardNumber. Both should not be set.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="paymentData">
+    <xsd:annotation>
+      <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                The result of the payment booking attempt.
+            </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="preferredId" nillable="true" type="common:id">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        Your custom identity of the payment, this needs to be unique. Will be generated for you if
+                        nothing specified.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="preferredTransactionId" nillable="true" type="common:id">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        An identifier which is reported back in economic reports. Can thus be used as a key to track
+                        transactions. It's optional!
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="paymentMethodId" type="common:id">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The identity of your paymentmethod.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="customerIpAddress" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        Your custom identity of the payment, this needs to be unique. Will be generated for you if
+                        nothing specified.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" default="true" name="waitForFraudControl" nillable="true" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        Whether or not the service should wait until the fraud control is performed.
+                        If not, the fraud control is performed asynchronously.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" default="false" name="annulIfFrozen" nillable="true" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        Whether or not to automatically annul the payment if the fraud control results
+                        in it being frozen.
+                        <br />This is typically used if the fraud control is performed asynchronously.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" default="false" name="finalizeIfBooked" nillable="true" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        This will automaticly try to finalize the payment when it is booked.
+                        if the payment is frozen, when the payment will be thawned
+                        it will try to debit it after the thawn. and send an FINALIZED event.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="signing">
+    <xsd:annotation>
+      <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                The signing urls for a payment.
+            </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="successUrl" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The url to return the customer to when a signing is a success.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="failUrl" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The url to return the customer to when a signing fails.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="forceSigning" nillable="true" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        If true forces the payment to require a signing.
+                        If not set or set to false, Resurs Bank will decide if it should be signed or not.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="invoiceData">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="invoiceId" nillable="true" type="common:id">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The invoice number.<br />This will be printed on the invoice. For payment methods other than
+                        INVOICE, setting this will generate an error.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="invoiceDate" nillable="true" type="xsd:date">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The invoice date.<br />This will be printed on the invoice. For payment methods other than
+                        INVOICE, setting this will generate an error.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" default="EMAIL" name="invoiceDeliveryType" nillable="true" type="common:invoiceDeliveryTypeEnum">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        This option will let you decided how the INVOICE should be delivered. NONE, EMAIL or by POSTAL.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

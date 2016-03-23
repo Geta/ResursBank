@@ -1,0 +1,299 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:msg="http://ecommerce.resurs.com/v4/msg/simplifiedshopflow" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://ecommerce.resurs.com/v4" xmlns:exc="http://ecommerce.resurs.com/v4/msg/exception" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns="http://schemas.xmlsoap.org/wsdl/" name="SimplifiedShopFlowService" targetNamespace="http://ecommerce.resurs.com/v4" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://ecommerce.resurs.com/v4/simplifiedshopflow">
+      <xsd:import schemaLocation="https://ResursBankServiceClient.resurs.com/ecommerce-ResursBankServiceClient/ws/V4/SimplifiedShopFlowService?xsd=schemas/messages/SimplifiedShopFlowServiceMessages.xsd" namespace="http://ecommerce.resurs.com/v4/msg/simplifiedshopflow" />
+      <xsd:import schemaLocation="https://ResursBankServiceClient.resurs.com/ecommerce-ResursBankServiceClient/ws/V4/SimplifiedShopFlowService?xsd=schemas/messages/Exceptions.xsd" namespace="http://ecommerce.resurs.com/v4/msg/exception" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="invalidateCustomerIdentificationToken">
+    <wsdl:part name="parameters" element="msg:invalidateCustomerIdentificationToken" />
+  </wsdl:message>
+  <wsdl:message name="bookPayment">
+    <wsdl:part name="parameters" element="msg:bookPayment" />
+  </wsdl:message>
+  <wsdl:message name="getAnnuityFactorsResponse">
+    <wsdl:part name="parameters" element="msg:getAnnuityFactorsResponse" />
+  </wsdl:message>
+  <wsdl:message name="getAnnuityFactors">
+    <wsdl:part name="parameters" element="msg:getAnnuityFactors" />
+  </wsdl:message>
+  <wsdl:message name="bookPaymentResponse">
+    <wsdl:part name="parameters" element="msg:bookPaymentResponse" />
+  </wsdl:message>
+  <wsdl:message name="issueCustomerIdentificationToken">
+    <wsdl:part name="parameters" element="msg:issueCustomerIdentificationToken" />
+  </wsdl:message>
+  <wsdl:message name="getAddress">
+    <wsdl:part name="parameters" element="msg:getAddress" />
+  </wsdl:message>
+  <wsdl:message name="issueCustomerIdentificationTokenResponse">
+    <wsdl:part name="parameters" element="msg:issueCustomerIdentificationTokenResponse" />
+  </wsdl:message>
+  <wsdl:message name="getCustomerBonus">
+    <wsdl:part name="parameters" element="msg:getCustomerBonus" />
+  </wsdl:message>
+  <wsdl:message name="getCustomerBonusResponse">
+    <wsdl:part name="parameters" element="msg:getCustomerBonusResponse" />
+  </wsdl:message>
+  <wsdl:message name="getPaymentMethods">
+    <wsdl:part name="parameters" element="msg:getPaymentMethods" />
+  </wsdl:message>
+  <wsdl:message name="bookSignedPayment">
+    <wsdl:part name="parameters" element="msg:bookSignedPayment" />
+  </wsdl:message>
+  <wsdl:message name="ECommerceErrorException">
+    <wsdl:part name="fault" element="exc:ECommerceError" />
+  </wsdl:message>
+  <wsdl:message name="getCostOfPurchaseHtmlResponse">
+    <wsdl:part name="parameters" element="msg:getCostOfPurchaseHtmlResponse" />
+  </wsdl:message>
+  <wsdl:message name="getCostOfPurchaseHtml">
+    <wsdl:part name="parameters" element="msg:getCostOfPurchaseHtml" />
+  </wsdl:message>
+  <wsdl:message name="getPaymentMethodsResponse">
+    <wsdl:part name="parameters" element="msg:getPaymentMethodsResponse" />
+  </wsdl:message>
+  <wsdl:message name="getAddressResponse">
+    <wsdl:part name="parameters" element="msg:getAddressResponse" />
+  </wsdl:message>
+  <wsdl:message name="invalidateCustomerIdentificationTokenResponse">
+    <wsdl:part name="parameters" element="msg:invalidateCustomerIdentificationTokenResponse" />
+  </wsdl:message>
+  <wsdl:portType name="SimplifiedShopFlowWebService">
+    <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+            The Shop Flow WebService provides all services available to the representative when the
+            purchase is still in the shop, i.e. up until the point the purchase is booked.
+        </wsdl:documentation>
+    <wsdl:operation name="getCostOfPurchaseHtml">
+      <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                Retrieves detailed cost of purchase information in HTML format.
+                <p />
+                Resurs Bank is legaly obliged to show this information everywhere it's payment methods are marketed.<p />
+                This information either be fetched with this method or linked. If linking is preferred, the links returned
+                with the payment method (<code>getPaymentMethods</code>) is to be used.
+            </wsdl:documentation>
+      <wsdl:input message="tns:getCostOfPurchaseHtml" />
+      <wsdl:output message="tns:getCostOfPurchaseHtmlResponse" />
+      <wsdl:fault name="ECommerceErrorException" message="tns:ECommerceErrorException">
+        <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">Failed to retrieve the cost of purchase information. See error for details.</wsdl:documentation>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPaymentMethods">
+      <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                Retrieves detailed information on the payment methods available to the representative.
+            </wsdl:documentation>
+      <wsdl:input message="tns:getPaymentMethods" />
+      <wsdl:output message="tns:getPaymentMethodsResponse" />
+      <wsdl:fault name="ECommerceErrorException" message="tns:ECommerceErrorException">
+        <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">Failed to retrieve the payment methods. See error for details.</wsdl:documentation>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAnnuityFactors">
+      <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                Retrieves the annuity factors for a given payment method.
+            </wsdl:documentation>
+      <wsdl:input message="tns:getAnnuityFactors" />
+      <wsdl:output message="tns:getAnnuityFactorsResponse" />
+      <wsdl:fault name="ECommerceErrorException" message="tns:ECommerceErrorException">
+        <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">Failed to retrieve the annuity factors. See error for details.</wsdl:documentation>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAddress">
+      <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                Retrieves address information. Currently only works in sweden!<br />
+                Note that the <code>customerType</code> parameter is optional right now, but in short
+                notice this will be required (minOccurs=1)
+            </wsdl:documentation>
+      <wsdl:input message="tns:getAddress" />
+      <wsdl:output message="tns:getAddressResponse" />
+      <wsdl:fault name="ECommerceErrorException" message="tns:ECommerceErrorException">
+        <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">Failed to retrieve the address information. See error for details.</wsdl:documentation>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="bookSignedPayment">
+      <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                Initializes a signing session.<br />This is only necessary if there is to
+                be a signing. However, calling the method just in case may be a good idea.
+            </wsdl:documentation>
+      <wsdl:input message="tns:bookSignedPayment" />
+      <wsdl:output message="tns:bookPaymentResponse" />
+      <wsdl:fault name="ECommerceErrorException" message="tns:ECommerceErrorException">
+        <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">Failed to prepare the signing session. See
+                    error for details.
+                </wsdl:documentation>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="bookPayment">
+      <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                Books the payment. This reserves the purchase amount on the customer's account.
+                Effectively, it also ends the shop flow.
+            </wsdl:documentation>
+      <wsdl:input message="tns:bookPayment" />
+      <wsdl:output message="tns:bookPaymentResponse" />
+      <wsdl:fault name="ECommerceErrorException" message="tns:ECommerceErrorException">
+        <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">Failed to book the payment. See error for
+                    details.
+                </wsdl:documentation>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCustomerBonus">
+      <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                Fetches the bonus the customer have, if any.
+                <p /><a href="https://ResursBankServiceClient.resurs.com/docs/x/CAAv">Read more about bonus</a></wsdl:documentation>
+      <wsdl:input message="tns:getCustomerBonus" />
+      <wsdl:output message="tns:getCustomerBonusResponse" />
+      <wsdl:fault name="ECommerceErrorException" message="tns:ECommerceErrorException">
+        <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                    If the means of identification (token or card information) is invalid an INVALID_IDENTIFICATION(28)
+                    will be returned.
+                </wsdl:documentation>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="issueCustomerIdentificationToken">
+      <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                Issues a customer identification token that can identify this customer in further operations. These
+                functions do require the customer to be identified, and they require either a token, or information
+                to identify the customer.
+                <p />Tokens are intended to be saved with the user profile in the web shop. In this way we delegate
+                identification of the customer to the web shop after the initial identification is done.
+            </wsdl:documentation>
+      <wsdl:input message="tns:issueCustomerIdentificationToken" />
+      <wsdl:output message="tns:issueCustomerIdentificationTokenResponse" />
+      <wsdl:fault name="ECommerceErrorException" message="tns:ECommerceErrorException">
+        <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                    If too many tokens are issued, the TOO_MANY_TOKENS(29) fault is returned.
+                </wsdl:documentation>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="invalidateCustomerIdentificationToken">
+      <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                Invalidates customer identification token(s).
+            </wsdl:documentation>
+      <wsdl:input message="tns:invalidateCustomerIdentificationToken" />
+      <wsdl:output message="tns:invalidateCustomerIdentificationTokenResponse" />
+      <wsdl:fault name="ECommerceErrorException" message="tns:ECommerceErrorException">
+        <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                    If the token(s) is invalid or does not exist we return INVALID_IDENTIFICATION(28) if no such
+                    token(s) exist
+                </wsdl:documentation>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SimplifiedShopFlowWebServiceImplPortBinding" type="tns:SimplifiedShopFlowWebService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getCostOfPurchaseHtml">
+      <soap:operation soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ECommerceErrorException">
+        <soap:fault use="literal" name="ECommerceErrorException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPaymentMethods">
+      <soap:operation soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ECommerceErrorException">
+        <soap:fault use="literal" name="ECommerceErrorException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAnnuityFactors">
+      <soap:operation soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ECommerceErrorException">
+        <soap:fault use="literal" name="ECommerceErrorException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAddress">
+      <soap:operation soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ECommerceErrorException">
+        <soap:fault use="literal" name="ECommerceErrorException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCustomerBonus">
+      <soap:operation soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ECommerceErrorException">
+        <soap:fault use="literal" name="ECommerceErrorException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="invalidateCustomerIdentificationToken">
+      <soap:operation soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ECommerceErrorException">
+        <soap:fault use="literal" name="ECommerceErrorException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="issueCustomerIdentificationToken">
+      <soap:operation soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ECommerceErrorException">
+        <soap:fault use="literal" name="ECommerceErrorException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="bookSignedPayment">
+      <soap:operation soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ECommerceErrorException">
+        <soap:fault use="literal" name="ECommerceErrorException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="bookPayment">
+      <soap:operation soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ECommerceErrorException">
+        <soap:fault use="literal" name="ECommerceErrorException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="SimplifiedShopFlowService">
+    <wsdl:port name="SimplifiedShopFlowWebServiceImplPort" binding="tns:SimplifiedShopFlowWebServiceImplPortBinding">
+      <soap:address location="https://ResursBankServiceClient.resurs.com/ecommerce-ResursBankServiceClient/ws/V4/SimplifiedShopFlowService" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

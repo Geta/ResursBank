@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:tns="http://ecommerce.resurs.com/v4/msg/exception" xmlns:common="http://ecommerce.resurs.com/v4/types/common" xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://ecommerce.resurs.com/v4/msg/exception" version="4.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:import schemaLocation="https://ResursBankServiceClient.resurs.com/ecommerce-ResursBankServiceClient/ws/V4/SimplifiedShopFlowService?xsd=schemas/types/common.xsd" namespace="http://ecommerce.resurs.com/v4/types/common" />
+  <xsd:element name="ECommerceError" type="tns:ECommerceError" />
+  <xsd:complexType name="ECommerceError">
+    <xsd:annotation>
+      <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                All errors/exceptions are returned as <code xmlns="http://www.w3.org/1999/xhtml">ECommerceException</code>s.
+                <p xmlns="http://www.w3.org/1999/xhtml">All kinds of errors will generate this kind of exception, but different groups of errors can be
+                    distinguished by their <code>errorTypeId</code>. For example the errorTypeId 1 is "Invalid argument". You
+                    might want to take different actions depending on the <code>errorTypeId</code>, especially if the
+                    <code>fixableByYou</code> flag is true.
+                </p>
+                These are the current errorTypes. More might be added as time goes, but old errors codes will remain unchanged.
+                <ul xmlns="http://www.w3.org/1999/xhtml"><li>ILLEGAL_ARGUMENT(1)</li><li>INTERNAL_ERROR(3)</li><li>NOT_ALLOWED(4)</li><li>REFERENCED_DATA_DONT_EXISTS(8)</li><li>CREDITAPPLICATION_FAILED(10)</li><li>NOT_IMPLEMENTED(11)</li><li>INVALID_CREDITAPPLICATION_SUBMISSION(14)</li><li>SIGNING_REQUIRED(15)</li><li>AUTHORIZATION_FAILED(17)</li><li>APPLICATION_VALIDATION_ERROR(18)</li><li>OBJECT_WITH_ID_ALREADY_EXIST(19)</li><li>NOT_ALLOWED_IN_PAYMENT_STATE(20)</li><li>CUSTOMER_CONFIGURATION_EXCEPTION(21)</li><li>SERVICE_CONFIGURATION_EXCEPTION(22)</li><li>INVALID_CREDITING(23)</li><li>LIMIT_PER_TIME_EXCEEDED(24)</li><li>NOT_ALLOWED_IN_CURRENT_STATE(25)</li><li>INVALID_FINALIZATION(26)</li><li>FORM_PARSING(27)</li><li>NOT_ALLOWED_INVOICE_ID(28)</li><li>ALREADY_EXISTS_INVOICE_ID(29)</li><li>INVALID_IDENTIFICATION(30)</li><li>TO_MANY_TOKENS(31)</li><li>CUSTOMER_ALREADY_HAVE_VALID_CARD(32)</li><li>CUSTOMER_HAS_NO_VALID_CARD(33)</li><li>CUSTOMER_HAS_MORE_THAN_ONE_VALID_CARD(34)</li><li>INVALID_AUTHENTICATION(35)</li><li>ANNUL_FAILED(36)</li><li>LEGACY_EXCEPTION(99)</li><li>WEAK_PASSWORD(502)</li><li>NOT_AUTHORIZED(503)</li></ul><p xmlns="http://www.w3.org/1999/xhtml">The <code>fixableByYou</code> flag means that the system works as intended, and that some other input could have prevented
+                    the error from happening. For example, a customer not having enough funds on his card account renders an <code>ECommerceException</code> with
+                    the <code>fixableByYou</code> set to<tt>true</tt>. If, on the other hand, we have problems communicating with the database,
+                    the <code>fixableByYou</code> flag should be false.<br />
+                    When this flag is false there is nothing you can do except showing the customer the error message.
+                </p><p>The exception contains two error messages. One of them, the exception message, is a technical description of
+                    what went wrong, and <strong>it's NOT suitable to show the end user</strong>. Just log it, and use it for diagnosing
+                    and development.<br />
+                    The userErrorMessage on the other hand, we more or less require you to show to the customer if something went
+                    wrong. The reason for requiring you to show it is that some of the messages we return have a legal meaning not to be
+                    fiddled with.
+                </p></xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="errorTypeDescription" type="common:nonEmptyString">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">The textual description of the error type. See the list above.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="errorTypeId" type="xsd:int">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">Indicates which kind of error this is. See the list above.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="fixableByYou" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        "If this error have been avoided with some other input" = <tt>true</tt><br />
+                        "It a Resurs Bank problem" = <tt>false</tt></xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="userErrorMessage" type="common:nonEmptyString">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        An error message intended for the user of the web shop. This message must be shown!
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>
