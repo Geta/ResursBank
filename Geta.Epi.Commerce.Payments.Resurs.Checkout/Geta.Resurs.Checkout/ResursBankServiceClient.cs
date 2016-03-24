@@ -9,40 +9,102 @@ using Geta.Resurs.Checkout.SimplifiedShopFlowService;
 
 namespace Geta.Resurs.Checkout
 {
-    public class ResursBankServiceClient
+    public class ResursBankServiceClient : IResursBankServiceClient
     {
-        public List<PaymentMethod> GetPaymentMethods(string lang, string custType, decimal amount)
+        private SimplifiedShopFlowWebServiceClient _shopServiceClient;
+
+         public ResursBankServiceClient(ResursCredential credential)
         {
-            var paymentMethodList = new List<PaymentMethod>();
+            _shopServiceClient = new SimplifiedShopFlowWebServiceClient();
+            if (credential != null)
+            {
+                // TODO: Chage to get value directly when code complete
+                var appSettings = ConfigurationManager.AppSettings;
+                _shopServiceClient.ClientCredentials.UserName.UserName = credential.UserName ?? appSettings["username"] ?? "Not Found";
+                _shopServiceClient.ClientCredentials.UserName.Password = credential.Password ?? appSettings["password"] ?? "Not Found";
+            }
+        }
+
+        public List<PaymentMethodResponse> GetPaymentMethods(string lang, string custType, decimal amount)
+        {
+            if (_shopServiceClient == null || _shopServiceClient.ClientCredentials == null)
+                return null;
+
+            var paymentMethodList = new List<PaymentMethodResponse>();
             language langEnum = (language)System.Enum.Parse(typeof(language), lang);
             customerType customerTypeEnum = (customerType)System.Enum.Parse(typeof(customerType), custType);
-            using (var client = new SimplifiedShopFlowWebServiceClient())
+
+            var paymentMethods = _shopServiceClient.getPaymentMethods(langEnum, customerTypeEnum, amount);
+            _shopServiceClient.Close();
+            foreach (var paymentMethod in paymentMethods)
             {
-                if (client.ClientCredentials != null)
-                {
-                    var appSettings = ConfigurationManager.AppSettings;
-                    string username = appSettings["username"] ?? "Not Found";
-                    string password = appSettings["password"] ?? "Not Found";
-
-                    client.ClientCredentials.UserName.UserName = username;
-                    client.ClientCredentials.UserName.Password = password;
-                }
-                var paymentMethods = client.getPaymentMethods(langEnum, customerTypeEnum, 1000);
-                foreach (var paymentMethod in paymentMethods)
-                {
-                    //paymentMethodList.Add(new PaymentMethod() { });
-                    var pMethod = new PaymentMethod();
-                    pMethod.Id = paymentMethod.id;
-                    //pMethod.CustomerTypeField = paymentMethod.customerType;
-                    pMethod.DescriptionField = paymentMethod.description;
-                    pMethod.MaxLimitField = paymentMethod.maxLimit;
-
-                    paymentMethodList.Add(pMethod);
-                }
-                return paymentMethodList;
+                var paymentMethodResponse = new PaymentMethodResponse(paymentMethod.id, paymentMethod.description, paymentMethod.minLimit, paymentMethod.maxLimit, paymentMethod.specificType);
+                paymentMethodList.Add(paymentMethodResponse);
             }
+            return paymentMethodList;
+
+        }
+
+        public bookPaymentResult BookPayment(string paymentMethodId, string customerIpAddress, List<SpecLine> specLines, Customer customer, string successUrl, string failUrl, bool forceSigning, string callBackUrl)
+        {
+            var paymentData = new paymentData();
+            paymentData.paymentMethodId = paymentMethodId;
+            paymentData.customerIpAddress = customerIpAddress;
+
+            //paymentspec
+            var paymentSpec = new paymentSpec();
+
+            specLine[] spLines = new specLine[specLines.Count];
+            var i = 0;
+            decimal totalAmount = 0;
+            decimal totalVatAmount = 0;
+            foreach (var specLine in specLines)
+            {
+                var spLine = new specLine();
+                spLine.id = specLine.Id;
+                spLine.artNo = specLine.ArtNo;
+                spLine.description = specLine.Description;
+                spLine.quantity = specLine.Quantity;
+                spLine.unitMeasure = specLine.UnitMeasure;
+                spLine.unitAmountWithoutVat = specLine.UnitAmountWithoutVat;
+                spLine.vatPct = specLine.VatPct;
+                spLine.totalVatAmount = specLine.TotalVatAmount;
+                spLine.totalAmount = specLine.TotalAmount;
+                totalAmount += specLine.TotalAmount;
+                totalVatAmount += specLine.TotalVatAmount;
+                spLines[i] = spLine;
+                i++;
+            }
+            paymentSpec.specLines = spLines;
+            paymentSpec.totalAmount = totalAmount;
+            paymentSpec.totalVatAmount = totalVatAmount;
+            paymentSpec.totalVatAmountSpecified = true;
+            //extendedCustomer
+            var extendedCustomer = new extendedCustomer();
+            extendedCustomer.governmentId = customer.GovernmentId;
+            extendedCustomer.address = new address();
+            extendedCustomer.address.fullName = customer.Address.FullName;
+            extendedCustomer.address.firstName = customer.Address.FirstName;
+            extendedCustomer.address.lastName = customer.Address.LastName;
+            extendedCustomer.address.addressRow1 = customer.Address.AddressRow1;
+            extendedCustomer.address.addressRow2 = customer.Address.AddressRow2;
+            extendedCustomer.address.postalArea = customer.Address.PostalArea;
+            extendedCustomer.address.postalCode = customer.Address.PostalCode;
+            countryCode cCode = (countryCode)System.Enum.Parse(typeof(countryCode), customer.Address.Country);
+            extendedCustomer.address.country = cCode;
+
+            extendedCustomer.phone = customer.Phone;
+            extendedCustomer.email = customer.Email;
+            customerType cType = (customerType)System.Enum.Parse(typeof(customerType), customer.Type);
+            extendedCustomer.type = cType;
+            //signinng
+            var signing = new signing();
+            signing.successUrl = successUrl;
+            signing.failUrl = failUrl;
+            signing.forceSigning = forceSigning;
 
 
+            return _shopServiceClient.bookPayment(paymentData, paymentSpec, null, extendedCustomer, null, signing, null, callBackUrl);
         }
     }
 }

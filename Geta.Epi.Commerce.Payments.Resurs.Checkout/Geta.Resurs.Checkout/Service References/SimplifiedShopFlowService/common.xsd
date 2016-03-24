@@ -492,7 +492,7 @@
                         The customer wants to have an invoice sent to him, where he's able to pay the whole amount at
                         once.
                         <p>That can be many payment methods of this type. Fetch a list with the function
-                            <tt class="method">PaymentMethodService.getPaymentMethods</tt>.
+                            <tt class="method">PaymentMethodResponseService.getPaymentMethodResponses</tt>.
                         </p></xsd:documentation>
         </xsd:annotation>
       </xsd:enumeration>
@@ -506,7 +506,7 @@
                         A credit
                         application will need to be made, and the customer needs to sign a credit contract.
                         <p>There can be many payment methods of this type. Fetch a list with the function
-                            <tt class="method">ShopFlowService.getPaymentMethods</tt>.
+                            <tt class="method">ShopFlowService.getPaymentMethodResponses</tt>.
                         </p></xsd:documentation>
         </xsd:annotation>
       </xsd:enumeration>
@@ -529,7 +529,7 @@
                         This paymentmethod type is used when connecting to external paymentproviders.
                         Like Card,Bank Payment etc.
                         <p /><p>There can be many payment methods of this type. Fetch a list with the function
-                            <tt class="method">ShopFlowService.getPaymentMethods</tt>.
+                            <tt class="method">ShopFlowService.getPaymentMethodResponses</tt>.
                         </p></xsd:documentation>
         </xsd:annotation>
       </xsd:enumeration>

@@ -5,8 +5,8 @@
   <xsd:import schemaLocation="https://ResursBankServiceClient.resurs.com/ecommerce-ResursBankServiceClient/ws/V4/SimplifiedShopFlowService?xsd=schemas/types/shopflow.xsd" namespace="http://ecommerce.resurs.com/v4/types/shopflow" />
   <xsd:element name="getCostOfPurchaseHtml" type="tns:getCostOfPurchaseHtml" />
   <xsd:element name="getCostOfPurchaseHtmlResponse" type="tns:getCostOfPurchaseHtmlResponse" />
-  <xsd:element name="getPaymentMethods" type="tns:getPaymentMethods" />
-  <xsd:element name="getPaymentMethodsResponse" type="tns:getPaymentMethodsResponse" />
+  <xsd:element name="getPaymentMethodResponses" type="tns:getPaymentMethodResponses" />
+  <xsd:element name="getPaymentMethodResponsesResponse" type="tns:getPaymentMethodResponsesResponse" />
   <xsd:element name="getAnnuityFactors" type="tns:getAnnuityFactors" />
   <xsd:element name="getAnnuityFactorsResponse" type="tns:getAnnuityFactorsResponse" />
   <xsd:element name="getAddress" type="tns:getAddress" />
@@ -43,7 +43,7 @@
       </xsd:element>
     </xsd:sequence>
   </xsd:complexType>
-  <xsd:complexType name="getPaymentMethods">
+  <xsd:complexType name="getPaymentMethodResponses">
     <xsd:sequence>
       <xsd:element minOccurs="0" maxOccurs="1" name="language" nillable="true" type="common:language">
         <xsd:annotation>
@@ -54,20 +54,20 @@
       <xsd:element minOccurs="0" maxOccurs="1" name="customerType" nillable="true" type="common:customerType">
         <xsd:annotation>
           <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
-                        Filter PaymentMethods Based on what Customer Type.
+                        Filter PaymentMethodResponses Based on what Customer Type.
                     </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
       <xsd:element minOccurs="0" maxOccurs="1" name="purchaseAmount" nillable="true" type="common:positiveDecimal">
         <xsd:annotation>
           <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
-                        Filter PaymentMethods Based on the amount the Purcahse is.
+                        Filter PaymentMethodResponses Based on the amount the Purcahse is.
                     </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
     </xsd:sequence>
   </xsd:complexType>
-  <xsd:complexType name="getPaymentMethodsResponse">
+  <xsd:complexType name="getPaymentMethodResponsesResponse">
     <xsd:sequence>
       <xsd:element minOccurs="0" maxOccurs="unbounded" name="return" type="typesshop:paymentMethod">
         <xsd:annotation>
@@ -83,7 +83,7 @@
           <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
                         The identity of the payment method for which to retrieve the annuity factors.<br xmlns="http://www.w3.org/1999/xhtml" />While
                         this makes most sense for payment methods of type NEW_ACCOUNT, it is possible to use for
-                        all types. (See PaymentMethodType for more information about payment method types.)
+                        all types. (See PaymentMethodResponseType for more information about payment method types.)
                     </xsd:documentation>
         </xsd:annotation>
       </xsd:element>

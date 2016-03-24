@@ -44,10 +44,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IResursBankServiceClient.cs" />
+    <Compile Include="Model\Customer.cs" />
+    <Compile Include="Model\Address.cs" />
+    <Compile Include="Model\SpecLine.cs" />
+    <Compile Include="IResursBankServiceSettingFactory.cs" />
+    <Compile Include="Model\ResursCredential.cs" />
     <Compile Include="Model\WebLink.cs" />
-    <Compile Include="Model\PaymentMethod.cs" />
+    <Compile Include="Model\PaymentMethodResponse.cs" />
     <Compile Include="ResursBankServiceClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResursBankServiceSettingFactory.cs" />
     <Compile Include="Service References\SimplifiedShopFlowService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

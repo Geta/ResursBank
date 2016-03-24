@@ -74,7 +74,7 @@
       <xsd:element minOccurs="0" maxOccurs="unbounded" name="customerType" nillable="true" type="common:customerType">
         <xsd:annotation>
           <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
-                        The type of customer the PaymentMethod is valid for.
+                        The type of customer the PaymentMethodResponse is valid for.
                     </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
@@ -141,9 +141,9 @@
                 is
                 <i>"833 SEK a month, 12 months interest free!"</i><br /><strong>NB:</strong>Please be aware that whenever this kind of information is presented,
                 it<strong>must</strong>be accompanied by the terms of the credit. See
-                <tt class="method">PaymentMethodsInfoWebService.getLegalInformation</tt>
+                <tt class="method">PaymentMethodResponsesInfoWebService.getLegalInformation</tt>
                 and
-                <tt class="data">PaymentMethod#legalInfoLinks</tt>
+                <tt class="data">PaymentMethodResponse#legalInfoLinks</tt>
                 for more information.
             </xsd:documentation>
     </xsd:annotation>
