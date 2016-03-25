@@ -1,0 +1,641 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:tns="http://ecommerce.resurs.com/v4/types/aftershopflow" xmlns:common="http://ecommerce.resurs.com/v4/types/common" xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://ecommerce.resurs.com/v4/types/aftershopflow" version="4.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:import schemaLocation="https://test.resurs.com/ecommerce-test/ws/V4/AfterShopFlowService?xsd=schemas/types/common.xsd" namespace="http://ecommerce.resurs.com/v4/types/common" />
+  <xsd:complexType name="payment">
+    <xsd:annotation>
+      <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                The detailed payment information.
+                <br xmlns="http://www.w3.org/1999/xhtml" />In addition to the overall information about the payment, it also contains full details about
+                all diff payments associated with the payment. The payment diffs is the complete history of the payment.
+                (The current state of the payment, if needed, must be calculated client side.)
+            </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="id" type="common:id">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The payment identity.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="totalAmount" type="common:positiveDecimal">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The current total amount of the payment diffs making up this payment.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="metaData" type="common:mapEntry">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The meta data associated with the payment as key/value pairs.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="limit" type="common:positiveDecimal">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The limit (if any) associated with the payment. This could for instance be
+                        the amount of credit applied for.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="paymentDiffs" type="tns:paymentDiff">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The parts that make up this payment.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="customer" type="common:customer">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The payment customer information.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="deliveryAddress" type="common:address">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The delivery address, if one has been specified.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="booked" type="xsd:dateTime">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The timestamp of the payment booking.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="finalized" type="xsd:dateTime">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The timestamp of the latest payment finalization.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="paymentMethodId" type="common:id">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The identity of the payment method used for the payment.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="paymentMethodName" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                       The name of the payment method that are used when doing a payment.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="fraud" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        Whether or not the payment has been flagged as fraudulent.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="frozen" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        Whether or not the payment has been frozen by the fraud system for a more detailed control.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="status" type="common:paymentStatus">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The status of the payment as a list of status values.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="storeId" type="common:id">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The identity of the actual store for the representative. This id is defined by Resurs Bank. You
+                        can receive the list of stores tied to your user (representative) if you wish.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="paymentMethodType" type="common:paymentMethodType">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        Of which type the payment is, i e invoice, new account etc.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="totalBonusPoints" type="xsd:nonNegativeInteger">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The current sum of bonus points of the payments diffs making up this payment.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="paymentDiff">
+    <xsd:annotation>
+      <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                A payment diff (<i>difference</i>) is one change of a payment. The list of payment diffs is all changes to
+                the payment, including it's creation. In that way the diffs define the payment.
+                <p /><a href="https://test.resurs.com/docs/x/jYAR">Read more about payments and payment diffs</a></xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="type" type="tns:paymentDiffType">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The type of payment part.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="transactionId" type="common:id">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        This id will be present on the payment specifications sent from Resurs Bank. It can be left out, and
+                        in that case Resurs will use the payment id as transaction id.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="created" type="xsd:dateTime">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The timestamp of the payment diff creation.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="createdBy" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        Who created the payment part.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="paymentSpec" type="common:paymentSpec">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The full specification details of the payment part.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="orderId" type="common:id">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The order number as specified by the representative.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="invoiceId" type="common:id">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The invoice number as specified by the representative.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="documentNames" type="common:nonEmptyString">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The names of the documents associated with this payment part.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="paymentDiffType">
+    <xsd:annotation>
+      <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                The type of payment part.
+            </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="AUTHORIZE">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The payment part is an authorization request.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="DEBIT">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The payment diff is a debit request.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="CREDIT">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The payment diff is a credit request.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="ANNUL">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The payment diff is an annulment request.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="pdf">
+    <xsd:annotation>
+      <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">A PDF document</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="name" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The name of the document.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="pdfData" type="xsd:base64Binary">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The document data.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="searchCriteria">
+    <xsd:annotation>
+      <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">A set of search criteria.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="anyId" nillable="true" type="common:id">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        Any identity associated with the payment, not just the payment identity. This includes the
+                        transaction identity, the invoice and credit note numbers, as well as the order number of any
+                        payment diff belonging to the payment.
+                        <br />
+                        If the exact payment identity is known, it is generally a better idea to use the
+                        <code>getPayment()</code> method as that is a lot quicker.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="paymentMethodId" nillable="true" type="common:id">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The identity of the payment method.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="governmentId" nillable="true" type="common:nonEmptyString">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The desired customer government identity.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="customerName" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The desired customer name.
+                        <br />
+                        Please be aware that searches will be performed on the full (possibly composite name) of the customer.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="bookedFrom" nillable="true" type="xsd:dateTime">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The earliest desired payment booking timestamp.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="bookedTo" nillable="true" type="xsd:dateTime">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The latest desired payment booking timestamp.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="modifiedFrom" nillable="true" type="xsd:dateTime">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The earliest desired payment modification timestamp.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="modifiedTo" nillable="true" type="xsd:dateTime">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The latest desired payment modification timestamp.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="finalizedFrom" nillable="true" type="xsd:dateTime">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The earliest desired payment finalization timestamp.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="finalizedTo" nillable="true" type="xsd:dateTime">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The latest desired payment finalization timestamp.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="amountFrom" nillable="true" type="common:positiveDecimal">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The minimum desired total payment amount.
+                        <br />
+                        Please be aware that searches will be performed on the current total payment amount,
+                        i.e. not taking into consideration the status of the various payment diffs.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="amountTo" nillable="true" type="common:positiveDecimal">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The maximum desired total payment amount.
+                        <br />
+                        Please be aware that searches will be performed on the current total payment amount,
+                        i.e. not taking into consideration the status of the various payment diffs.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="bonusFrom" nillable="true" type="xsd:nonNegativeInteger">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The minimum desired total payment bonus amount.
+                        <br />
+                        Please be aware that searches will be performed on the current total payment bonus amount,
+                        i.e. not taking into consideration the status of the various payment diffs.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="bonusTo" nillable="true" type="xsd:nonNegativeInteger">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The maximum desired total payment bonus amount.
+                        <br />
+                        Please be aware that searches will be performed on the current total payment bonus amount,
+                        i.e. not taking into consideration the status of the various payment diffs.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="frozen" nillable="true" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The payment freeze status.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="withMetaData" nillable="true" type="tns:withMetaData">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The desired meta data.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="statusSet" type="common:paymentStatus">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        List the statuses the payment must have.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="statusNotSet" type="common:paymentStatus">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        List the statuses the payment must not have.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="bonusIsUsed" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        Bonus points used in the payment. <a href="https://test.resurs.com/docs/x/CAAv">Read more
+                    about bonus</a></xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="withMetaData">
+    <xsd:annotation>
+      <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">A set of meta data for searching.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="withMetaDataKey" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The desired meta data key.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="withMetaDataValue" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The desired meta data value.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="sortOrder">
+    <xsd:annotation>
+      <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">How the search results should be ordered.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="ascending" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        Whether or not the results are to be sorted in ascending order.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" name="sortColumns" type="tns:sortAlternative">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        On which columns, and in which order of importance, the result is to be sorted.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="sortAlternative">
+    <xsd:annotation>
+      <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">The sort columns available.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="PAYMENT_ID">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        Sort the result on payment identity.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="CUSTOMER_GOVERNMENT_ID">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        Sort the result on customer government identity.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="CUSTOMER_NAME">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        Sort the result on customer name.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="BOOKED_TIME">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        Sort the result on payment booking time.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="MODIFIED_TIME">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        Sort the result on payment modification time.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="FINALIZED_TIME">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        Sort the result on payment finalization time.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="AMOUNT">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        Sort the result on total payment amount, taking into consideration the payment diff status.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="BONUS_POINTS">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        Sort the result on total payment amount, taking into consideration the payment diff status.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="basicPayment">
+    <xsd:annotation>
+      <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                The basic payment information returned by a search. It does not contain all payment
+                details, but enough to be presented in a list of links to the full details.
+                <a href="https://test.resurs.com/docs/x/jYAR">Read more about payments</a></xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="paymentId" type="common:id">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The payment identity.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="paymentMethodId" type="common:id">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The payment method identity.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="paymentMethodName" type="common:nonEmptyString">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The payment method name.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="governmentId" type="common:nonEmptyString">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The customer government identity.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="fullName" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The full (possibly composite name) of the customer.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="booked" type="xsd:dateTime">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The timestamp of the payment booking.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="modified" type="xsd:dateTime">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The timestamp of latest payment modification.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="finalized" type="xsd:dateTime">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The timestamp of the latest payment finalization.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="totalAmount" type="common:positiveDecimal">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The total payment amount.<br />
+                        Please be aware that this is the current total payment amount, i.e. taking taking into
+                        consideration the status of the various payment diffs.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="frozen" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        Whether or not the payment has been frozen by the fraud system for a more detailed control.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="status" type="common:paymentStatus">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The status of the payment as a list of status values.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="totalBonusPoints" type="xsd:nonNegativeInteger">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The total payment bonus points.
+                        <br />
+                        Please be aware that this is the current total payment bonus points, i.e. taking taking into
+                        consideration the status of the various payment diffs.
+                        <p /><a href="https://test.resurs.com/docs/x/CAAv">Read more about bonus</a></xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="bonus">
+    <xsd:annotation>
+      <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                A holder for all bonus the customer currently have.
+            </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="points" type="xsd:nonNegativeInteger">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The number of points the customer have.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

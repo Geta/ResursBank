@@ -1,0 +1,29 @@
+﻿<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+  <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <finalizePayment xmlns="http://ecommerce.resurs.com/v4/msg/aftershopflow">
+      <paymentId xmlns="">1</paymentId>
+      <preferredTransactionId xmlns="">1</preferredTransactionId>
+      <partPaymentSpec xmlns="">
+        <specLines>
+          <id>1</id>
+          <artNo>2</artNo>
+          <description>description</description>
+          <quantity>1</quantity>
+          <unitMeasure>st</unitMeasure>
+          <unitAmountWithoutVat>100</unitAmountWithoutVat>
+          <vatPct>25</vatPct>
+          <totalVatAmount>125</totalVatAmount>
+          <totalAmount>125</totalAmount>
+        </specLines>
+        <totalAmount>125</totalAmount>
+        <totalVatAmount>125</totalVatAmount>
+      </partPaymentSpec>
+      <createdBy xmlns="">smith</createdBy>
+      <orderId xmlns="">1</orderId>
+      <orderDate xmlns="">2016-03-25</orderDate>
+      <invoiceId xmlns="">1</invoiceId>
+      <invoiceDate xmlns="">2016-03-25</invoiceDate>
+      <invoiceDeliveryType xmlns="">NONE</invoiceDeliveryType>
+    </finalizePayment>
+  </s:Body>
+</s:Envelope>

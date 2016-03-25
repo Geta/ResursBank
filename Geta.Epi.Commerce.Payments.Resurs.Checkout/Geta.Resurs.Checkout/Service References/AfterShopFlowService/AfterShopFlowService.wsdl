@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:msg="http://ecommerce.resurs.com/v4/msg/aftershopflow" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://ecommerce.resurs.com/v4" xmlns:exc="http://ecommerce.resurs.com/v4/msg/exception" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns="http://schemas.xmlsoap.org/wsdl/" name="AfterShopFlowService" targetNamespace="http://ecommerce.resurs.com/v4" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://ecommerce.resurs.com/v4/aftershopflow">
+      <xsd:import schemaLocation="https://test.resurs.com/ecommerce-test/ws/V4/AfterShopFlowService?xsd=schemas/messages/AfterShopFlowServiceMessages.xsd" namespace="http://ecommerce.resurs.com/v4/msg/aftershopflow" />
+      <xsd:import schemaLocation="https://test.resurs.com/ecommerce-test/ws/V4/AfterShopFlowService?xsd=schemas/messages/Exceptions.xsd" namespace="http://ecommerce.resurs.com/v4/msg/exception" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="addMetaData">
+    <wsdl:part name="parameters" element="msg:addMetaData" />
+  </wsdl:message>
+  <wsdl:message name="calculateResultSizeResponse">
+    <wsdl:part name="parameters" element="msg:calculateResultSizeResponse" />
+  </wsdl:message>
+  <wsdl:message name="creditPaymentResponse">
+    <wsdl:part name="parameters" element="msg:creditPaymentResponse" />
+  </wsdl:message>
+  <wsdl:message name="getCustomerBonus">
+    <wsdl:part name="parameters" element="msg:getCustomerBonus" />
+  </wsdl:message>
+  <wsdl:message name="annulPayment">
+    <wsdl:part name="parameters" element="msg:annulPayment" />
+  </wsdl:message>
+  <wsdl:message name="getPaymentDocumentNames">
+    <wsdl:part name="parameters" element="msg:getPaymentDocumentNames" />
+  </wsdl:message>
+  <wsdl:message name="getPaymentDocumentResponse">
+    <wsdl:part name="parameters" element="msg:getPaymentDocumentResponse" />
+  </wsdl:message>
+  <wsdl:message name="additionalDebitOfPaymentResponse">
+    <wsdl:part name="parameters" element="msg:additionalDebitOfPaymentResponse" />
+  </wsdl:message>
+  <wsdl:message name="findPaymentsResponse">
+    <wsdl:part name="parameters" element="msg:findPaymentsResponse" />
+  </wsdl:message>
+  <wsdl:message name="finalizePaymentResponse">
+    <wsdl:part name="parameters" element="msg:finalizePaymentResponse" />
+  </wsdl:message>
+  <wsdl:message name="insertBonusPointsResponse">
+    <wsdl:part name="parameters" element="msg:insertBonusPointsResponse" />
+  </wsdl:message>
+  <wsdl:message name="getPayment">
+    <wsdl:part name="parameters" element="msg:getPayment" />
+  </wsdl:message>
+  <wsdl:message name="getPaymentDocument">
+    <wsdl:part name="parameters" element="msg:getPaymentDocument" />
+  </wsdl:message>
+  <wsdl:message name="insertBonusPoints">
+    <wsdl:part name="parameters" element="msg:insertBonusPoints" />
+  </wsdl:message>
+  <wsdl:message name="calculateResultSize">
+    <wsdl:part name="parameters" element="msg:calculateResultSize" />
+  </wsdl:message>
+  <wsdl:message name="getCustomerBonusResponse">
+    <wsdl:part name="parameters" element="msg:getCustomerBonusResponse" />
+  </wsdl:message>
+  <wsdl:message name="additionalDebitOfPayment">
+    <wsdl:part name="parameters" element="msg:additionalDebitOfPayment" />
+  </wsdl:message>
+  <wsdl:message name="creditPayment">
+    <wsdl:part name="parameters" element="msg:creditPayment" />
+  </wsdl:message>
+  <wsdl:message name="ECommerceErrorException">
+    <wsdl:part name="fault" element="exc:ECommerceError" />
+  </wsdl:message>
+  <wsdl:message name="finalizePayment">
+    <wsdl:part name="parameters" element="msg:finalizePayment" />
+  </wsdl:message>
+  <wsdl:message name="addMetaDataResponse">
+    <wsdl:part name="parameters" element="msg:addMetaDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="withdrawBonusPoints">
+    <wsdl:part name="parameters" element="msg:withdrawBonusPoints" />
+  </wsdl:message>
+  <wsdl:message name="getPaymentResponse">
+    <wsdl:part name="parameters" element="msg:getPaymentResponse" />
+  </wsdl:message>
+  <wsdl:message name="withdrawBonusPointsResponse">
+    <wsdl:part name="parameters" element="msg:withdrawBonusPointsResponse" />
+  </wsdl:message>
+  <wsdl:message name="findPayments">
+    <wsdl:part name="parameters" element="msg:findPayments" />
+  </wsdl:message>
+  <wsdl:message name="annulPaymentResponse">
+    <wsdl:part name="parameters" element="msg:annulPaymentResponse" />
+  </wsdl:message>
+  <wsdl:message name="getPaymentDocumentNamesResponse">
+    <wsdl:part name="parameters" element="msg:getPaymentDocumentNamesResponse" />
+  </wsdl:message>
+  <wsdl:portType name="AfterShopFlowWebService">
+    <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+The After-Shop Flow WebService provides all services available to the representative when the
+purchase is past the shop flow, i.e. from the time it has been booked and onwards.
+        </wsdl:documentation>
+    <wsdl:operation name="additionalDebitOfPayment">
+      <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                Makes a new, additional debit on an existing payment. This reserves the amount on the customer's
+                account.
+                <br /><strong>NB:</strong>If it is a credit payment, there must be room for the additional
+                debit within the limit.
+            </wsdl:documentation>
+      <wsdl:input message="tns:additionalDebitOfPayment" />
+      <wsdl:output message="tns:additionalDebitOfPaymentResponse" />
+      <wsdl:fault name="ECommerceErrorException" message="tns:ECommerceErrorException">
+        <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                    Failed to make an additional debit on the payment. See error for details.
+                </wsdl:documentation>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="finalizePayment">
+      <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                Finalizes a payment. When a payment is finalized, the amount will be transferred from the customer's
+                account to that of the representative.
+                <br /><strong>NB:</strong>For a payment to be finalized, it must be booked and it cannot be frozen.
+            </wsdl:documentation>
+      <wsdl:input message="tns:finalizePayment" />
+      <wsdl:output message="tns:finalizePaymentResponse" />
+      <wsdl:fault name="ECommerceErrorException" message="tns:ECommerceErrorException">
+        <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                    Failed to finalize the payment. See error for details.
+                </wsdl:documentation>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="annulPayment">
+      <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                Annuls the payment <strong>or</strong> part of it. This removes the reservation on the customer's account.
+                <br /><strong>NB:</strong>For a payment to be annulled, it must be booked. If it has been finalized,
+                it can no longer be annulled. (Finalized payments have to be credited.)
+            </wsdl:documentation>
+      <wsdl:input message="tns:annulPayment" />
+      <wsdl:output message="tns:annulPaymentResponse" />
+      <wsdl:fault name="ECommerceErrorException" message="tns:ECommerceErrorException">
+        <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                    Failed to annul the payment. See error for details.
+                </wsdl:documentation>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="creditPayment">
+      <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                Credits the payment <strong>or</strong> part of it. This returns payment amount from the representative
+                to the customer's account.
+                <p>To remove a part </p><br /><strong>NB:</strong>For a payment to be credited, it must be finalized.
+                (Non-finalized payments have to be annulled.)
+            </wsdl:documentation>
+      <wsdl:input message="tns:creditPayment" />
+      <wsdl:output message="tns:creditPaymentResponse" />
+      <wsdl:fault name="ECommerceErrorException" message="tns:ECommerceErrorException">
+        <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                    Failed to credit the payment. See error for details.
+                </wsdl:documentation>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addMetaData">
+      <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                Adds meta data to the payment. The meta data can be used to register additional
+                information about the payment, and they may also be used for searching.
+                <br /><strong>NB:</strong>Currently, meta data cannot be removed from a payment.
+                However, existing values can be over-written.
+            </wsdl:documentation>
+      <wsdl:input message="tns:addMetaData" />
+      <wsdl:output message="tns:addMetaDataResponse" />
+      <wsdl:fault name="ECommerceErrorException" message="tns:ECommerceErrorException">
+        <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                    Failed to add meta data to the payment. See error for details.
+                </wsdl:documentation>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPayment">
+      <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                Retrieves detailed information about the payment.
+            </wsdl:documentation>
+      <wsdl:input message="tns:getPayment" />
+      <wsdl:output message="tns:getPaymentResponse" />
+      <wsdl:fault name="ECommerceErrorException" message="tns:ECommerceErrorException">
+        <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                    Failed to retrieve the payment details. See error for details.
+                </wsdl:documentation>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPaymentDocument">
+      <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                Retrieves a specified document from the payment.
+            </wsdl:documentation>
+      <wsdl:input message="tns:getPaymentDocument" />
+      <wsdl:output message="tns:getPaymentDocumentResponse" />
+      <wsdl:fault name="ECommerceErrorException" message="tns:ECommerceErrorException">
+        <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                    Failed to retrieve the specified payment document. See error for details.
+                </wsdl:documentation>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPaymentDocumentNames">
+      <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                Retrieves the names of all documents associated with the payments. These
+                include, but are not necessarily limited to, previously generated invoices
+                and credit notes sent to the customer.
+            </wsdl:documentation>
+      <wsdl:input message="tns:getPaymentDocumentNames" />
+      <wsdl:output message="tns:getPaymentDocumentNamesResponse" />
+      <wsdl:fault name="ECommerceErrorException" message="tns:ECommerceErrorException">
+        <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                    Failed to retrieve the list of payment document names. See error for details.
+                </wsdl:documentation>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="calculateResultSize">
+      <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                Returns the number of payments that match the specified requirements. Can be
+                used for paging of the results.
+            </wsdl:documentation>
+      <wsdl:input message="tns:calculateResultSize" />
+      <wsdl:output message="tns:calculateResultSizeResponse" />
+      <wsdl:fault name="ECommerceErrorException" message="tns:ECommerceErrorException">
+        <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                    Failed to calculate the search result size. See error for details.
+                </wsdl:documentation>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="findPayments">
+      <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                Searches for payments that match the specified requirements. <strong>The result may be a couple of
+                minutes old</strong>. Do not use this function to locate just booked payments, and prefer getPayment
+                if a paymentId is present.
+            </wsdl:documentation>
+      <wsdl:input message="tns:findPayments" />
+      <wsdl:output message="tns:findPaymentsResponse" />
+      <wsdl:fault name="ECommerceErrorException" message="tns:ECommerceErrorException">
+        <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                    Failed to search for payments. See error for details.
+                </wsdl:documentation>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="insertBonusPoints">
+      <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                Insert bonus points on a specific customer.
+            </wsdl:documentation>
+      <wsdl:input message="tns:insertBonusPoints" />
+      <wsdl:output message="tns:insertBonusPointsResponse" />
+      <wsdl:fault name="ECommerceErrorException" message="tns:ECommerceErrorException">
+        <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                    Failed to insert the points
+                </wsdl:documentation>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="withdrawBonusPoints">
+      <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                Withdraw bonus points on a specific customer.
+            </wsdl:documentation>
+      <wsdl:input message="tns:withdrawBonusPoints" />
+      <wsdl:output message="tns:withdrawBonusPointsResponse" />
+      <wsdl:fault name="ECommerceErrorException" message="tns:ECommerceErrorException">
+        <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                    Failed to withdraw the points
+                </wsdl:documentation>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCustomerBonus">
+      <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                Fetches the bonus the customer have, if any.
+                <p /><a href="https://test.resurs.com/docs/x/CAAv">Read more about bonus</a></wsdl:documentation>
+      <wsdl:input message="tns:getCustomerBonus" />
+      <wsdl:output message="tns:getCustomerBonusResponse" />
+      <wsdl:fault name="ECommerceErrorException" message="tns:ECommerceErrorException">
+        <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                    Failed to get customer bonus.
+                </wsdl:documentation>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="AfterShopFlowWebServiceImplPortBinding" type="tns:AfterShopFlowWebService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="additionalDebitOfPayment">
+      <soap:operation soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ECommerceErrorException">
+        <soap:fault use="literal" name="ECommerceErrorException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="finalizePayment">
+      <soap:operation soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ECommerceErrorException">
+        <soap:fault use="literal" name="ECommerceErrorException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="annulPayment">
+      <soap:operation soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ECommerceErrorException">
+        <soap:fault use="literal" name="ECommerceErrorException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="creditPayment">
+      <soap:operation soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ECommerceErrorException">
+        <soap:fault use="literal" name="ECommerceErrorException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addMetaData">
+      <soap:operation soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ECommerceErrorException">
+        <soap:fault use="literal" name="ECommerceErrorException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPayment">
+      <soap:operation soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ECommerceErrorException">
+        <soap:fault use="literal" name="ECommerceErrorException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPaymentDocumentNames">
+      <soap:operation soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ECommerceErrorException">
+        <soap:fault use="literal" name="ECommerceErrorException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPaymentDocument">
+      <soap:operation soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ECommerceErrorException">
+        <soap:fault use="literal" name="ECommerceErrorException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="calculateResultSize">
+      <soap:operation soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ECommerceErrorException">
+        <soap:fault use="literal" name="ECommerceErrorException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="findPayments">
+      <soap:operation soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ECommerceErrorException">
+        <soap:fault use="literal" name="ECommerceErrorException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="insertBonusPoints">
+      <soap:operation soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ECommerceErrorException">
+        <soap:fault use="literal" name="ECommerceErrorException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="withdrawBonusPoints">
+      <soap:operation soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ECommerceErrorException">
+        <soap:fault use="literal" name="ECommerceErrorException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCustomerBonus">
+      <soap:operation soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ECommerceErrorException">
+        <soap:fault use="literal" name="ECommerceErrorException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="AfterShopFlowService">
+    <wsdl:port name="AfterShopFlowWebServiceImplPort" binding="tns:AfterShopFlowWebServiceImplPortBinding">
+      <soap:address location="https://test.resurs.com/ecommerce-test/ws/V4/AfterShopFlowService" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

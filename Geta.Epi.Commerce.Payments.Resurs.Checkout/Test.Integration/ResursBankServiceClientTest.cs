@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using EPiServer.ServiceLocation;
 using Geta.Resurs.Checkout;
+using Geta.Resurs.Checkout.AfterShopFlowService;
 using Geta.Resurs.Checkout.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -84,17 +85,64 @@ namespace Test.Integration
             {
                 new SpecLine("1","2","description",1,"st",100,25,125,125)
             };
-            var customer = new Customer("7312195873", "0988902544", "javatest@resurs.se", "NATURAL");
+            var customer = new Customer("180872-48794", "+4797674852", "javatest@resurs.se", "NATURAL");
             customer.Address = new Address("Test Testsson", "Test", "Testsson", "Test gatan 25", "abc", "25220", "Test", "SE");
-            //customer.Address.FullName = "Test Testsson";
-            //customer.Address.FirstName = "Test";
-            //customer.Address.LastName = "Testsson";
-            //customer.Address.AddressRow1 = "Test gatan 25";
-            //customer.Address.PostalArea = "25220";
-            //customer.Address.PostalCode = "Test";
-            //customer.Address.Country = "SE";
-            resursBankServiceClient.BookPayment("Invoice", "127.0.0.1", specLines, customer, "http://www.google.se",
-                "http://www.google.se", false, "http://www.google.se");
+            resursBankServiceClient.BookPayment("Invoice", "127.0.0.1", specLines, customer, "http://www.google.se", "http://www.google.se", false, "http://www.google.se");
+        }
+
+        [TestMethod]
+        public void FinalizePayment()
+        {
+            var credential = new ResursCredential();
+            var appSettings = ConfigurationManager.AppSettings;
+            credential.UserName = appSettings["username"] ?? "Not Found";
+            credential.Password = appSettings["password"] ?? "Not Found";
+            var resursBankServiceClient = new ResursBankServiceClient(credential);
+            List<SpecLine> specLines = new List<SpecLine>
+            {
+                new SpecLine("1","2","description",1,"st",100,25,125,125)
+            };
+            //get paymentID from Webadmin, get from payment which is not finalized.
+            var paymentId = "9c925c4c-7497-42e9-961c-13c8b188717a";
+            var preferredTransactionId = "1";
+            var createdBy = "smith";
+            var orderId = "1";
+            var orderDate = DateTime.Now;
+            var invoiceId = "1";
+            var invoiceDate = DateTime.Now;
+            var invoiceDeliveryType = invoiceDeliveryTypeEnum.NONE;
+            resursBankServiceClient.FinalizePayment(paymentId, preferredTransactionId, specLines, createdBy, orderId,
+                orderDate, invoiceId, invoiceDate, invoiceDeliveryType);
+        }
+
+        [TestMethod]
+        public void GetAddress()
+        {
+            var credential = new ResursCredential();
+            var appSettings = ConfigurationManager.AppSettings;
+            credential.UserName = appSettings["username"] ?? "Not Found";
+            credential.Password = appSettings["password"] ?? "Not Found";
+            var resursBankServiceClient = new ResursBankServiceClient(credential);
+       
+            var governmentId = "197812304843";
+            var customerType = "LEGAL";
+            var customerIpAddress = "127.0.0.1";
+           
+            resursBankServiceClient.GetAddress(governmentId, customerType, customerIpAddress);
+        }
+
+        [TestMethod]
+        public void BookSignedPayment()
+        {
+            var credential = new ResursCredential();
+            var appSettings = ConfigurationManager.AppSettings;
+            credential.UserName = appSettings["username"] ?? "Not Found";
+            credential.Password = appSettings["password"] ?? "Not Found";
+            var resursBankServiceClient = new ResursBankServiceClient(credential);
+
+            var paymentId = "1";
+
+            resursBankServiceClient.BookSignedPayment(paymentId);
         }
     }
 }

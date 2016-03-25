@@ -55,6 +55,11 @@
     <Compile Include="ResursBankServiceClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResursBankServiceSettingFactory.cs" />
+    <Compile Include="Service References\AfterShopFlowService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Service References\SimplifiedShopFlowService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -66,6 +71,70 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Service References\AfterShopFlowService\aftershopflow.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AfterShopFlowService\AfterShopFlowService.wsdl" />
+    <None Include="Service References\AfterShopFlowService\AfterShopFlowServiceMessages.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AfterShopFlowService\common.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AfterShopFlowService\Exceptions.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AfterShopFlowService\Geta.Resurs.Checkout.AfterShopFlowService.additionalDebitOfPaymentResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AfterShopFlowService\Geta.Resurs.Checkout.AfterShopFlowService.addMetaDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AfterShopFlowService\Geta.Resurs.Checkout.AfterShopFlowService.annulPaymentResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AfterShopFlowService\Geta.Resurs.Checkout.AfterShopFlowService.basicPayment.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AfterShopFlowService\Geta.Resurs.Checkout.AfterShopFlowService.bonus.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AfterShopFlowService\Geta.Resurs.Checkout.AfterShopFlowService.calculateResultSizeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AfterShopFlowService\Geta.Resurs.Checkout.AfterShopFlowService.creditPaymentResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AfterShopFlowService\Geta.Resurs.Checkout.AfterShopFlowService.finalizePaymentResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AfterShopFlowService\Geta.Resurs.Checkout.AfterShopFlowService.findPaymentsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AfterShopFlowService\Geta.Resurs.Checkout.AfterShopFlowService.getCustomerBonusResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AfterShopFlowService\Geta.Resurs.Checkout.AfterShopFlowService.getPaymentDocumentNamesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AfterShopFlowService\Geta.Resurs.Checkout.AfterShopFlowService.getPaymentDocumentResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AfterShopFlowService\Geta.Resurs.Checkout.AfterShopFlowService.getPaymentResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AfterShopFlowService\Geta.Resurs.Checkout.AfterShopFlowService.insertBonusPointsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AfterShopFlowService\Geta.Resurs.Checkout.AfterShopFlowService.payment.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AfterShopFlowService\Geta.Resurs.Checkout.AfterShopFlowService.pdf.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AfterShopFlowService\Geta.Resurs.Checkout.AfterShopFlowService.withdrawBonusPointsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\SimplifiedShopFlowService\common.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -123,6 +192,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <WCFMetadataStorage Include="Service References\AfterShopFlowService\" />
     <WCFMetadataStorage Include="Service References\SimplifiedShopFlowService\" />
   </ItemGroup>
   <ItemGroup>
@@ -133,6 +203,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\SimplifiedShopFlowService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\AfterShopFlowService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\AfterShopFlowService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\AfterShopFlowService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
