@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.Epi.Commerce.Payments.Resurs.Checkout", "src\Geta.Epi.Commerce.Payments.Resurs.Checkout\Geta.Epi.Commerce.Payments.Resurs.Checkout.csproj", "{04F3862D-4D3C-4A50-90B2-B1484CA01E5A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.EPi.Payments.Resurs.CommerceManager", "src\Geta.EPi.Payments.Resurs.CommerceManager\Geta.EPi.Payments.Resurs.CommerceManager.csproj", "{07502287-0F51-41D4-BEFA-582624D1C214}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.Resurs.Checkout", "src\Geta.Resurs.Checkout\Geta.Resurs.Checkout.csproj", "{28AF391E-C7F5-484C-863E-D8CB45B443E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Integration", "test\Test.Integration\Test.Integration.csproj", "{8EB54260-484E-4A72-8CF4-93C5548518BD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{16BD253A-6763-4BE4-B301-3A84F6ED9608}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{04F3862D-4D3C-4A50-90B2-B1484CA01E5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04F3862D-4D3C-4A50-90B2-B1484CA01E5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04F3862D-4D3C-4A50-90B2-B1484CA01E5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04F3862D-4D3C-4A50-90B2-B1484CA01E5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07502287-0F51-41D4-BEFA-582624D1C214}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07502287-0F51-41D4-BEFA-582624D1C214}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07502287-0F51-41D4-BEFA-582624D1C214}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07502287-0F51-41D4-BEFA-582624D1C214}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28AF391E-C7F5-484C-863E-D8CB45B443E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28AF391E-C7F5-484C-863E-D8CB45B443E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28AF391E-C7F5-484C-863E-D8CB45B443E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28AF391E-C7F5-484C-863E-D8CB45B443E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EB54260-484E-4A72-8CF4-93C5548518BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EB54260-484E-4A72-8CF4-93C5548518BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EB54260-484E-4A72-8CF4-93C5548518BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EB54260-484E-4A72-8CF4-93C5548518BD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8EB54260-484E-4A72-8CF4-93C5548518BD} = {16BD253A-6763-4BE4-B301-3A84F6ED9608}
+	EndGlobalSection
+EndGlobal
