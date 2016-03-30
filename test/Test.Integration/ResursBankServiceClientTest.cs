@@ -91,31 +91,6 @@ namespace Test.Integration
         }
 
         [TestMethod]
-        public void FinalizePayment()
-        {
-            var credential = new ResursCredential();
-            var appSettings = ConfigurationManager.AppSettings;
-            credential.UserName = appSettings["username"] ?? "Not Found";
-            credential.Password = appSettings["password"] ?? "Not Found";
-            var resursBankServiceClient = new ResursBankServiceClient(credential);
-            List<SpecLine> specLines = new List<SpecLine>
-            {
-                new SpecLine("1","2","description",1,"st",100,25,125,125)
-            };
-            //get paymentID from Webadmin, get from payment which is not finalized.
-            var paymentId = "9c925c4c-7497-42e9-961c-13c8b188717a";
-            var preferredTransactionId = "1";
-            var createdBy = "smith";
-            var orderId = "1";
-            var orderDate = DateTime.Now;
-            var invoiceId = "1";
-            var invoiceDate = DateTime.Now;
-            var invoiceDeliveryType = invoiceDeliveryTypeEnum.NONE;
-            resursBankServiceClient.FinalizePayment(paymentId, preferredTransactionId, specLines, createdBy, orderId,
-                orderDate, invoiceId, invoiceDate, invoiceDeliveryType);
-        }
-
-        [TestMethod]
         public void GetAddress()
         {
             var credential = new ResursCredential();
