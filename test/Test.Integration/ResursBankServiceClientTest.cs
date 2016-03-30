@@ -6,74 +6,28 @@ using EPiServer.ServiceLocation;
 using Geta.Resurs.Checkout;
 using Geta.Resurs.Checkout.AfterShopFlowService;
 using Geta.Resurs.Checkout.Model;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
+
 
 namespace Test.Integration
 {
     /// <summary>
     /// Summary description for ResursBankServiceClientTest
     /// </summary>
-    [TestClass]
+   
     public class ResursBankServiceClientTest
     {
-        public ResursBankServiceClientTest()
-        {
-            //
-            // TODO: Add constructor logic here
-            //
-        }
-
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        #region Additional test attributes
-        //
-        // You can use the following additional attributes as you write your tests:
-        //
-        // Use ClassInitialize to run code before running the first test in the class
-        // [ClassInitialize()]
-        // public static void MyClassInitialize(TestContext testContext) { }
-        //
-        // Use ClassCleanup to run code after all tests in a class have run
-        // [ClassCleanup()]
-        // public static void MyClassCleanup() { }
-        //
-        // Use TestInitialize to run code before running each test 
-        // [TestInitialize()]
-        // public void MyTestInitialize() { }
-        //
-        // Use TestCleanup to run code after each test has run
-        // [TestCleanup()]
-        // public void MyTestCleanup() { }
-        //
-        #endregion
-
-        [TestMethod]
+        [Fact]
         public void GetPaymentMethods()
         {
             var appSettings = ConfigurationManager.AppSettings;
             var testCredential = new ResursCredential(appSettings["username"], appSettings["password"]);
             var resursBankServices = new ResursBankServiceClient(testCredential);
             List<PaymentMethodResponse> list = resursBankServices.GetPaymentMethods("sv", "NATURAL", 1000);
-            Assert.IsNotNull(list);
+            Assert.NotNull(list);
         }
 
-        [TestMethod]
+        [Fact]
         public void BookPayment()
         {
             var credential = new ResursCredential();
@@ -87,10 +41,11 @@ namespace Test.Integration
             };
             var customer = new Customer("180872-48794", "+4797674852", "javatest@resurs.se", "NATURAL");
             customer.Address = new Address("Test Testsson", "Test", "Testsson", "Test gatan 25", "abc", "25220", "Test", "SE");
-            resursBankServiceClient.BookPayment("Invoice", "127.0.0.1", specLines, customer, "http://www.google.se", "http://www.google.se", false, "http://www.google.se");
+            var result = resursBankServiceClient.BookPayment("Invoice", "127.0.0.1", specLines, customer, "http://www.google.se", "http://www.google.se", false, "http://www.google.se");
+            Assert.NotNull(result);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetAddress()
         {
             var credential = new ResursCredential();
@@ -102,11 +57,13 @@ namespace Test.Integration
             var governmentId = "197812304843";
             var customerType = "LEGAL";
             var customerIpAddress = "127.0.0.1";
-           
-            resursBankServiceClient.GetAddress(governmentId, customerType, customerIpAddress);
+
+
+            var address = resursBankServiceClient.GetAddress(governmentId, customerType, customerIpAddress);
+            Assert.NotNull(address);
         }
 
-        [TestMethod]
+        [Fact]
         public void BookSignedPayment()
         {
             var credential = new ResursCredential();
@@ -117,7 +74,8 @@ namespace Test.Integration
 
             var paymentId = "1";
 
-            resursBankServiceClient.BookSignedPayment(paymentId);
+            var result = resursBankServiceClient.BookSignedPayment(paymentId);
+            Assert.NotNull(result);
         }
     }
 }
