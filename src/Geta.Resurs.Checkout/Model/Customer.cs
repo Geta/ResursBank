@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Geta.Resurs.Checkout.Model
 {
+    [Serializable]
     public class Customer
     {
         public string GovernmentId { get; set; }

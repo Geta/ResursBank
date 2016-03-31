@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using Geta.Resurs.Checkout.Model;
@@ -22,5 +23,10 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
         public string FailUrl { get; set; }
         public string ForceSigning { get; set; }
         public string CallBackUrl { get; set; }
+        public ResursBankPayment() { }
+
+        public ResursBankPayment(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
     }
 }

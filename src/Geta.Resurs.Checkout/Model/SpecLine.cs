@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Geta.Resurs.Checkout.Model
 {
+    [Serializable]
     public class SpecLine
     {
         public string Id { get; set; }
