@@ -10,10 +10,11 @@ using Geta.Resurs.Checkout.Model;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Exceptions;
 using Mediachase.Commerce.Plugins.Payment;
+using Mediachase.Commerce.Website;
 
 namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
 {
-    public class ResursCheckoutPaymentGateway: AbstractPaymentGateway
+    public class ResursCheckoutPaymentGateway : AbstractPaymentGateway, IPaymentOption
     {
         private static readonly ILogger Logger = LogManager.GetLogger(typeof(ResursCheckoutPaymentGateway));
 
@@ -34,14 +35,14 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
         public override bool ProcessPayment(Payment payment, ref string message)
         {
             try
-            { 
+            {
                 Logger.Debug("Resurs checkout gateway. Processing Payment ....");
                 if (VerifyConfiguration())
                 {
                     var factory = ServiceLocator.Current.GetInstance<IResursBankServiceSettingFactory>();
                     var resursBankServices = factory.Init(ResursCredential);
                 }
-                
+
             }
             catch (Exception exception)
             {
@@ -65,6 +66,52 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
                                            "Payment configuration is not valid. Missing payment provider password.");
             }
             Logger.Debug("Payment method configuuration verified.");
+            return true;
+        }
+
+
+        public bool ValidateData()
+        {
+            return true;
+        }
+
+        public Mediachase.Commerce.Orders.Payment PreProcess(OrderForm orderForm)
+        {
+            if (orderForm == null) throw new ArgumentNullException("orderForm");
+
+            if (!ValidateData())
+                return null;
+
+            if (orderForm == null) throw new ArgumentNullException("orderForm");
+
+            if (!ValidateData())
+                return null;
+
+            var payment = new ResursBankPayment()
+            {
+                // Hard code PaymentMethodId from Ecommerce Manager
+                PaymentMethodId = new Guid("34c12330-f375-418a-af53-09e7929706aa"),
+                PaymentMethodName = "ResursBankCheckout",
+                OrderFormId = orderForm.OrderFormId,
+                OrderGroupId = orderForm.OrderGroupId,
+                Amount = orderForm.Total,
+                Status = PaymentStatus.Pending.ToString(),
+                TransactionType = TransactionType.Authorization.ToString()
+            };
+
+            return payment;
+
+            
+        }
+
+        public bool PostProcess(OrderForm orderForm)
+        {
+            var card = orderForm.Payments.ToArray().FirstOrDefault(x => x.PaymentType == PaymentType.CreditCard);
+            if (card == null)
+                return false;
+
+            card.Status = PaymentStatus.Pending.ToString();
+            card.AcceptChanges();
             return true;
         }
     }
