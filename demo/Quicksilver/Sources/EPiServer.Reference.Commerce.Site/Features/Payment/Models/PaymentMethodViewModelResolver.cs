@@ -1,6 +1,7 @@
 ﻿using EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods;
 using Mediachase.Commerce.Website;
 using System;
+using Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Payment.Models
 {
@@ -15,6 +16,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.Models
 
                 case "GenericCreditCard":
                     return new GenericCreditCardViewModel() { PaymentMethod = new GenericCreditCardPaymentMethod() };
+
+                case "ResursBankCheckout":
+                    return new ResursBankCheckoutViewModel() { PaymentMethod = new ResursCheckoutPaymentGateway() };
             }
 
             throw new ArgumentException("No view model has been implemented for the method " + paymentMethodName, "paymentMethodName");

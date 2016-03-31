@@ -29,6 +29,7 @@ using System.Collections.Specialized;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 {
@@ -139,7 +140,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 
             viewModel.Payment.Description = selectedPaymentMethod.Description;
             viewModel.Payment.SystemName = selectedPaymentMethod.SystemName;
-            ((PaymentMethodBase)viewModel.Payment.PaymentMethod).PaymentMethodId = selectedPaymentMethod.Id;
+            if (viewModel.Payment.PaymentMethod is ResursCheckoutPaymentGateway)
+            {
+                ((ResursCheckoutPaymentGateway)viewModel.Payment.PaymentMethod).PaymentMethodId = selectedPaymentMethod.Id;
+            }
+            else
+                ((PaymentMethodBase)viewModel.Payment.PaymentMethod).PaymentMethodId = selectedPaymentMethod.Id;
 
             return viewModel;
         }
@@ -531,10 +537,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             OrderForm orderForm = _cartService.GetOrderForms().First();
             decimal totalProcessedAmount = orderForm.Payments.Where(x => x.Status.Equals(PaymentStatus.Processed.ToString())).Sum(x => x.Amount);
 
-            if (totalProcessedAmount != orderForm.Total)
-            {
-                throw new InvalidOperationException("Wrong amount");
-            }
+            //if (totalProcessedAmount != orderForm.Total)
+            //{
+            //    throw new InvalidOperationException("Wrong amount");
+            //}
 
             _cartService.RunWorkflow(OrderGroupWorkflowManager.CartCheckOutWorkflowName);
             purchaseOrder = _checkoutService.SaveCartAsPurchaseOrder();

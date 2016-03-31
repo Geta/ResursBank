@@ -178,28 +178,14 @@
       <HintPath>..\..\packages\EPiServer.CMS.Core.9.7.2\lib\net45\EPiServer.XForms.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Geta.EPi.Commerce.Payments.Klarna.Checkout, Version=1.1.2.9000, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Geta.EPi.Commerce.Payments.Klarna.Checkout.1.1.2.9000\lib\net451\Geta.EPi.Commerce.Payments.Klarna.Checkout.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Geta.Epi.Commerce.Payments.Resurs.Checkout">
+      <HintPath>..\..\..\..\src\Geta.EPi.Payments.Resurs.CommerceManager\bin\Debug\Geta.Epi.Commerce.Payments.Resurs.Checkout.dll</HintPath>
     </Reference>
-    <Reference Include="Geta.EPi.Payments.Klarna.CommerceManager, Version=1.1.2.9000, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Geta.EPi.Payments.Klarna.CommerceManager.1.1.2.9000\lib\net451\Geta.EPi.Payments.Klarna.CommerceManager.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Geta.Klarna.Checkout, Version=1.1.2.9000, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Geta.EPi.Payments.Klarna.CommerceManager.1.1.2.9000\lib\net451\Geta.Klarna.Checkout.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Geta.Resurs.Checkout">
+      <HintPath>..\..\..\..\src\Geta.EPi.Payments.Resurs.CommerceManager\bin\Debug\Geta.Resurs.Checkout.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <HintPath>..\..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Klarna.Checkout, Version=3.0.0.0, Culture=neutral, PublicKeyToken=2042c67c8f8466a5, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Klarna.Checkout.3.0.0.0\lib\net35\Klarna.Checkout.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Klarna.Net.Api, Version=4.1.0.0, Culture=neutral, PublicKeyToken=23e63577e87f5ecf, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Klarna.Net.Api.4.1.0.0\lib\net35\Klarna.Net.Api.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
@@ -468,6 +454,12 @@
     <Content Include="Scripts\js\Product.js" />
     <Content Include="Scripts\js\Registration.js" />
     <Content Include="Scripts\js\Search.js" />
+    <None Include="Service References\SimplifiedShopFlowService\configuration91.svcinfo" />
+    <None Include="Service References\SimplifiedShopFlowService\configuration.svcinfo" />
+    <None Include="Service References\SimplifiedShopFlowService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Styles\font-awesome\.gitignore" />
     <Content Include="Styles\font-awesome\css\font-awesome.css" />
     <Content Include="Styles\font-awesome\css\font-awesome.min.css" />
@@ -509,6 +501,7 @@
     <Compile Include="Features\ErrorHandling\Controllers\ErrorHandlingController.cs" />
     <Compile Include="Features\ErrorHandling\Models\ErrorViewModel.cs" />
     <Compile Include="Features\ErrorHandling\Pages\ErrorPage.cs" />
+    <Compile Include="Features\Payment\Models\ResursBankCheckoutViewModel.cs" />
     <Compile Include="Features\Shared\Extensions\StringExtensions.cs" />
     <Compile Include="Features\Payment\Models\CashOnDeliveryViewModel.cs" />
     <Compile Include="Features\Payment\Models\PaymentMethodViewModelResolver.cs" />
@@ -685,6 +678,11 @@
     <Compile Include="Infrastructure\WebApi\StructureMapResolver.cs" />
     <Compile Include="Infrastructure\WebApi\StructureMapDependencyScope.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service References\SimplifiedShopFlowService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Content Include="Views\Search\QuickSearch.cshtml" />
     <Content Include="Views\OrderConfirmationMailPage\Index.cshtml" />
     <Content Include="Views\ResetPasswordMail\Index.cshtml" />
@@ -861,6 +859,24 @@
     <Content Include="modules\_protected\EPiServer.Commerce.Shell\EPiServer.Commerce.Shell.zip" />
     <Content Include="modules\_protected\Commerce\Commerce.zip" />
     <Content Include="modules\_protected\EPiServer.Commerce.Shell.ManagerIntegration\EPiServer.Commerce.Shell.ManagerIntegration.zip" />
+    <Content Include="Views\Shared\_ResursBankCheckoutConfirmation.cshtml" />
+    <Content Include="Views\Shared\_ResursBankCheckoutPaymentMethod.cshtml" />
+    <None Include="Service References\SimplifiedShopFlowService\common.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\SimplifiedShopFlowService\Exceptions.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\SimplifiedShopFlowService\shopflow.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\SimplifiedShopFlowService\simplifiedshopflow.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\SimplifiedShopFlowService\SimplifiedShopFlowService.wsdl" />
+    <None Include="Service References\SimplifiedShopFlowService\SimplifiedShopFlowServiceMessages.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1004,6 +1020,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Features\Login\Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\SimplifiedShopFlowService\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

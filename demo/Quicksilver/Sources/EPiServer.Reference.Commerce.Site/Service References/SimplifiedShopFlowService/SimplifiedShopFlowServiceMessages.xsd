@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:typesshop="http://ecommerce.resurs.com/v4/types/shopflow" xmlns:tns="http://ecommerce.resurs.com/v4/msg/simplifiedshopflow" xmlns:common="http://ecommerce.resurs.com/v4/types/common" xmlns:types="http://ecommerce.resurs.com/v4/types/simplifiedshopflow" xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://ecommerce.resurs.com/v4/msg/simplifiedshopflow" version="4.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:import schemaLocation="https://test.resurs.com/ecommerce-test/ws/V4/SimplifiedShopFlowService?xsd=schemas/types/simplifiedshopflow.xsd" namespace="http://ecommerce.resurs.com/v4/types/simplifiedshopflow" />
+  <xsd:import schemaLocation="https://test.resurs.com/ecommerce-test/ws/V4/SimplifiedShopFlowService?xsd=schemas/types/common.xsd" namespace="http://ecommerce.resurs.com/v4/types/common" />
+  <xsd:import schemaLocation="https://test.resurs.com/ecommerce-test/ws/V4/SimplifiedShopFlowService?xsd=schemas/types/shopflow.xsd" namespace="http://ecommerce.resurs.com/v4/types/shopflow" />
+  <xsd:element name="getCostOfPurchaseHtml" type="tns:getCostOfPurchaseHtml" />
+  <xsd:element name="getCostOfPurchaseHtmlResponse" type="tns:getCostOfPurchaseHtmlResponse" />
+  <xsd:element name="getPaymentMethods" type="tns:getPaymentMethods" />
+  <xsd:element name="getPaymentMethodsResponse" type="tns:getPaymentMethodsResponse" />
+  <xsd:element name="getAnnuityFactors" type="tns:getAnnuityFactors" />
+  <xsd:element name="getAnnuityFactorsResponse" type="tns:getAnnuityFactorsResponse" />
+  <xsd:element name="getAddress" type="tns:getAddress" />
+  <xsd:element name="getAddressResponse" type="tns:getAddressResponse" />
+  <xsd:element name="getCustomerBonus" type="tns:getCustomerBonus" />
+  <xsd:element name="getCustomerBonusResponse" type="tns:getCustomerBonusResponse" />
+  <xsd:element name="issueCustomerIdentificationToken" type="tns:issueCustomerIdentificationToken" />
+  <xsd:element name="issueCustomerIdentificationTokenResponse" type="tns:issueCustomerIdentificationTokenResponse" />
+  <xsd:element name="invalidateCustomerIdentificationToken" type="tns:invalidateCustomerIdentificationToken" />
+  <xsd:element name="invalidateCustomerIdentificationTokenResponse" type="tns:invalidateCustomerIdentificationTokenResponse" />
+  <xsd:element name="bookSignedPayment" type="tns:bookSignedPayment" />
+  <xsd:element name="bookPayment" type="tns:bookPayment" />
+  <xsd:element name="bookPaymentResponse" type="tns:bookPaymentResponse" />
+  <xsd:complexType name="getCostOfPurchaseHtml">
+    <xsd:sequence>
+      <xsd:element name="paymentMethodId" type="common:id">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">The identity of the payment method for which to retrieve the detailed cost of purchase information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="amount" type="common:positiveDecimal">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">The amount on which to base the calculations.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="getCostOfPurchaseHtmlResponse">
+    <xsd:sequence>
+      <xsd:element name="return" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">A styleable HTML table containing the cost of purchase information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="getPaymentMethods">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="language" nillable="true" type="common:language">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">The language of the returned information?
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="customerType" nillable="true" type="common:customerType">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        Filter PaymentMethods Based on what Customer Type.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="1" name="purchaseAmount" nillable="true" type="common:positiveDecimal">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        Filter PaymentMethods Based on the amount the Purcahse is.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="getPaymentMethodsResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="return" type="typesshop:paymentMethod">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">A list of all payment methods available to the representative.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="getAnnuityFactors">
+    <xsd:sequence>
+      <xsd:element name="paymentMethodId" type="common:id">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The identity of the payment method for which to retrieve the annuity factors.<br xmlns="http://www.w3.org/1999/xhtml" />While
+                        this makes most sense for payment methods of type NEW_ACCOUNT, it is possible to use for
+                        all types. (See PaymentMethodType for more information about payment method types.)
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="getAnnuityFactorsResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="return" type="typesshop:annuityFactor">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        A list of with one annuity factor per payment plan of the payment method.<br />There are typically
+                        between three and six payment plans per payment method.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="getAddress">
+    <xsd:sequence>
+      <xsd:element name="governmentId" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The government identity of the customer for which to retrieve the address.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="customerType" type="common:customerType">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The type of customer to retrieve. <br />In many cases, this is easily determined from the
+                        government identity, but for Swedish companies in sole proprietorship, the same identity is
+                        used for both the person as a natural customer, and the company as a legal customer.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="customerIpAddress" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">The IP address from which the customer has accessed the service. To prevent bashing. This
+                        parameter is <b>mandatory</b> even if it has minOccurs set to zero.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="getAddressResponse">
+    <xsd:sequence>
+      <xsd:element name="return" type="common:address">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        If a match could be made, the customer address.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="getCustomerBonus">
+    <xsd:sequence>
+      <xsd:element name="customerIdentification" type="typesshop:customerIdentification">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        Information used to identify the customer, in order to be able to retrieve its bonus.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="getCustomerBonusResponse">
+    <xsd:sequence>
+      <xsd:element name="return" type="typesshop:bonus">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The number of points the customer have.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="issueCustomerIdentificationToken">
+    <xsd:sequence>
+      <xsd:element name="customerCard" type="typesshop:customerCard">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        A card tied to a customer. A card number is assumed to only be known by one customer, and thus
+                        identifying the customer.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="customerIpAddress" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">The IP address from which the customer has
+                        accessed the service. To prevent bashing, and enable better audit logging.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="issueCustomerIdentificationTokenResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="return" type="typesshop:customerIdentificationResponse">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        If the customer could be identified a <tt>customerIdentificationResponse</tt> is returned. If
+                        else no element is returned.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="invalidateCustomerIdentificationToken">
+    <xsd:sequence>
+      <xsd:sequence minOccurs="0">
+        <xsd:element minOccurs="0" maxOccurs="unbounded" name="token" type="typesshop:identificationToken">
+          <xsd:annotation>
+            <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                            A card tied to a customer. A card number is assumed to only be known by one customer, and thus
+                            identifying the customer.
+                            <p />
+                            * Should either set token  or governmentId and customerType.
+                        </xsd:documentation>
+          </xsd:annotation>
+        </xsd:element>
+      </xsd:sequence>
+      <xsd:sequence minOccurs="0">
+        <xsd:element minOccurs="1" name="governmentId" type="common:nonEmptyString">
+          <xsd:annotation>
+            <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                            A card tied to a customer. A card number is assumed to only be known by one customer, and thus
+                            identifying the customer.
+                        </xsd:documentation>
+          </xsd:annotation>
+        </xsd:element>
+        <xsd:element minOccurs="1" name="customerType" type="common:customerType">
+          <xsd:annotation>
+            <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                            The type of customer to retrieve. <br />In many cases, this is easily determined from the
+                            government identity, but for Swedish companies in sole proprietorship, the same identity is
+                            used for both the person as a natural customer, and the company as a legal customer.
+                            <p />
+                            If this value is omitted we will try to parse the government id as a natural first and secondly
+                            as a legal entity.
+                            <p />
+                            * Should either set token  or governmentId and customerType.
+                        </xsd:documentation>
+          </xsd:annotation>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="invalidateCustomerIdentificationTokenResponse">
+    <xsd:sequence />
+  </xsd:complexType>
+  <xsd:complexType name="bookSignedPayment">
+    <xsd:sequence>
+      <xsd:element name="paymentId" type="common:id">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The identity of the payment.<br />
+                        If <strong>preferredId</strong> specified in bookPayment it will be the same id
+                        in this method call. else you will have to use the generated payment identity you
+                        will retrieve from the bookPaymnet
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="bookPayment">
+    <xsd:sequence>
+      <xsd:element name="paymentData" type="types:paymentData">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">The data about the payment.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="orderData" type="common:paymentSpec">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">The information about the payment
+                        specifications
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="metaData" nillable="true" type="common:mapEntry">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        Meta data added to the payment.
+                        <p />Can be used to piggy-back key,value pairs on the payment, and Resurs mostly don't look
+                        at the metadata, with a few exceptions.
+                        <a href="https://test.resurs.com/docs/x/DgAv">Read more about metadata, including which keys
+                            have special meaning to us</a></xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="customer" type="types:extendedCustomer">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The customer data, extended for usage in the simple show flow.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="card" nillable="true" type="types:cardData">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        If the the payment is with a card or if the customer applys for a new card values in the object
+                        must be satisfied.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="signing" nillable="true" type="types:signing">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">The signing urls if signing will be
+                        required. Can always send this in but not required, however if signing is triggered and no urls
+                        is given an error will occur.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="invoiceData" nillable="true" type="types:invoiceData">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">The data to use when Finalizing an payment,
+                        only required when setting <pre>finalizeIfApproved</pre> to true.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="bookedCallbackUrl" type="common:nonEmptyString">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The call-back event URI for book payment. If booked event is registered this will override it.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="bookPaymentResponse">
+    <xsd:sequence>
+      <xsd:element name="return" type="types:bookPaymentResult">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The result of the payment booking.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

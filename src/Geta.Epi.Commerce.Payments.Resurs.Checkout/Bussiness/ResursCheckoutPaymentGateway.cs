@@ -32,6 +32,8 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
             }
         }
 
+        public Guid PaymentMethodId { get; set; }
+
         public override bool ProcessPayment(Payment payment, ref string message)
         {
             try
@@ -90,7 +92,7 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
             var payment = new ResursBankPayment()
             {
                 // Hard code PaymentMethodId from Ecommerce Manager
-                PaymentMethodId = new Guid("34c12330-f375-418a-af53-09e7929706aa"),
+                PaymentMethodId = PaymentMethodId,
                 PaymentMethodName = "ResursBankCheckout",
                 OrderFormId = orderForm.OrderFormId,
                 OrderGroupId = orderForm.OrderGroupId,

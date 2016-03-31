@@ -1,0 +1,25 @@
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="ConfigurePayment.ascx.cs" Inherits="Geta.EPi.Payments.Resurs.CommerceManager.Apps.Order.Payments.Plugins.ResursBankCheckout.ConfigurePayment" %>
+
+<h2>Service setting</h2>
+
+<table class="DataForm">
+    <tbody>
+         <tr>
+            <td class="FormLabelCell">Username:</td>
+            <td class="FormFieldCell">
+                <asp:TextBox runat="server" ID="txtUserName" />
+                <asp:RequiredFieldValidator ID="val1" runat="server" ControlToValidate="txtUserName" ErrorMessage="Username is required." />
+               <%-- <asp:CompareValidator ID="val2" runat="server" ErrorMessage="The username must be not empty."
+                    ControlToValidate="txtUserName" Type="Integer" Operator="GreaterThan" ValueToCompare="" />--%>
+            </td>
+        </tr>
+        <tr>
+            <td class="FormLabelCell">Password:</td>
+            <td class="FormFieldCell">
+                <asp:TextBox runat="server" ID="txtPassword"  />
+                <asp:RequiredFieldValidator ID="val3" runat="server" ControlToValidate="txtPassword" ErrorMessage="The shared secret is required." />
+            </td>
+        </tr>
+       
+    </tbody>
+</table>
