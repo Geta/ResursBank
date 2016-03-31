@@ -7,6 +7,7 @@ using EPiServer.Logging;
 using EPiServer.ServiceLocation;
 using Geta.Resurs.Checkout;
 using Geta.Resurs.Checkout.Model;
+using Geta.Resurs.Checkout.SimplifiedShopFlowService;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Exceptions;
 using Mediachase.Commerce.Plugins.Payment;
@@ -43,6 +44,41 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
                 {
                     var factory = ServiceLocator.Current.GetInstance<IResursBankServiceSettingFactory>();
                     var resursBankServices = factory.Init(ResursCredential);
+                    var resursBankPayment = payment as ResursBankPayment;
+                    if (resursBankPayment != null)
+                    {
+                        var paymentMethodId = resursBankPayment.ResursBankPaymentMethodId;
+                        var customerIpAddress = resursBankPayment.CustomerIpAddress;
+                        var specLines = resursBankPayment.SpecLines;
+                        var customer = resursBankPayment.Customer;
+                        var successUrl = resursBankPayment.SuccessUrl;
+                        var failUrl = resursBankPayment.FailUrl;
+                        var forceSigning = resursBankPayment.ForceSigning;
+                        var callBackUrl = resursBankPayment.CallBackUrl;
+
+                        if (resursBankPayment.BookingStatus == "Begin")
+                        {
+                            var result = resursBankServices.BookPayment(paymentMethodId, customerIpAddress, specLines, customer, successUrl,
+                            failUrl, forceSigning, callBackUrl);
+                            if (result.bookPaymentStatus == bookPaymentStatus.SIGNING)
+                            {
+                                resursBankPayment.BookingStatus = "Signing";
+                                resursBankPayment.PaymentId = result.paymentId;
+                                //TODO: send this url to redirect user to signing page
+                                var signingUrl = result.signingUrl;
+                                return true;
+                            }
+                        }
+                        else if (resursBankPayment.BookingStatus == "Signed")
+                        {
+                            var result = resursBankServices.BookSignedPayment(resursBankPayment.PaymentId);
+                            if (result.bookPaymentStatus == bookPaymentStatus.BOOKED)
+                            {
+                                resursBankPayment.BookingStatus = "Booked";
+                                return true;
+                            }
+                        }
+                    }
                 }
 
             }

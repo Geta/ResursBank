@@ -13,6 +13,7 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
     public class ResursBankPayment: OtherPayment
     {
         public string PreferredId { get; set; }
+        public string ResursBankPaymentMethodId { get; set; }
         public string CustomerIpAddress { get; set; }
         public bool WaitForFraudControl { get; set; }
         public bool AnnulIfFrozen { get; set; }
@@ -21,8 +22,10 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
         public Customer Customer { get; set; }
         public string SuccessUrl { get; set; }
         public string FailUrl { get; set; }
-        public string ForceSigning { get; set; }
+        public bool ForceSigning { get; set; }
         public string CallBackUrl { get; set; }
+        public string BookingStatus { get; set; }
+        public string PaymentId { get; set; }
         public ResursBankPayment() { }
 
         public ResursBankPayment(SerializationInfo info, StreamingContext context) : base(info, context)
