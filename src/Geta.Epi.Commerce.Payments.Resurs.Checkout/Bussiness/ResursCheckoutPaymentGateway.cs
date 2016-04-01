@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -151,6 +152,13 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
             card.Status = PaymentStatus.Pending.ToString();
             card.AcceptChanges();
             return true;
+        }
+
+        public List<PaymentMethodResponse> GetResursPaymentMethods(string lang, string custType, decimal amount)
+        {
+            var factory = ServiceLocator.Current.GetInstance<IResursBankServiceSettingFactory>();
+            var resursBankServices = factory.Init(new ResursCredential(ConfigurationSettings.AppSettings["ResursBankUserName"], ConfigurationSettings.AppSettings["ResursBankUserNamePassword"]));
+            return resursBankServices.GetPaymentMethods(lang, custType, amount);
         }
     }
 }

@@ -44,10 +44,13 @@ namespace Geta.Resurs.Checkout
 
             var paymentMethods = _shopServiceClient.getPaymentMethods(langEnum, customerTypeEnum, amount);
             _shopServiceClient.Close();
-            foreach (var paymentMethod in paymentMethods)
+            if (paymentMethods != null && paymentMethods.Any())
             {
-                var paymentMethodResponse = new PaymentMethodResponse(paymentMethod.id, paymentMethod.description, paymentMethod.minLimit, paymentMethod.maxLimit, paymentMethod.specificType);
-                paymentMethodList.Add(paymentMethodResponse);
+                foreach (var paymentMethod in paymentMethods)
+                {
+                    var paymentMethodResponse = new PaymentMethodResponse(paymentMethod.id, paymentMethod.description, paymentMethod.minLimit, paymentMethod.maxLimit, paymentMethod.specificType);
+                    paymentMethodList.Add(paymentMethodResponse);
+                }
             }
             return paymentMethodList;
 

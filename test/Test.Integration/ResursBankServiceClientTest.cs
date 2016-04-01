@@ -21,7 +21,7 @@ namespace Test.Integration
         public void GetPaymentMethods()
         {
             var appSettings = ConfigurationManager.AppSettings;
-            var testCredential = new ResursCredential(appSettings["username"], appSettings["password"]);
+            var testCredential = new ResursCredential(appSettings["ResursBankUserName"], appSettings["ResursBankUserNamePassword"]);
             var resursBankServices = new ResursBankServiceClient(testCredential);
             List<PaymentMethodResponse> list = resursBankServices.GetPaymentMethods("sv", "NATURAL", 1000);
             Assert.NotNull(list);
@@ -32,8 +32,8 @@ namespace Test.Integration
         {
             var credential = new ResursCredential();
             var appSettings = ConfigurationManager.AppSettings;
-            credential.UserName = appSettings["username"] ?? "Not Found";
-            credential.Password = appSettings["password"] ?? "Not Found";
+            credential.UserName = appSettings["ResursBankUserName"] ?? "Not Found";
+            credential.Password = appSettings["ResursBankUserNamePassword"] ?? "Not Found";
             var resursBankServiceClient = new ResursBankServiceClient(credential);
             List<SpecLine> specLines = new List<SpecLine>
             {
@@ -50,8 +50,8 @@ namespace Test.Integration
         {
             var credential = new ResursCredential();
             var appSettings = ConfigurationManager.AppSettings;
-            credential.UserName = appSettings["username"] ?? "Not Found";
-            credential.Password = appSettings["password"] ?? "Not Found";
+            credential.UserName = appSettings["ResursBankUserName"] ?? "Not Found";
+            credential.Password = appSettings["ResursBankUserNamePassword"] ?? "Not Found";
             var resursBankServiceClient = new ResursBankServiceClient(credential);
        
             var governmentId = "197812304843";
@@ -68,8 +68,8 @@ namespace Test.Integration
         {
             var credential = new ResursCredential();
             var appSettings = ConfigurationManager.AppSettings;
-            credential.UserName = appSettings["username"] ?? "Not Found";
-            credential.Password = appSettings["password"] ?? "Not Found";
+            credential.UserName = appSettings["ResursBankUserName"] ?? "Not Found";
+            credential.Password = appSettings["ResursBankUserNamePassword"] ?? "Not Found";
             var resursBankServiceClient = new ResursBankServiceClient(credential);
 
             var paymentId = "1";
