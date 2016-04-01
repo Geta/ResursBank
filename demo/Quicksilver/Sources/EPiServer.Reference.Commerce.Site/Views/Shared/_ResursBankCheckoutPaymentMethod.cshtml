@@ -3,3 +3,14 @@
 <div class="alert alert-info">
     Using Resurs Bank checkout payment
 </div>
+@{
+    if (Model.ResursBankPaymentMethods != null && Model.ResursBankPaymentMethods.Any())
+    {
+        <ul>
+            @foreach (var methods in Model.ResursBankPaymentMethods)
+            {
+                <li>@methods.Id</li>
+            }
+        </ul>
+    }
+}

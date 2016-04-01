@@ -1,4 +1,6 @@
-﻿@model EPiServer.Reference.Commerce.Site.Features.Checkout.Models.CheckoutViewModel
+﻿@using EPiServer.Reference.Commerce.Site.Features.Payment.Models
+@using Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
+@model EPiServer.Reference.Commerce.Site.Features.Checkout.Models.CheckoutViewModel
 @{
     Layout = null;
 }
@@ -7,9 +9,24 @@
         <div class="jsPaymentMethod">
             @if (Model.Payment != null)
             {
-                var controller = string.Format("_{0}PaymentMethod", Model.Payment.SystemName);
+                if (Model.Payment.SystemName == "ResursBankCheckout")
+                {
+                    var controller = string.Format("_{0}PaymentMethod", Model.Payment.SystemName);
+                    var resurCheckoutModel = Model.Payment as ResursBankCheckoutViewModel;
+                    if (resurCheckoutModel != null)
+                    {
+                        resurCheckoutModel.ResursBankPaymentMethods = (Model.Payment.PaymentMethod as ResursCheckoutPaymentGateway).GetResursPaymentMethods("no", "NATURAL", 10000);
+                        Html.RenderPartial(controller, resurCheckoutModel);
+                    }
 
-                Html.RenderPartial(controller, Model.Payment);
+                }
+                else
+                {
+                    var controller = string.Format("_{0}PaymentMethod", Model.Payment.SystemName);
+
+                    Html.RenderPartial(controller, Model.Payment);
+                }
+
             }
         </div>
     </div>

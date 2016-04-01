@@ -7,6 +7,7 @@ using EPiServer.Reference.Commerce.Site.Features.Checkout.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness;
+using Geta.Resurs.Checkout.Model;
 using Mediachase.Commerce.Website;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Payment.Models
@@ -52,5 +53,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.Models
         /// Gets or sets whether the shipping address should be the same as the billing address.
         /// </summary>
         public bool UseBillingAddressForShipment { get; set; }
+
+        public List<PaymentMethodResponse> ResursBankPaymentMethods { get; set; }
     }
 }

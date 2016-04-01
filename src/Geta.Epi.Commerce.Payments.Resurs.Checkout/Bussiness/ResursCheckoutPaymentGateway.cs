@@ -29,7 +29,7 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
                 {
                     _resursCredential = new ResursCredential(Settings[ResursConstants.UserName], Settings[ResursConstants.Password]);
                 }
-                Logger.Debug(string.Format("Active Klarna merchant id is {0}", ResursConstants.UserName));
+                Logger.Debug(string.Format("Active Resurs merchant id is {0}", ResursConstants.UserName));
                 return _resursCredential;
             }
         }
