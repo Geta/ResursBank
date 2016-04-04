@@ -15,6 +15,9 @@ namespace Geta.Resurs.Checkout.Model
         public string Phone { get; set; }
         public string Email { get; set; }
         public string Type { get; set; }
+
+        public Customer() { }
+
         public Customer(string governmentId, string phone, string email, string type)
         {
             GovernmentId = governmentId;

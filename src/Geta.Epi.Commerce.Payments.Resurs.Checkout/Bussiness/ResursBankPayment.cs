@@ -4,13 +4,15 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using Geta.Resurs.Checkout.Model;
 using Mediachase.Commerce.Orders;
+using Mediachase.MetaDataPlus.Configurator;
 
 namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
 {
     [Serializable]
-    public class ResursBankPayment: OtherPayment
+    public class ResursBankPayment : OtherPayment
     {
         public string PreferredId { get; set; }
         public string ResursBankPaymentMethodId { get; set; }
@@ -24,12 +26,13 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
         public string FailUrl { get; set; }
         public bool ForceSigning { get; set; }
         public string CallBackUrl { get; set; }
+
         public string BookingStatus { get; set; }
         public string PaymentId { get; set; }
-        public ResursBankPayment() { }
+        public string CardNumber { get; set; }
+        public ResursBankPayment(){}
 
-        public ResursBankPayment(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
+        public ResursBankPayment(SerializationInfo info, StreamingContext context) : base(info, context) {
         }
     }
 }

@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Mediachase.Commerce.Orders.Dto;
 using Mediachase.Commerce.Orders.Exceptions;
 
-namespace Geta.EPi.Commerce.Payments.ResursBank.Checkout.Extensions
+namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Extensions
 {
     public static class PaymentMethodsExtensions
     {
@@ -20,7 +16,7 @@ namespace Geta.EPi.Commerce.Payments.ResursBank.Checkout.Extensions
                 throw new PaymentException(
                     PaymentException.ErrorType.ConfigurationError,
                     "NO_SETTING",
-                    "Klarna payment provider: Required setting '" + name + "' is not specified.");
+                    "Resurs payment provider: Required setting '" + name + "' is not specified.");
             }
 
             return row.Value;
@@ -60,11 +56,11 @@ namespace Geta.EPi.Commerce.Payments.ResursBank.Checkout.Extensions
 
         //public static string GetOrderBaseUri(this PaymentMethodDto paymentMethod)
         //{
-            //return (paymentMethod.GetParameter(KlarnaConstants.IsProduction, "0") == "1")
-            //    ? KlarnaConstants.ProductionBaseUri
-            //    : KlarnaConstants.TestBaseUri;
+        //return (paymentMethod.GetParameter(KlarnaConstants.IsProduction, "0") == "1")
+        //    ? KlarnaConstants.ProductionBaseUri
+        //    : KlarnaConstants.TestBaseUri;
         //}
 
-        
+
     }
 }

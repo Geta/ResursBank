@@ -55,6 +55,7 @@
     <Compile Include="ResursBankServiceClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResursBankServiceSettingFactory.cs" />
+    <Compile Include="ResursConstants.cs" />
     <Compile Include="Service References\AfterShopFlowService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -1,8 +1,7 @@
 ﻿using Geta.Epi.Commerce.Payments.Resurs.Checkout;
-using Geta.EPi.Commerce.Payments.ResursBank.Checkout.Extensions;
+using Geta.Epi.Commerce.Payments.Resurs.Checkout.Extensions;
 using Mediachase.Commerce.Orders.Dto;
 using Mediachase.Web.Console.Interfaces;
-//using Geta.Epi.Commerce.Payments.Resurs.Checkout.Extensions;
 
 namespace Geta.EPi.Payments.Resurs.CommerceManager.Apps.Order.Payments.Plugins.ResursBankCheckout
 {

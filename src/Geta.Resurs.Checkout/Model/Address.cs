@@ -16,10 +16,18 @@ namespace Geta.Resurs.Checkout.Model
         public string AddressRow2 { get; set; }
         public string PostalArea { get; set; }
         public string PostalCode { get; set; }
-        public string Country { get; set; }
+        /// <summary>
+        /// Country code
+        /// </summary>
+        public string CountryCode { get; set; }
 
 
-        public Address(string fullName, string firstName, string lastName, string addressRow1, string addressRow2, string postalArea, string postalCode, string country)
+        public Address()
+        {
+
+        }
+
+        public Address(string fullName, string firstName, string lastName, string addressRow1, string addressRow2, string postalArea, string postalCode, string countryCode)
         {
             FullName = fullName;
             FirstName = firstName;
@@ -28,10 +36,10 @@ namespace Geta.Resurs.Checkout.Model
             AddressRow2 = addressRow2;
             PostalArea = postalArea;
             PostalCode = postalCode;
-            Country = country;
+            CountryCode = countryCode;
         }
 
-       
+
     }
-    
+
 }
