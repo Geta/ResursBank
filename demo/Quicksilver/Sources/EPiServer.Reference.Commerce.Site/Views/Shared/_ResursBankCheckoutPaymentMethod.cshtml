@@ -1,16 +1,120 @@
 ﻿@model EPiServer.Reference.Commerce.Site.Features.Payment.Models.ResursBankCheckoutViewModel
 @Html.HiddenFor(model => model.PaymentMethod.PaymentMethodId)
-<div class="alert alert-info">
-    Using Resurs Bank checkout payment
-</div>
 @{
-    if (Model.ResursBankPaymentMethods != null && Model.ResursBankPaymentMethods.Any())
-    {
-        <ul>
-            @foreach (var methods in Model.ResursBankPaymentMethods)
-            {
-                <li>@methods.Id</li>
-            }
-        </ul>
-    }
+    var paymentMethods = Model.ResursBankPaymentMethods;
+
 }
+
+<div>
+    Using Resurs Bank checkout payment
+    <div class="payment-method__container">
+        <h3 class="payment-method__title">Choose available payment</h3>
+        <div class="payment-method__options">
+            @{
+                foreach (var method in Model.ResursBankPaymentMethods)
+                {
+                    switch (method.Id)
+                    {
+                        case "CARD":
+                            <text>
+                                <div class="payment-method__option-item">
+                                    <div class="radio__container">
+                                        <input class="radio__input" type="radio" id="method-payment-1" name="method-payment" value="1" />
+                                        <label class="radio__label" for="method-payment-1">Customer Card</label>
+                                    </div>
+                                    <div class="payment-method__detail-container">
+                                        <div class="textbox__container">
+                                            <span class="textbox__label">Kortnummer</span>
+                                            <input name="CardNumber" class="textbox__input" type="text" />
+                                        </div>
+                                        <div class="textbox__container">
+                                            <span class="textbox__label">Personnummer</span>
+                                            <input class="textbox__input" type="text" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </text>
+                            break;
+                        case "NEWCARD":
+                            <text>
+                                <div class="payment-method__option-item">
+                                    <div class="radio__container">
+                                        <input class="radio__input" type="radio" id="method-payment-2" name="method-payment" value="2" />
+                                        <label class="radio__label" for="method-payment-2">New Customer Card (credit application)</label>
+                                    </div>
+                                    <div class="payment-method__detail-container">
+                                        <div class="selectbox__container">
+                                            <span class="selectbox__label">Select box label</span>
+                                            <select class="selectbox__input">
+                                                <option>Option 1</option>
+                                                <option>Option 2</option>
+                                                <option>Option 3</option>
+                                            </select>
+                                        </div>
+                                        <div class="textbox__container">
+                                            <span class="textbox__label">Textbox Label 2</span>
+                                            <input class="textbox__input" type="text" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </text>
+                            break;
+                        case "INVOICE":
+                            <text>
+                                <div class="payment-method__option-item">
+                                    <div class="radio__container">
+                                        <input class="radio__input" type="radio" id="method-payment-3" name="method-payment" value="3" />
+                                        <label class="radio__label" for="method-payment-3">Invoice (by email) 30-60 days credit</label>
+                                    </div>
+                                    <div class="payment-method__detail-container">
+                                        <div class="checkbox__container">
+                                            <input class="checkbox__input" type="checkbox" id="checkbox1" />
+                                            <label class="checkbox__label" for="checkbox1">Approve terms and condition</label>
+                                        </div>
+                                        <div class="textbox__container">
+                                            <span class="textbox__label">Textbox Label 2</span>
+                                            <input class="textbox__input" type="text" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </text>
+                            break;
+                        case "PARTPAYMENT":
+                            <text>
+                                <div class="payment-method__option-item">
+                                    <div class="radio__container">
+                                        <input class="radio__input" type="radio" id="method-payment-4" name="method-payment" value="3" />
+                                        <label class="radio__label" for="method-payment-4">
+                                            Down payment (or invoice in post boc)<br />
+                                            Until 12 months down payment without interest, or longer period with low interest
+                                        </label>
+                                    </div>
+                                    <div class="payment-method__detail-container">
+                                        <div class="checkbox__container">
+                                            <input class="checkbox__input" type="checkbox" id="checkbox1" />
+                                            <label class="checkbox__label" for="checkbox1">Approve terms and condition</label>
+                                        </div>
+                                        <div class="textbox__container">
+                                            <span class="textbox__label">Textbox Label 2</span>
+                                            <input class="textbox__input" type="text" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </text>
+                            break;
+                    }
+
+                }
+
+
+            }
+
+
+
+
+
+
+
+        </div>
+    </div>
+</div>

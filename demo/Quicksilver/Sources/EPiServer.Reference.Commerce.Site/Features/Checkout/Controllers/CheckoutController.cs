@@ -167,12 +167,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             {
                 ModelState.AddModelError("ShippingRate", _localizationService.GetString("/Checkout/Payment/Errors/NoShippingRate"));
             }
-            
+
             if (viewModel == null)
             {
                 var shippingMethod = shippingMethods.FirstOrDefault();
-                viewModel = CreateCheckoutViewModel(paymentMethods.First(), shippingMethod == null ? Guid.Empty : shippingMethod.Id, customer);
-
+                viewModel = CreateCheckoutViewModel(paymentMethods.Where(x => x.SystemName.Equals("ResursBankCheckout")).FirstOrDefault(), shippingMethod == null ? Guid.Empty : shippingMethod.Id, customer);
                 // Run the workflow once to calculate all taxes, charges and get the correct total amounts.
                 _cartService.RunWorkflow(OrderGroupWorkflowManager.CartValidateWorkflowName);
             }
@@ -431,6 +430,17 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 
             try
             {
+                var resursBank = checkoutViewModel.Payment as ResursBankCheckoutViewModel;
+                if (resursBank != null)
+                {
+                    var resursBankPaymentMethod =
+                        checkoutViewModel.Payment.PaymentMethod as ResursCheckoutPaymentGateway;
+                    if (resursBankPaymentMethod != null)
+                    {
+                        resursBankPaymentMethod.CardNumber = resursBank.CardNumber;
+                    }
+                }
+
                 _paymentService.ProcessPayment(checkoutViewModel.Payment.PaymentMethod);
             }
             catch (PreProcessException)
@@ -472,7 +482,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         /// <returns><c>true</c> if there save was successful, otherwise <c>false</c>.</returns>
         private bool SaveShippingAddresses(CheckoutViewModel checkoutViewModel)
         {
-            if (checkoutViewModel.ShippingAddresses == null || 
+            if (checkoutViewModel.ShippingAddresses == null ||
                 !checkoutViewModel.ShippingAddresses.Any(address => address.ShippingMethodId != Guid.Empty))
             {
                 return false;
@@ -555,19 +565,19 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                 {"orderNumber", purchaseOrder.OrderGroupId.ToString(CultureInfo.InvariantCulture)}
             };
 
-            try
-            {
-                _mailService.Send(startpage.OrderConfirmationMail, queryCollection, emailAddress, currentPage.Language.Name);
-            }
-            catch (Exception)
-            {
-                // The purchase has been processed and the payment was successfully settled, but for some reason the e-mail
-                // receipt could not be sent to the customer. Rollback is not possible so simple make sure to inform the
-                // customer to print the confirmation page instead.
-                queryCollection.Add("notificationMessage", string.Format(_localizationService.GetString("/OrderConfirmationMail/ErrorMessages/SmtpFailure"), emailAddress));
+            //try
+            //{
+            //    _mailService.Send(startpage.OrderConfirmationMail, queryCollection, emailAddress, currentPage.Language.Name);
+            //}
+            //catch (Exception)
+            //{
+            //    // The purchase has been processed and the payment was successfully settled, but for some reason the e-mail
+            //    // receipt could not be sent to the customer. Rollback is not possible so simple make sure to inform the
+            //    // customer to print the confirmation page instead.
+            //    queryCollection.Add("notificationMessage", string.Format(_localizationService.GetString("/OrderConfirmationMail/ErrorMessages/SmtpFailure"), emailAddress));
 
-                // Todo: Log the error and raise an alert so that an administrator can look in to it.
-            }
+            //    // Todo: Log the error and raise an alert so that an administrator can look in to it.
+            //}
 
             return Redirect(new UrlBuilder(confirmationPage.LinkURL) { QueryCollection = queryCollection }.ToString());
         }

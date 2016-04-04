@@ -55,5 +55,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.Models
         public bool UseBillingAddressForShipment { get; set; }
 
         public List<PaymentMethodResponse> ResursBankPaymentMethods { get; set; }
+
+        public string CardNumber { get; set; }
     }
 }
