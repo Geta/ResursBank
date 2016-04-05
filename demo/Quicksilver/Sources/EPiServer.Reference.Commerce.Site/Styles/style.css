@@ -9925,6 +9925,96 @@ footer .btn-social .fa {
     clear: left;
   }
 }
+.radio__container {
+  font-size: 0;
+  padding: 5px 10px;
+}
+input[type="radio"].radio__input {
+  display: inline-block;
+  vertical-align: top;
+  margin: 5px 0 0;
+}
+.radio__label {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 14px;
+  margin: 0 0 0 5px;
+  max-width: 88%;
+  font-weight: normal;
+}
+.textbox__container {
+  padding: 5px 10px;
+}
+.textbox__label {
+  font-size: 14px;
+  display: block;
+  margin: 0 0 5px;
+}
+.textbox__input {
+  background: #fff;
+  border: 1px solid #dbdbdb;
+  width: 300px;
+  max-width: 100%;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  border-radius: 2px;
+  padding: 3px;
+}
+.textbox__input__full {
+  width: 100%;
+}
+.checkbox__container {
+  font-size: 0;
+  padding: 5px 10px;
+}
+.checkbox__container:before {
+  content: '';
+  display: inline-block;
+  vertical-align: middle;
+  height: 100%;
+}
+input[type="checkbox"].checkbox__input {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0;
+}
+.checkbox__label {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 14px;
+  margin: 0 0 0 5px;
+  max-width: 85%;
+  font-weight: normal;
+}
+.selectbox__container {
+  padding: 5px 10px;
+}
+.selectbox__label {
+  font-size: 14px;
+  display: block;
+  margin: 0 0 5px;
+}
+.selectbox__input {
+  background: #fff;
+  border: 1px solid #dbdbdb;
+  width: 300px;
+  max-width: 100%;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  border-radius: 2px;
+  padding: 3px;
+}
+.group-content__title {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0 0 10px;
+  padding: 0 10px;
+}
+.group-content__normal {
+  padding: 5px;
+}
 .address-block {
   margin-bottom: 40px;
 }
@@ -9992,4 +10082,158 @@ footer .btn-social .fa {
 }
 .checkout-cart .product-image {
   max-width: 100%;
+}
+.payment-method__title {
+  font-size: 16px;
+}
+.payment-method__option-item {
+  background-color: #f0f0f0;
+  padding: 5px 10px;
+  margin: 0 0 5px;
+}
+.payment-method__detail-container {
+  border-top: 1px solid #dadada;
+  padding: 5px 0;
+  display: none;
+}
+.confirm__information {
+  background-color: #fdf8e4;
+  padding: 10px 5px;
+}
+.cart-table__table {
+  margin: 0 0 10px;
+}
+.cart-table__title {
+  font-size: 14px;
+  margin: 0;
+  padding: 5px 0;
+  border-bottom: 1px solid #dadada;
+  font-weight: bold;
+  color: #000;
+}
+.cart-table__row {
+  padding: 5px 0;
+  border-bottom: 1px solid #dadada;
+  overflow: hidden;
+  font-size: 14px;
+  color: #c8c6cf;
+}
+.cart-table__col-title {
+  width: 60%;
+  float: left;
+  text-align: left;
+}
+.cart-table__col-number {
+  width: 15%;
+  float: left;
+  text-align: center;
+}
+.cart-table__col-price {
+  width: 25%;
+  float: left;
+  text-align: right;
+}
+.cart-table__total {
+  font-weight: bold;
+  font-size: 14px;
+  text-align: right;
+  padding: 10px 0 0;
+}
+.cart-table__total__label {
+  color: #000;
+}
+.cart-table__total__number {
+  color: #ff0000;
+}
+.cart-table__total__note {
+  color: #c8c6cf;
+  font-size: 14px;
+  text-align: right;
+}
+.cart-table__footer {
+  padding: 20px 0;
+  border-top: 1px solid #dadada;
+  overflow: hidden;
+  margin: 20px 0;
+}
+.cart-table__footer__content {
+  text-align: right;
+}
+.cart-table__footer__text {
+  color: #c8c6cf;
+  font-size: 14px;
+}
+.cart-table__footer__text a {
+  color: #0096db;
+}
+.cart-table__footer__checkout {
+  color: #fff;
+  text-decoration: none;
+  background-color: #0096db;
+  font-size: 14px;
+  display: inline-block;
+  padding: 5px 10px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  border-radius: 3px;
+  margin: 0 0 0 15px;
+}
+.cart-table__footer__checkout:hover {
+  color: #fff;
+}
+.digital-sign__container {
+  border: 1px solid #dadada;
+  padding: 10px 0;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  border-radius: 3px;
+  max-width: 100%;
+  width: 350px;
+}
+.digital-sign__title {
+  font-size: 16px;
+  font-weight: normal;
+  margin: 0;
+  padding: 0 10px 10px;
+  border-bottom: 1px solid #dadada;
+}
+.digital-sign__subtitle {
+  padding: 10px;
+  font-size: 14px;
+  margin: 0;
+}
+.digital-sign__detail-information {
+  width: 95%;
+  margin: 0 auto 10px;
+  padding: 5px;
+  max-height: 150px;
+  overflow-y: auto;
+  border: 1px solid #dadada;
+}
+.digital-sign__button {
+  margin: 10px 0 0;
+}
+.container-row {
+  overflow: hidden;
+}
+.container-col-6 {
+  width: 50%;
+  float: left;
+}
+.text-align-right {
+  text-align: right;
+}
+.link__blue {
+  color: #fff;
+  text-decoration: none;
+  background-color: #0096db;
+  font-size: 14px;
+  display: inline-block;
+  padding: 5px 10px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  border-radius: 3px;
 }
