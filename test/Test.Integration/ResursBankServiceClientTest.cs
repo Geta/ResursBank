@@ -41,8 +41,8 @@ namespace Test.Integration
             };
             var customer = new Customer("180872-48794", "+4797674852", "javatest@resurs.se", "NATURAL");
             customer.Address = new Address("Test Testsson", "Test", "Testsson", "Test gatan 25", "abc", "25220", "Test", "SE");
-            var result = resursBankServiceClient.BookPayment("Invoice", "127.0.0.1", specLines, customer, "http://www.google.se", "http://www.google.se", false, "http://www.google.se");
-            Assert.NotNull(result);
+            //var result = resursBankServiceClient.BookPayment("Invoice", "127.0.0.1", specLines, customer, "http://www.google.se", "http://www.google.se", false, "http://www.google.se");
+            //Assert.NotNull(result);
         }
 
         [Fact]

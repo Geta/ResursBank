@@ -30,9 +30,10 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
         public string BookingStatus { get; set; }
         public string PaymentId { get; set; }
         public string CardNumber { get; set; }
-        public ResursBankPayment(){}
+        public ResursBankPayment() { }
 
-        public ResursBankPayment(SerializationInfo info, StreamingContext context) : base(info, context) {
+        public ResursBankPayment(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
         }
     }
 }

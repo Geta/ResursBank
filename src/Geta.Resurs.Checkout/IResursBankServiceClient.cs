@@ -11,7 +11,9 @@ namespace Geta.Resurs.Checkout
     public interface IResursBankServiceClient
     {
         List<PaymentMethodResponse> GetPaymentMethods(string lang, string custType, decimal amount);
-		bookPaymentResult BookPayment(string paymentMethodId, string customerIpAddress, List<SpecLine> specLines, Customer customer, string successUrl, string failUrl, bool forceSigning, string callBackUrl);
+
+        bookPaymentResult BookPayment(string paymentMethodId, string customerIpAddress, List<SpecLine> specLines,
+            Customer customer, Card card, string successUrl, string failUrl, bool forceSigning, string callBackUrl);
         bookPaymentResult BookSignedPayment(string paymentId);
         address GetAddress(string governmentId, string customerType, string customerIpAddress);
     }

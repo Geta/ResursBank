@@ -13,10 +13,8 @@ using Geta.EPi.Commerce.Payments.Resurs.Checkout.Extensions;
 using Geta.Resurs.Checkout;
 using Geta.Resurs.Checkout.Model;
 using Geta.Resurs.Checkout.SimplifiedShopFlowService;
-
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Exceptions;
-using Mediachase.Commerce.Orders.Search;
 using Mediachase.Commerce.Plugins.Payment;
 using Mediachase.Commerce.Website;
 
@@ -57,6 +55,14 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
 
         public Guid PaymentMethodId { get; set; }
 
+        public string CallBackUrlWhenFail { get; set; }
+
+        public string SuccessUrl { get; set; }
+
+        public string CardNumber { get; set; }
+
+        public string ResursPaymentMethod { get; set; }
+
         public override bool ProcessPayment(Payment payment, ref string message)
         {
             try
@@ -65,71 +71,76 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
                 Logger.Debug("Resurs checkout gateway. Processing Payment ....");
                 if (VerifyConfiguration())
                 {
-                    Cart cart = payment.Parent.Parent as Cart;
-                    OrderForm orderForm = payment.Parent as OrderForm;
-
-
                     var factory = ServiceLocator.Current.GetInstance<IResursBankServiceSettingFactory>();
                     var resursBankServices = factory.Init(ResursCredential);
-
-                    var resursBankPayment = payment as ResursBankPayment;
-                    if (resursBankPayment != null)
+                    bookPaymentResult bookPaymentResult =
+                        GetObjectFromCookie<bookPaymentResult>(ResursConstants.PaymentResultCookieName);
+                    if (bookPaymentResult == null)
                     {
-                        // Get information of Customer from Billing Address of Order form
-                        var billingAddress = orderForm.Parent.OrderAddresses.FirstOrDefault(x => x.Name == orderForm.BillingAddressId);
-                        Customer customer = new Customer();
-                        if (billingAddress != null)
+                        OrderForm orderForm = payment.Parent;
+
+                        var resursBankPayment = payment as ResursBankPayment;
+                        if (resursBankPayment != null)
                         {
-                            customer = new Customer();
-                            var address = new Address();
-                            address.FullName = billingAddress.FirstName + " " + billingAddress.LastName;
-                            address.FirstName = billingAddress.FirstName;
-                            address.LastName = billingAddress.LastName;
-                            address.AddressRow1 = billingAddress.Line1;
-                            address.AddressRow2 = !string.IsNullOrEmpty(billingAddress.Line2) ? billingAddress.Line2 : billingAddress.Line1;
-                            address.CountryCode = billingAddress.CountryCode;
-                            address.PostalCode = billingAddress.PostalCode;
-                            address.PostalArea = billingAddress.PostalCode;
-                            customer.Address = address;
-                            customer.Email = billingAddress.Email;
-                            customer.Phone = billingAddress.DaytimePhoneNumber;
-                            customer.GovernmentId = billingAddress.CountryCode.ToLower() == "se"
-                                ? payment.GetStringValue(Geta.Epi.Commerce.Payments.Resurs.Checkout.ResursConstants.ResursBankPaymentMethod, string.Empty)
-                                : string.Empty;
-                            customer.Type = "NATURAL";// billingAddress.CountryCode.ToLower() == "se" ? "LEGAL" : "NATURAL";
-                        }
-
-                        resursBankPayment.Customer = customer;
-                        resursBankPayment.ResursBankPaymentMethodId = payment.GetStringValue(ResursConstants.ResursBankPaymentMethod, string.Empty);
-                        resursBankPayment.CustomerIpAddress = HttpContext.Current.Request.UserHostAddress;
-                        resursBankPayment.SpecLines = orderForm.LineItems.Select(item => item.ToSpecLineItem()).ToList();
-
-                        var successUrl = resursBankPayment.SuccessUrl;
-                        var failUrl = !string.IsNullOrEmpty(resursBankPayment.FailUrl) ? resursBankPayment.FailUrl : "/";
-                        var forceSigning = resursBankPayment.ForceSigning;
-                        var callBackUrl = !string.IsNullOrEmpty(resursBankPayment.CallBackUrl) ? resursBankPayment.CallBackUrl : "/";
-
-                        //if (resursBankPayment.BookingStatus == "Begin")
-                        {
-                            var result = resursBankServices.BookPayment(resursBankPayment.ResursBankPaymentMethodId, resursBankPayment.CustomerIpAddress, resursBankPayment.SpecLines, resursBankPayment.Customer, successUrl, failUrl, forceSigning, callBackUrl);
-                            if (result.bookPaymentStatus == bookPaymentStatus.SIGNING)
+                            // Get information of Customer from Billing Address of Order form
+                            var billingAddress = orderForm.Parent.OrderAddresses.FirstOrDefault(x => x.Name == orderForm.BillingAddressId);
+                            Customer customer = new Customer();
+                            if (billingAddress != null)
                             {
-                                resursBankPayment.BookingStatus = "Signing";
-                                resursBankPayment.PaymentId = result.paymentId;
+                                customer = new Customer();
+                                var address = new Address();
+                                address.FullName = billingAddress.FirstName + " " + billingAddress.LastName;
+                                address.FirstName = billingAddress.FirstName;
+                                address.LastName = billingAddress.LastName;
+                                address.AddressRow1 = billingAddress.Line1;
+                                address.AddressRow2 = !string.IsNullOrEmpty(billingAddress.Line2) ? billingAddress.Line2 : billingAddress.Line1;
+                                address.CountryCode = billingAddress.CountryCode;
+                                address.PostalCode = billingAddress.PostalCode;
+                                address.PostalArea = billingAddress.PostalCode;
+                                customer.Address = address;
+                                customer.Email = billingAddress.Email;
+                                customer.Phone = !string.IsNullOrEmpty(billingAddress.DaytimePhoneNumber) ? billingAddress.DaytimePhoneNumber : "+4797674852"; //hard code
+                                customer.GovernmentId = billingAddress.CountryCode.ToLower() == "se"
+                                    ? payment.GetStringValue(ResursConstants.GorvernmentId, string.Empty)
+                                    : "180872-48794";// Get value from test.resurs.com
+                                customer.Type = "NATURAL";// billingAddress.CountryCode.ToLower() == "se" ? "LEGAL" : "NATURAL";
+                            }
+
+                            resursBankPayment.Customer = customer;
+                            resursBankPayment.ResursBankPaymentMethodId = payment.GetStringValue(ResursConstants.ResursBankPaymentMethod, string.Empty);
+                            var resurPaymentType = payment.GetStringValue(ResursConstants.ResursBankPaymentType, string.Empty);
+
+                            resursBankPayment.CustomerIpAddress = HttpContext.Current.Request.UserHostAddress;
+                            resursBankPayment.SpecLines = orderForm.LineItems.Select(item => item.ToSpecLineItem()).ToList();
+
+                            var successUrl = payment.GetStringValue(ResursConstants.SuccessfullUrl, string.Empty);
+                            var failUrl = payment.GetStringValue(ResursConstants.FailBackUrl, string.Empty);
+                            resursBankPayment.ForceSigning = false;
+                            var callBackUrl = !string.IsNullOrEmpty(resursBankPayment.CallBackUrl) ? resursBankPayment.CallBackUrl : "/";
+
+                            var card = new Card(CardNumber);
+
+                            bookPaymentResult = resursBankServices.BookPayment(resurPaymentType, resursBankPayment.CustomerIpAddress, resursBankPayment.SpecLines, resursBankPayment.Customer, card, successUrl, failUrl, resursBankPayment.ForceSigning, callBackUrl);
+                            message = Newtonsoft.Json.JsonConvert.SerializeObject(bookPaymentResult);
+                            if (bookPaymentResult.bookPaymentStatus == bookPaymentStatus.SIGNING)
+                            {
+                                SaveObjectToCookie(bookPaymentResult, ResursConstants.PaymentResultCookieName, new TimeSpan(0, 1, 0, 0));
                                 //TODO: send this url to redirect user to signing page
-                                var signingUrl = result.signingUrl;
-                                return true;
+                                HttpContext.Current.Response.Redirect(bookPaymentResult.signingUrl);
+                                return false;
                             }
                         }
-                        //else if (resursBankPayment.BookingStatus == "Signed")
-                        //{
-                        //    var result = resursBankServices.BookSignedPayment(resursBankPayment.PaymentId);
-                        //    if (result.bookPaymentStatus == bookPaymentStatus.BOOKED)
-                        //    {
-                        //        resursBankPayment.BookingStatus = "Booked";
-                        //        return true;
-                        //    }
-                        //}
+                        return true;
+                    }
+                    else
+                    {
+                        bookPaymentResult = resursBankServices.BookSignedPayment(bookPaymentResult.paymentId);
+                        if (bookPaymentResult.bookPaymentStatus != bookPaymentStatus.DENIED && bookPaymentResult.bookPaymentStatus != bookPaymentStatus.SIGNING)
+                        {
+                            SaveObjectToCookie(null, ResursConstants.PaymentResultCookieName, new TimeSpan(0, 1, 0, 0));
+                            message = Newtonsoft.Json.JsonConvert.SerializeObject(bookPaymentResult);
+                            return true;
+                        }
                     }
                 }
 
@@ -140,6 +151,34 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
                 throw;
             }
             return true;
+        }
+
+        private void SaveObjectToCookie(Object obj, string keyName, TimeSpan timeSpan)
+        {
+            string myObjectJson = Newtonsoft.Json.JsonConvert.SerializeObject(obj);
+            var cookie = new HttpCookie(keyName, myObjectJson)
+            {
+                Expires = DateTime.Now.Add(timeSpan)
+            };
+            if (HttpContext.Current.Response.Cookies[keyName] == null)
+            {
+                HttpContext.Current.Response.Cookies.Add(cookie);
+            }
+            else
+            {
+                HttpContext.Current.Response.Cookies.Set(cookie);
+            }
+
+        }
+
+        private T GetObjectFromCookie<T>(string keyName)
+        {
+            if (HttpContext.Current.Request.Cookies[keyName] != null)
+            {
+                var s = HttpContext.Current.Server.UrlDecode(HttpContext.Current.Request.Cookies[keyName].Value);
+                return !string.IsNullOrEmpty(s) ? Newtonsoft.Json.JsonConvert.DeserializeObject<T>(s) : default(T);
+            }
+            return default(T);
         }
 
         private bool VerifyConfiguration()
@@ -189,10 +228,11 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
                 Amount = orderForm.Total,
                 Status = PaymentStatus.Pending.ToString(),
                 TransactionType = TransactionType.Authorization.ToString(),
-                CardNumber = CardNumber
-
             };
-            payment.SetMetaField("ResursBankPaymentMethod", "Invoice", false);
+            payment.SetMetaField(ResursConstants.ResursBankPaymentType, ResursPaymentMethod, false);
+            payment.SetMetaField(ResursConstants.CardNumber, CardNumber, false);
+            payment.SetMetaField(ResursConstants.FailBackUrl, CallBackUrlWhenFail, false);
+            payment.SetMetaField(ResursConstants.SuccessfullUrl, SuccessUrl, false);
             return payment;
         }
 
@@ -208,6 +248,5 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
             return resursBankServices.GetPaymentMethods(lang, custType, amount);
         }
 
-        public string CardNumber { get; set; }
     }
 }

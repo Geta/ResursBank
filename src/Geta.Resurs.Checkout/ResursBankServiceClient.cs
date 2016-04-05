@@ -60,13 +60,14 @@ namespace Geta.Resurs.Checkout
 
         }
 
-        public bookPaymentResult BookPayment(string paymentMethodId, string customerIpAddress, List<SpecLine> specLines, Customer customer, string successUrl, string failUrl, bool forceSigning, string callBackUrl)
+        public bookPaymentResult BookPayment(string paymentMethodId, string customerIpAddress, List<SpecLine> specLines, Customer customer, Card card, string successUrl, string failUrl, bool forceSigning, string callBackUrl)
         {
             try
             {
                 var paymentData = new paymentData();
                 paymentData.paymentMethodId = paymentMethodId;
                 paymentData.customerIpAddress = customerIpAddress;
+
 
                 //paymentspec
                 var paymentSpec = new paymentSpec();
@@ -127,9 +128,28 @@ namespace Geta.Resurs.Checkout
                 signing.successUrl = successUrl;
                 signing.failUrl = failUrl;
                 signing.forceSigning = forceSigning;
+                //card data
+                cardData customerCard = null;
+                if (paymentMethodId.Equals("CARD"))
+                {
+                    customerCard = new cardData();
+                    customerCard.cardNumber = card.CardNumber;
+                }
+                if (paymentMethodId.Equals("NEWCARD"))
+                {
+                    customerCard = new cardData();
+                    customerCard.cardNumber = "0000";
+                    customerCard.amount = 13000;
+                    customerCard.amountSpecified = true;
+                }
+                //invoice data
+                invoiceData invoice = null;
+                if (paymentData.finalizeIfBooked == true)
+                {
+                    invoice = new invoiceData();
+                }
 
-
-                return _shopServiceClient.bookPayment(paymentData, paymentSpec, null, extendedCustomer, null, signing, null, callBackUrl);
+                return _shopServiceClient.bookPayment(paymentData, paymentSpec, null, extendedCustomer, customerCard, signing, invoice, callBackUrl);
             }
             catch (Exception ex)
             {

@@ -15,6 +15,15 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout
         public const string ResursBankPaymentMethod = "ResursBankPaymentMethod";
         public const string GorvernmentId = "GorvernmentId";
         public const string OtherPaymentClass = "OtherPayment";
+        public const string ResursBankPayment = "ResursBankPayment";
         public const string VatPercent = "VatPercent";
+        public const string OrderId = "OrderId";
+        public const string ResursBankPaymentType = "ResursBankPaymentType";
+
+        public const string PaymentResultCookieName = "ResursPaymentBookResult";
+        public const string CardNumber = "CardNumber";
+        public const string CustomerIpAddress = "CustomerIpAddress";
+        public const string SuccessfullUrl = "SuccessfullUrl";
+        public const string FailBackUrl = "FailBackUrl";
     }
 }
