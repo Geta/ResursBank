@@ -57,5 +57,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.Models
         public List<PaymentMethodResponse> ResursBankPaymentMethods { get; set; }
 
         public string CardNumber { get; set; }
+
+        public string ResursPaymentMethod { get; set; }
+
+
     }
 }

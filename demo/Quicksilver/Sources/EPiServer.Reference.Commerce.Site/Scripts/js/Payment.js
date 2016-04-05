@@ -18,7 +18,9 @@
                         if (detail && detail.length > 0 && detail.css('display') == 'none') {
                             detail.slideDown(250);
                         }
+                        $('input[name="ResursPaymentMethod"]').val($(this).val());
                     });
+                    
                 })(allOptions.eq(i), i, allOptions);
             }
         }

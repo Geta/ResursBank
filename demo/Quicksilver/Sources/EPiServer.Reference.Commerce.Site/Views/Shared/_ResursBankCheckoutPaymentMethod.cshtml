@@ -11,6 +11,8 @@
         <h3 class="payment-method__title">Choose available payment</h3>
         <div class="payment-method__options">
             @{
+                <input type="hidden" name="ResursPaymentMethod" />
+
                 foreach (var method in Model.ResursBankPaymentMethods)
                 {
                     switch (method.Id)
@@ -19,7 +21,7 @@
                             <text>
                                 <div class="payment-method__option-item">
                                     <div class="radio__container">
-                                        <input class="radio__input" type="radio" id="method-payment-1" name="method-payment" value="1" />
+                                        <input class="radio__input" type="radio" id="method-payment-1" name="method-payment" value="@method.Id" />
                                         <label class="radio__label" for="method-payment-1">Customer Card</label>
                                     </div>
                                     <div class="payment-method__detail-container">
@@ -39,7 +41,7 @@
                             <text>
                                 <div class="payment-method__option-item">
                                     <div class="radio__container">
-                                        <input class="radio__input" type="radio" id="method-payment-2" name="method-payment" value="2" />
+                                        <input class="radio__input" type="radio" id="method-payment-2" name="method-payment" value="@method.Id" />
                                         <label class="radio__label" for="method-payment-2">New Customer Card (credit application)</label>
                                     </div>
                                     <div class="payment-method__detail-container">
@@ -63,7 +65,7 @@
                             <text>
                                 <div class="payment-method__option-item">
                                     <div class="radio__container">
-                                        <input class="radio__input" type="radio" id="method-payment-3" name="method-payment" value="3" />
+                                        <input class="radio__input" type="radio" id="method-payment-3" name="method-payment" value="@method.Id" />
                                         <label class="radio__label" for="method-payment-3">Invoice (by email) 30-60 days credit</label>
                                     </div>
                                     <div class="payment-method__detail-container">
@@ -83,7 +85,7 @@
                             <text>
                                 <div class="payment-method__option-item">
                                     <div class="radio__container">
-                                        <input class="radio__input" type="radio" id="method-payment-4" name="method-payment" value="3" />
+                                        <input class="radio__input" type="radio" id="method-payment-4" name="method-payment" value="@method.Id" />
                                         <label class="radio__label" for="method-payment-4">
                                             Down payment (or invoice in post boc)<br />
                                             Until 12 months down payment without interest, or longer period with low interest

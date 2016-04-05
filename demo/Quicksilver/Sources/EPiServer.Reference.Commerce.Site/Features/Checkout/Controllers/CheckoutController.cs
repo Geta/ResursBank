@@ -30,6 +30,8 @@ using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness;
+using Geta.Resurs.Checkout;
+using Geta.Resurs.Checkout.SimplifiedShopFlowService;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 {
@@ -143,6 +145,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             if (viewModel.Payment.PaymentMethod is ResursCheckoutPaymentGateway)
             {
                 ((ResursCheckoutPaymentGateway)viewModel.Payment.PaymentMethod).PaymentMethodId = selectedPaymentMethod.Id;
+                ((ResursCheckoutPaymentGateway)viewModel.Payment.PaymentMethod).CallBackUrlWhenFail = Url.Action("BookSignedpayment");
+
             }
             else
                 ((PaymentMethodBase)viewModel.Payment.PaymentMethod).PaymentMethodId = selectedPaymentMethod.Id;
@@ -438,6 +442,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                     if (resursBankPaymentMethod != null)
                     {
                         resursBankPaymentMethod.CardNumber = resursBank.CardNumber;
+                        resursBankPaymentMethod.ResursPaymentMethod = resursBank.ResursPaymentMethod;
+                        //resursBankPaymentMethod.CallBackUrlWhenFail = Url.Action("BookSignedpayment", "Checkout", null, this.Request.Url.Scheme);
+                        resursBankPaymentMethod.SuccessUrl = "http://" + this.Request.Url.DnsSafeHost + Url.Action("BookSignedpayment");
+                        resursBankPaymentMethod.CallBackUrlWhenFail = "http://" + this.Request.Url.DnsSafeHost + _contentRepository.GetFirstChild<OrderConfirmationPage>(currentPage.ContentLink).LinkURL;
                     }
                 }
 
@@ -527,6 +535,27 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             }
         }
 
+        [HttpGet]
+        public ActionResult BookSignedpayment()
+        {
+
+            ResursBankServiceClient service = new ResursBankServiceClient(null);
+            //bookPaymentResult result = service.BookSignedPayment(paymentId);
+            _cartService.RunWorkflow(OrderGroupWorkflowManager.CartCheckOutWorkflowName);
+            PurchaseOrder purchaseOrder = _checkoutService.SaveCartAsPurchaseOrder();
+            _checkoutService.DeleteCart();
+
+            var startpage = _contentRepository.Get<StartPage>(ContentReference.StartPage);
+            var confirmationPage = _contentRepository.GetFirstChild<OrderConfirmationPage>(startpage.CheckoutPage);
+            var queryCollection = new NameValueCollection
+            {
+                {"contactId", _customerContext.CurrentContactId.ToString()},
+                {"orderNumber", purchaseOrder.OrderGroupId.ToString(CultureInfo.InvariantCulture)}
+            };
+
+            return Redirect(new UrlBuilder(confirmationPage.LinkURL) { QueryCollection = queryCollection }.ToString());
+        }
+
         /// <summary>
         /// Finalizes a purchase orders and send an e-mail confirmation to the customer.
         /// </summary>
@@ -554,7 +583,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 
             _cartService.RunWorkflow(OrderGroupWorkflowManager.CartCheckOutWorkflowName);
             purchaseOrder = _checkoutService.SaveCartAsPurchaseOrder();
-
             _checkoutService.DeleteCart();
 
             emailAddress = purchaseOrder.OrderAddresses.First().Email;
