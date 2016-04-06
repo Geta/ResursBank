@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using EPiServer.Framework.Cache;
 using EPiServer.Framework.Localization;
 using EPiServer.Logging;
 using EPiServer.ServiceLocation;
@@ -63,6 +64,8 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
 
         public string ResursPaymentMethod { get; set; }
 
+        public string GovernmentId { get; set; }
+
         public override bool ProcessPayment(Payment payment, ref string message)
         {
             try
@@ -77,7 +80,9 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
                         GetObjectFromCookie<bookPaymentResult>(ResursConstants.PaymentResultCookieName);
                     if (bookPaymentResult == null)
                     {
-                        OrderForm orderForm = payment.Parent;
+                        Cart cart = payment.Parent.Parent as Cart;
+                        OrderForm orderForm = payment.Parent as OrderForm;
+
 
                         var resursBankPayment = payment as ResursBankPayment;
                         if (resursBankPayment != null)
@@ -100,9 +105,9 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
                                 customer.Address = address;
                                 customer.Email = billingAddress.Email;
                                 customer.Phone = !string.IsNullOrEmpty(billingAddress.DaytimePhoneNumber) ? billingAddress.DaytimePhoneNumber : "+4797674852"; //hard code
-                                customer.GovernmentId = billingAddress.CountryCode.ToLower() == "se"
-                                    ? payment.GetStringValue(ResursConstants.GorvernmentId, string.Empty)
-                                    : "180872-48794";// Get value from test.resurs.com
+                                customer.GovernmentId = billingAddress.CountryCode.ToLower() == "swe"
+                                   ? payment.GetStringValue(ResursConstants.GovernmentId, string.Empty)
+                                   : "010986-14741";
                                 customer.Type = "NATURAL";// billingAddress.CountryCode.ToLower() == "se" ? "LEGAL" : "NATURAL";
                             }
 
@@ -122,25 +127,41 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
 
                             bookPaymentResult = resursBankServices.BookPayment(resurPaymentType, resursBankPayment.CustomerIpAddress, resursBankPayment.SpecLines, resursBankPayment.Customer, card, successUrl, failUrl, resursBankPayment.ForceSigning, callBackUrl);
                             message = Newtonsoft.Json.JsonConvert.SerializeObject(bookPaymentResult);
-                            if (bookPaymentResult.bookPaymentStatus == bookPaymentStatus.SIGNING)
+
+                            if (bookPaymentResult.bookPaymentStatus == bookPaymentStatus.BOOKED ||
+                                bookPaymentResult.bookPaymentStatus == bookPaymentStatus.FINALIZED)
                             {
+                                return true;
+                            }
+                            else if (bookPaymentResult.bookPaymentStatus == bookPaymentStatus.SIGNING)
+                            {
+                                resursBankPayment.BookingStatus = "Signing";
+                                resursBankPayment.PaymentId = bookPaymentResult.paymentId;
                                 SaveObjectToCookie(bookPaymentResult, ResursConstants.PaymentResultCookieName, new TimeSpan(0, 1, 0, 0));
+
                                 //TODO: send this url to redirect user to signing page
                                 HttpContext.Current.Response.Redirect(bookPaymentResult.signingUrl);
                                 return false;
                             }
+                            return false;
                         }
-                        return true;
+                        return false;
                     }
                     else
                     {
                         bookPaymentResult = resursBankServices.BookSignedPayment(bookPaymentResult.paymentId);
-                        if (bookPaymentResult.bookPaymentStatus != bookPaymentStatus.DENIED && bookPaymentResult.bookPaymentStatus != bookPaymentStatus.SIGNING)
+                        SaveObjectToCookie(null, ResursConstants.PaymentResultCookieName, new TimeSpan(0, 1, 0, 0));
+                        message = Newtonsoft.Json.JsonConvert.SerializeObject(bookPaymentResult);
+                        if (bookPaymentResult.bookPaymentStatus == bookPaymentStatus.BOOKED || bookPaymentResult.bookPaymentStatus == bookPaymentStatus.FINALIZED)
                         {
-                            SaveObjectToCookie(null, ResursConstants.PaymentResultCookieName, new TimeSpan(0, 1, 0, 0));
-                            message = Newtonsoft.Json.JsonConvert.SerializeObject(bookPaymentResult);
                             return true;
                         }
+                        else
+                        {
+                            SaveObjectToCookie(null, ResursConstants.PaymentResultCookieName, new TimeSpan(0, 1, 0, 0));
+                            return false;
+                        }
+
                     }
                 }
 
@@ -148,6 +169,7 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
             catch (Exception exception)
             {
                 Logger.Error("Process payment failed with error: " + exception.Message, exception);
+                message = exception.Message;
                 throw;
             }
             return true;
@@ -243,9 +265,16 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
 
         public List<PaymentMethodResponse> GetResursPaymentMethods(string lang, string custType, decimal amount)
         {
-            var factory = ServiceLocator.Current.GetInstance<IResursBankServiceSettingFactory>();
-            var resursBankServices = factory.Init(new ResursCredential(ConfigurationSettings.AppSettings["ResursBankUserName"], ConfigurationSettings.AppSettings["ResursBankUserNamePassword"]));
-            return resursBankServices.GetPaymentMethods(lang, custType, amount);
+            List<PaymentMethodResponse> lstPaymentMethodsResponse = EPiServer.CacheManager.Get("GetListResursPaymentMethods") as List<PaymentMethodResponse>;
+            if (lstPaymentMethodsResponse == null || !lstPaymentMethodsResponse.Any())
+            {
+                var factory = ServiceLocator.Current.GetInstance<IResursBankServiceSettingFactory>();
+                var resursBankServices = factory.Init(new ResursCredential(ConfigurationSettings.AppSettings["ResursBankUserName"], ConfigurationSettings.AppSettings["ResursBankUserNamePassword"]));
+                lstPaymentMethodsResponse = resursBankServices.GetPaymentMethods(lang, custType, amount);
+                //Cache list payment methods for 1 day as Resurs recommended.
+                EPiServer.CacheManager.Insert("GetListResursPaymentMethods", lstPaymentMethodsResponse, new CacheEvictionPolicy(null, new TimeSpan(1, 0, 0, 0), CacheTimeoutType.Absolute));
+            }
+            return lstPaymentMethodsResponse;
         }
 
     }

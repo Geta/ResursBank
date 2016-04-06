@@ -13,7 +13,7 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout
 
         public const string OrderNamespace = "Mediachase.Commerce.Orders";
         public const string ResursBankPaymentMethod = "ResursBankPaymentMethod";
-        public const string GorvernmentId = "GorvernmentId";
+        public const string GovernmentId = "GovernmentId";
         public const string OtherPaymentClass = "OtherPayment";
         public const string ResursBankPayment = "ResursBankPayment";
         public const string VatPercent = "VatPercent";

@@ -443,9 +443,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                     {
                         resursBankPaymentMethod.CardNumber = resursBank.CardNumber;
                         resursBankPaymentMethod.ResursPaymentMethod = resursBank.ResursPaymentMethod;
-                        //resursBankPaymentMethod.CallBackUrlWhenFail = Url.Action("BookSignedpayment", "Checkout", null, this.Request.Url.Scheme);
+                        
                         resursBankPaymentMethod.SuccessUrl = "http://" + this.Request.Url.DnsSafeHost + Url.Action("BookSignedpayment");
                         resursBankPaymentMethod.CallBackUrlWhenFail = "http://" + this.Request.Url.DnsSafeHost + _contentRepository.GetFirstChild<OrderConfirmationPage>(currentPage.ContentLink).LinkURL;
+                        resursBankPaymentMethod.GovernmentId = resursBank.GovernmentId;
                     }
                 }
 

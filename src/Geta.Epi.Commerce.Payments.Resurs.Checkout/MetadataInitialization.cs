@@ -20,7 +20,7 @@ namespace Geta.EPi.Commerce.Payments.Resurs.Checkout
             MetaDataContext mdContext = CatalogContext.MetaDataContext;
 
             var resursBankPaymentMethod = GetOrCreateResursBankPaymentMethodField(mdContext);
-            JoinField(mdContext, resursBankPaymentMethod, ResursConstants.ResursBankPayment);
+            JoinField(mdContext, resursBankPaymentMethod, ResursConstants.OtherPaymentClass);
 
             var gorvernmentId = GetOrCreateGorvernmentIdField(mdContext);
             JoinField(mdContext, gorvernmentId, ResursConstants.OtherPaymentClass);
@@ -61,11 +61,11 @@ namespace Geta.EPi.Commerce.Payments.Resurs.Checkout
         private MetaField GetOrCreateGorvernmentIdField(MetaDataContext mdContext)
         {
 
-            var f = MetaField.Load(mdContext, ResursConstants.GorvernmentId);
+            var f = MetaField.Load(mdContext, ResursConstants.GovernmentId);
             if (f == null)
             {
-                Logger.Debug(string.Format("Adding meta field '{0}' for Resurs integration.", ResursConstants.GorvernmentId));
-                f = MetaField.Create(mdContext, ResursConstants.OrderNamespace, ResursConstants.GorvernmentId, ResursConstants.GorvernmentId, string.Empty, MetaDataType.ShortString, 255, true, false, false, false);
+                Logger.Debug(string.Format("Adding meta field '{0}' for Resurs integration.", ResursConstants.GovernmentId));
+                f = MetaField.Create(mdContext, ResursConstants.OrderNamespace, ResursConstants.GovernmentId, ResursConstants.GovernmentId, string.Empty, MetaDataType.ShortString, 255, true, false, false, false);
             }
 
             return f;

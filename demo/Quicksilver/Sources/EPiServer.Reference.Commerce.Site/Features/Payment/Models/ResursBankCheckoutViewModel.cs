@@ -60,6 +60,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.Models
 
         public string ResursPaymentMethod { get; set; }
 
+        public string GovernmentId { get; set; }
 
     }
 }

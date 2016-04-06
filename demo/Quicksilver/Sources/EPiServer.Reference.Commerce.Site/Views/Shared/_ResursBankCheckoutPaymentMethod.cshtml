@@ -12,7 +12,9 @@
         <div class="payment-method__options">
             @{
                 <input type="hidden" name="ResursPaymentMethod" />
-
+                <div class="payment-method__option-item">
+                    <label>GovernmentId</label><input type="text" name="GovernmentId" />
+                </div>
                 foreach (var method in Model.ResursBankPaymentMethods)
                 {
                     switch (method.Id)
