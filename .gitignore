@@ -190,3 +190,4 @@ ModelManifest.xml
 
 #Nuget packages
 [Pp]ackages/
+*.nupkg

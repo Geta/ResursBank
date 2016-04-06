@@ -69,12 +69,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Geta.EPi.Payments.Resurs.CommerceManager.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Apps\Order\Payments\Plugins\ResursBankCheckout\ConfigurePayment.ascx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>nuget pack $(ProjectDir)$(ProjectFileName) -IncludeReferencedProjects -Prop Configuration=$(ConfigurationName) -Prop Platform=AnyCPU -OutputDirectory $(ProjectDir)</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

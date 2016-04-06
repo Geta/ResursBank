@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Geta.EPi.Payments.Resurs.CommerceManager")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Library for Resurs Checkout integration with EPiServer Commerce.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Geta")]
 [assembly: AssemblyProduct("Geta.EPi.Payments.Resurs.CommerceManager")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyCopyright("Copyright © Geta 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
