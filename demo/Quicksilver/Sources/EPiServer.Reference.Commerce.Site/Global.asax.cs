@@ -26,6 +26,13 @@ namespace EPiServer.Reference.Commerce.Site
               url: "{controller}/{action}/{id}",
               defaults: new { action = "Index", id = UrlParameter.Optional });
 
+
+            //Add roue mapping for callback book signed method
+            routes.MapRoute(
+             name: "BookSignedpayment",
+             url: "checkout/BookSignedpayment",
+             defaults: new { action = "BookSignedpayment" });
+
         }
 
         protected void Application_Start()
