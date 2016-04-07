@@ -42,6 +42,18 @@ namespace Geta.EPi.Commerce.Payments.Resurs.Checkout
 
             var failUrl = GetOrCreateFailUrlField(mdContext);
             JoinField(mdContext, failUrl, ResursConstants.OtherPaymentClass);
+
+            var creditAmountForNewCard = GetOrCreateAmountForNewCardField(mdContext);
+            JoinField(mdContext, creditAmountForNewCard, ResursConstants.OtherPaymentClass);
+
+            var minLimit = GetOrCreateMinLimitField(mdContext);
+            JoinField(mdContext, minLimit, ResursConstants.OtherPaymentClass);
+
+            var maxLimit = GetOrCreateMaxLimitField(mdContext);
+            JoinField(mdContext, maxLimit, ResursConstants.OtherPaymentClass);
+
+            var callbackUrl = GetOrCreateCallBackField(mdContext);
+            JoinField(mdContext, callbackUrl, ResursConstants.CallBackUrl);
         }
 
 
@@ -144,6 +156,58 @@ namespace Geta.EPi.Commerce.Payments.Resurs.Checkout
             {
                 Logger.Debug(string.Format("Adding meta field '{0}' for Resurs integration.", ResursConstants.FailBackUrl));
                 f = MetaField.Create(mdContext, ResursConstants.OrderNamespace, ResursConstants.FailBackUrl, ResursConstants.FailBackUrl, string.Empty, MetaDataType.LongString, Int32.MaxValue, true, false, false, false);
+            }
+
+            return f;
+        }
+
+        private MetaField GetOrCreateAmountForNewCardField(MetaDataContext mdContext)
+        {
+
+            var f = MetaField.Load(mdContext, ResursConstants.AmountForNewCard);
+            if (f == null)
+            {
+                Logger.Debug(string.Format("Adding meta field '{0}' for Resurs integration.", ResursConstants.AmountForNewCard));
+                f = MetaField.Create(mdContext, ResursConstants.OrderNamespace, ResursConstants.AmountForNewCard, ResursConstants.AmountForNewCard, string.Empty, MetaDataType.ShortString, Int32.MaxValue, true, false, false, false);
+            }
+
+            return f;
+        }
+
+        private MetaField GetOrCreateMinLimitField(MetaDataContext mdContext)
+        {
+
+            var f = MetaField.Load(mdContext, ResursConstants.MinLimit);
+            if (f == null)
+            {
+                Logger.Debug(string.Format("Adding meta field '{0}' for Resurs integration.", ResursConstants.MinLimit));
+                f = MetaField.Create(mdContext, ResursConstants.OrderNamespace, ResursConstants.MinLimit, ResursConstants.MinLimit, string.Empty, MetaDataType.ShortString, Int32.MaxValue, true, false, false, false);
+            }
+
+            return f;
+        }
+
+        private MetaField GetOrCreateMaxLimitField(MetaDataContext mdContext)
+        {
+
+            var f = MetaField.Load(mdContext, ResursConstants.MaxLimit);
+            if (f == null)
+            {
+                Logger.Debug(string.Format("Adding meta field '{0}' for Resurs integration.", ResursConstants.MaxLimit));
+                f = MetaField.Create(mdContext, ResursConstants.OrderNamespace, ResursConstants.MaxLimit, ResursConstants.MaxLimit, string.Empty, MetaDataType.ShortString, Int32.MaxValue, true, false, false, false);
+            }
+
+            return f;
+        }
+
+        private MetaField GetOrCreateCallBackField(MetaDataContext mdContext)
+        {
+
+            var f = MetaField.Load(mdContext, ResursConstants.MaxLimit);
+            if (f == null)
+            {
+                Logger.Debug(string.Format("Adding meta field '{0}' for Resurs integration.", ResursConstants.CallBackUrl));
+                f = MetaField.Create(mdContext, ResursConstants.OrderNamespace, ResursConstants.CallBackUrl, ResursConstants.CallBackUrl, string.Empty, MetaDataType.LongString, Int32.MaxValue, true, false, false, false);
             }
 
             return f;

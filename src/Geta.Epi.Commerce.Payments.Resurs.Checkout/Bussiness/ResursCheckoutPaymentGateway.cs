@@ -14,8 +14,10 @@ using Geta.EPi.Commerce.Payments.Resurs.Checkout.Extensions;
 using Geta.Resurs.Checkout;
 using Geta.Resurs.Checkout.Model;
 using Geta.Resurs.Checkout.SimplifiedShopFlowService;
+
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Exceptions;
+using Mediachase.Commerce.Orders.Search;
 using Mediachase.Commerce.Plugins.Payment;
 using Mediachase.Commerce.Website;
 
@@ -28,6 +30,14 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
         private static readonly ILogger Logger = LogManager.GetLogger(typeof(ResursCheckoutPaymentGateway));
 
         protected readonly LocalizationService _localizationService;
+        public string CardNumber { get; set; }
+        public string ResursPaymentMethod { get; set; }
+        public string GovernmentId { get; set; }
+        public decimal AmountForNewCard { get; set; }
+        public decimal MinLimit { get; set; }
+        public decimal MaxLimit { get; set; }
+
+        public decimal CallbackUrl { get; set; }
 
         public ResursCheckoutPaymentGateway(LocalizationService localizationService)
         {
@@ -36,7 +46,6 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
 
         public ResursCheckoutPaymentGateway()
         {
-
         }
 
         private ResursCredential _resursCredential;
@@ -60,12 +69,6 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
 
         public string SuccessUrl { get; set; }
 
-        public string CardNumber { get; set; }
-
-        public string ResursPaymentMethod { get; set; }
-
-        public string GovernmentId { get; set; }
-
         public override bool ProcessPayment(Payment payment, ref string message)
         {
             try
@@ -76,13 +79,12 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
                 {
                     var factory = ServiceLocator.Current.GetInstance<IResursBankServiceSettingFactory>();
                     var resursBankServices = factory.Init(ResursCredential);
-                    bookPaymentResult bookPaymentResult =
-                        GetObjectFromCookie<bookPaymentResult>(ResursConstants.PaymentResultCookieName);
+                    // Check payment was processed of not.
+                    bookPaymentResult bookPaymentResult = GetObjectFromCookie<bookPaymentResult>(ResursConstants.PaymentResultCookieName);
+
                     if (bookPaymentResult == null)
                     {
-                        Cart cart = payment.Parent.Parent as Cart;
                         OrderForm orderForm = payment.Parent as OrderForm;
-
 
                         var resursBankPayment = payment as ResursBankPayment;
                         if (resursBankPayment != null)
@@ -105,40 +107,59 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
                                 customer.Address = address;
                                 customer.Email = billingAddress.Email;
                                 customer.Phone = !string.IsNullOrEmpty(billingAddress.DaytimePhoneNumber) ? billingAddress.DaytimePhoneNumber : "+4797674852"; //hard code
-                                customer.GovernmentId = billingAddress.CountryCode.ToLower() == "swe"
-                                   ? payment.GetStringValue(ResursConstants.GovernmentId, string.Empty)
-                                   : "010986-14741";
-                                customer.Type = "NATURAL";// billingAddress.CountryCode.ToLower() == "se" ? "LEGAL" : "NATURAL";
+                                customer.GovernmentId = billingAddress.CountryCode.ToLower() == "swe" || billingAddress.CountryCode.ToLower() == "se"
+                                    ? payment.GetStringValue(ResursConstants.GovernmentId, string.Empty)
+                                    : "010986-14741";
+                                customer.Type = billingAddress.CountryCode.ToLower() == "swe" || billingAddress.CountryCode.ToLower() == "se" ? "LEGAL" : "NATURAL";
                             }
-
                             resursBankPayment.Customer = customer;
-                            resursBankPayment.ResursBankPaymentMethodId = payment.GetStringValue(ResursConstants.ResursBankPaymentMethod, string.Empty);
-                            var resurPaymentType = payment.GetStringValue(ResursConstants.ResursBankPaymentType, string.Empty);
 
+                            //Get value from MetaField
+                            resursBankPayment.ResursBankPaymentMethodId = payment.GetStringValue(ResursConstants.ResursBankPaymentType, string.Empty);
+                            resursBankPayment.Amount = Decimal.Parse(payment.GetStringValue(ResursConstants.AmountForNewCard, string.Empty)); ;
+                            resursBankPayment.CardNumber = payment.GetStringValue(ResursConstants.CardNumber, string.Empty);
+                            resursBankPayment.SuccessUrl = payment.GetStringValue(ResursConstants.SuccessfullUrl, string.Empty);
+                            resursBankPayment.FailUrl = payment.GetStringValue(ResursConstants.FailBackUrl, string.Empty);
+
+                            resursBankPayment.ForceSigning = false;
                             resursBankPayment.CustomerIpAddress = HttpContext.Current.Request.UserHostAddress;
                             resursBankPayment.SpecLines = orderForm.LineItems.Select(item => item.ToSpecLineItem()).ToList();
-
-                            var successUrl = payment.GetStringValue(ResursConstants.SuccessfullUrl, string.Empty);
-                            var failUrl = payment.GetStringValue(ResursConstants.FailBackUrl, string.Empty);
-                            resursBankPayment.ForceSigning = false;
                             var callBackUrl = !string.IsNullOrEmpty(resursBankPayment.CallBackUrl) ? resursBankPayment.CallBackUrl : "/";
 
-                            var card = new Card(CardNumber);
+                            //card info
+                            var card = new Card();
+                            if (resursBankPayment.ResursBankPaymentMethodId.Equals(ResursPaymentMethodType.CARD))
+                            {
+                                card.CardNumber = resursBankPayment.CardNumber;
+                            }
+                            else if (resursBankPayment.ResursBankPaymentMethodId.Equals(ResursPaymentMethodType.NEWCARD))
+                            {
+                                card.Amount = Convert.ToDecimal(resursBankPayment.Amount);
+                            }
 
-                            bookPaymentResult = resursBankServices.BookPayment(resurPaymentType, resursBankPayment.CustomerIpAddress, resursBankPayment.SpecLines, resursBankPayment.Customer, card, successUrl, failUrl, resursBankPayment.ForceSigning, callBackUrl);
+                            // signing object
+                            var _signing = new signing()
+                            {
+                                failUrl = resursBankPayment.FailUrl,
+                                forceSigning = false,
+                                forceSigningSpecified = false,
+                                successUrl = resursBankPayment.SuccessUrl
+                            };
+
+                            // booking payment to Resurs API
+                            bookPaymentResult = resursBankServices.BookPayment(resursBankPayment.ResursBankPaymentMethodId, resursBankPayment.CustomerIpAddress, resursBankPayment.SpecLines, resursBankPayment.Customer, card, _signing, callBackUrl);
                             message = Newtonsoft.Json.JsonConvert.SerializeObject(bookPaymentResult);
 
-                            if (bookPaymentResult.bookPaymentStatus == bookPaymentStatus.BOOKED ||
-                                bookPaymentResult.bookPaymentStatus == bookPaymentStatus.FINALIZED)
+                            // Booking succesfull
+                            if (bookPaymentResult.bookPaymentStatus == bookPaymentStatus.BOOKED || bookPaymentResult.bookPaymentStatus == bookPaymentStatus.FINALIZED)
                             {
                                 return true;
                             }
+                            // Required signing
                             else if (bookPaymentResult.bookPaymentStatus == bookPaymentStatus.SIGNING)
                             {
-                                resursBankPayment.BookingStatus = "Signing";
-                                resursBankPayment.PaymentId = bookPaymentResult.paymentId;
+                                // Save payment to Cookie for re-process.
                                 SaveObjectToCookie(bookPaymentResult, ResursConstants.PaymentResultCookieName, new TimeSpan(0, 1, 0, 0));
-
                                 //TODO: send this url to redirect user to signing page
                                 HttpContext.Current.Response.Redirect(bookPaymentResult.signingUrl);
                                 return false;
@@ -147,8 +168,10 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
                         }
                         return false;
                     }
+                    // Re-process for booking require signing.
                     else
                     {
+                        // booking signed payment
                         bookPaymentResult = resursBankServices.BookSignedPayment(bookPaymentResult.paymentId);
                         SaveObjectToCookie(null, ResursConstants.PaymentResultCookieName, new TimeSpan(0, 1, 0, 0));
                         message = Newtonsoft.Json.JsonConvert.SerializeObject(bookPaymentResult);
@@ -230,6 +253,15 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
         {
             if (orderForm == null) throw new ArgumentNullException("orderForm");
 
+            //validate
+            if (orderForm.Total > this.MaxLimit || orderForm.Total < this.MinLimit)
+            {
+                //not valid
+                throw new Exception("total is not in limit from " + this.MinLimit + " to " + this.MaxLimit);
+                return null;
+            }
+
+
             if (!ValidateData())
                 return null;
 
@@ -237,9 +269,6 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
 
             if (!ValidateData())
                 return null;
-
-
-
 
             var payment = new ResursBankPayment()
             {
@@ -251,10 +280,14 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
                 Status = PaymentStatus.Pending.ToString(),
                 TransactionType = TransactionType.Authorization.ToString(),
             };
+
             payment.SetMetaField(ResursConstants.ResursBankPaymentType, ResursPaymentMethod, false);
             payment.SetMetaField(ResursConstants.CardNumber, CardNumber, false);
             payment.SetMetaField(ResursConstants.FailBackUrl, CallBackUrlWhenFail, false);
             payment.SetMetaField(ResursConstants.SuccessfullUrl, SuccessUrl, false);
+            payment.SetMetaField(ResursConstants.GovernmentId, GovernmentId, false);
+            payment.SetMetaField(ResursConstants.AmountForNewCard, AmountForNewCard, false);
+            payment.SetMetaField(ResursConstants.CallBackUrl, CallbackUrl, false);
             return payment;
         }
 
@@ -276,6 +309,7 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
             }
             return lstPaymentMethodsResponse;
         }
+
 
     }
 }

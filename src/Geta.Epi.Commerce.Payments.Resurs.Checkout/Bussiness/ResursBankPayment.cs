@@ -26,9 +26,7 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
         public string FailUrl { get; set; }
         public bool ForceSigning { get; set; }
         public string CallBackUrl { get; set; }
-
         public string BookingStatus { get; set; }
-        public string PaymentId { get; set; }
         public string CardNumber { get; set; }
         public ResursBankPayment() { }
 

@@ -11,14 +11,7 @@ namespace Geta.Resurs.Checkout.Model
     public class Card
     {
         public string CardNumber { get; set; }
-   
-
-        public Card(){}
-
-        public Card(string cardNumber)
-        {
-            CardNumber = cardNumber;
-        }
+        public decimal Amount { get; set; }
     }
 
 }

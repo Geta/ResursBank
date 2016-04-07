@@ -11,6 +11,11 @@ namespace Geta.EPi.Commerce.Payments.Resurs.Checkout.Extensions
         public static SpecLine ToSpecLineItem(this LineItem lineItem)
         {
             var vatPercent = lineItem.GetDecimalValue(ResursConstants.VatPercent, 0);
+
+            var unitAmountWithoutVat = lineItem.ListPrice;
+            var totalVatAmount = (lineItem.Quantity * unitAmountWithoutVat * vatPercent) / 100;
+            var totalWithoutVat = lineItem.Quantity * unitAmountWithoutVat;
+            var totalAmount = totalWithoutVat + totalVatAmount;
             // Resurs Bank uses different price and vat formats for checkout and order update
             return new SpecLine(
                 lineItem.Id.ToString(),
@@ -20,9 +25,11 @@ namespace Geta.EPi.Commerce.Payments.Resurs.Checkout.Extensions
                 "st",//hard code
                 lineItem.ListPrice,
                 vatPercent,//hard code
-                vatPercent,//hard code
-                lineItem.ListPrice * lineItem.Quantity //hard code
+                totalVatAmount,
+                totalAmount
                 );
+
+
         }
 
     }

@@ -25,5 +25,17 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout
         public const string CustomerIpAddress = "CustomerIpAddress";
         public const string SuccessfullUrl = "SuccessfullUrl";
         public const string FailBackUrl = "FailBackUrl";
+        public const string AmountForNewCard = "AmountForNewCard";
+        public const string MinLimit = "MinLimit";
+        public const string MaxLimit = "MaxLimit";
+        public const string CallBackUrl = "MaxLimit";
+
+    }
+    public static class ResursPaymentMethodType
+    {
+        public const string CARD = "CARD";
+        public const string NEWCARD = "NEWCARD";
+        public const string PARTPAYMENT = "PARTPAYMENT";
+        public const string INVOICE = "INVOICE";
     }
 }

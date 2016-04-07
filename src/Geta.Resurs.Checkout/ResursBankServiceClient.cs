@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Geta.Resurs.Checkout.Model;
 using Geta.Resurs.Checkout.SimplifiedShopFlowService;
 using address = Geta.Resurs.Checkout.SimplifiedShopFlowService.address;
@@ -60,7 +57,7 @@ namespace Geta.Resurs.Checkout
 
         }
 
-        public bookPaymentResult BookPayment(string paymentMethodId, string customerIpAddress, List<SpecLine> specLines, Customer customer, Card card, string successUrl, string failUrl, bool forceSigning, string callBackUrl)
+        public bookPaymentResult BookPayment(string paymentMethodId, string customerIpAddress, List<SpecLine> specLines, Customer customer, Card card, signing _signing, string callBackUrl)
         {
             try
             {
@@ -123,11 +120,6 @@ namespace Geta.Resurs.Checkout
                     cType = customerType.NATURAL;
                 }
                 extendedCustomer.type = cType;
-                //signinng
-                var signing = new signing();
-                signing.successUrl = successUrl;
-                signing.failUrl = failUrl;
-                signing.forceSigning = forceSigning;
                 //card data
                 cardData customerCard = null;
                 if (paymentMethodId.Equals("CARD"))
@@ -139,8 +131,9 @@ namespace Geta.Resurs.Checkout
                 {
                     customerCard = new cardData();
                     customerCard.cardNumber = "0000";
-                    customerCard.amount = 13000;
+                    customerCard.amount = card.Amount;
                     customerCard.amountSpecified = true;
+                    _signing.forceSigning = true;
                 }
                 //invoice data
                 invoiceData invoice = null;
@@ -149,7 +142,7 @@ namespace Geta.Resurs.Checkout
                     invoice = new invoiceData();
                 }
 
-                return _shopServiceClient.bookPayment(paymentData, paymentSpec, null, extendedCustomer, customerCard, signing, invoice, callBackUrl);
+                return _shopServiceClient.bookPayment(paymentData, paymentSpec, null, extendedCustomer, customerCard, _signing, invoice, callBackUrl);
             }
             catch (Exception ex)
             {
