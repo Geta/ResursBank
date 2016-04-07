@@ -48,19 +48,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.Models
         /// Gets or sets the payment method associated to the current purchase.
         /// </summary>
         public IPaymentMethodViewModel<IPaymentOption> Payment { get; set; }
-
-        /// <summary>
-        /// Gets or sets whether the shipping address should be the same as the billing address.
-        /// </summary>
         public bool UseBillingAddressForShipment { get; set; }
-
         public List<PaymentMethodResponse> ResursBankPaymentMethods { get; set; }
-
         public string CardNumber { get; set; }
-
         public string ResursPaymentMethod { get; set; }
-
         public string GovernmentId { get; set; }
-
+        public decimal AmountForNewCard { get; set; }
+        public decimal MinLimit { get; set; }
+        public decimal MaxLimit { get; set; }
     }
 }

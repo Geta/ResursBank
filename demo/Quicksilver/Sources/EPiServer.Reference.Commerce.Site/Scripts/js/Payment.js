@@ -18,11 +18,24 @@
                         if (detail && detail.length > 0 && detail.css('display') == 'none') {
                             detail.slideDown(250);
                         }
+
                         $('input[name="ResursPaymentMethod"]').val($(this).val());
+
+
+                        $('input[name="MinLimit"]').val($(this).parent().parent().find('.payment-method__detail-container').attr('data-min'));
+                        $('input[name="MaxLimit"]').val($(this).parent().parent().find('.payment-method__detail-container').attr('data-max'));
+
                     });
-                    
                 })(allOptions.eq(i), i, allOptions);
             }
         }
+
+        this.getGovermentId();
+    },
+
+    getGovermentId: function () {
+        $('input[name="govid"]').on('change', function () {
+            $('input[name="GovernmentId"]').val($(this).val());
+        });
     }
 };
