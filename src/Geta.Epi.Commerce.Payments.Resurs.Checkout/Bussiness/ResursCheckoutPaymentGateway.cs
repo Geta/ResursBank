@@ -156,7 +156,6 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
                             {
                                 // Save payment to Cookie for re-process.
                                 SaveObjectToCookie(bookPaymentResult, ResursConstants.PaymentResultCookieName, new TimeSpan(0, 1, 0, 0));
-                                //TODO: send this url to redirect user to signing page
                                 HttpContext.Current.Response.Redirect(bookPaymentResult.signingUrl);
                                 return false;
                             }
@@ -245,7 +244,7 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
             return true;
         }
 
-        public Mediachase.Commerce.Orders.Payment PreProcess(OrderForm orderForm)
+        public Payment PreProcess(OrderForm orderForm)
         {
             if (orderForm == null) throw new ArgumentNullException("orderForm");
 
@@ -254,7 +253,6 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
             {
                 //not valid
                 throw new Exception("total is not in limit from " + this.MinLimit + " to " + this.MaxLimit);
-                return null;
             }
 
 
@@ -298,7 +296,7 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
             if (lstPaymentMethodsResponse == null || !lstPaymentMethodsResponse.Any())
             {
                 var factory = ServiceLocator.Current.GetInstance<IResursBankServiceSettingFactory>();
-                var resursBankServices = factory.Init(new ResursCredential(ConfigurationSettings.AppSettings["ResursBankUserName"], ConfigurationSettings.AppSettings["ResursBankUserNamePassword"]));
+                var resursBankServices = factory.Init(new ResursCredential(ConfigurationManager.AppSettings["ResursBankUserName"],ConfigurationManager.AppSettings["ResursBankUserNamePassword"]));
                 lstPaymentMethodsResponse = resursBankServices.GetPaymentMethods(lang, custType, amount);
                 //Cache list payment methods for 1 day as Resurs recommended.
                 EPiServer.CacheManager.Insert("GetListResursPaymentMethods", lstPaymentMethodsResponse, new CacheEvictionPolicy(null, new TimeSpan(1, 0, 0, 0), CacheTimeoutType.Absolute));

@@ -20,21 +20,21 @@ namespace Geta.Resurs.Checkout
         public ResursBankServiceClient(ResursCredential credential)
         {
             _shopServiceClient = new SimplifiedShopFlowWebServiceClient();
-
-            if (credential != null)
+            if (_shopServiceClient.ClientCredentials != null)
             {
-                // TODO: Chage to get value directly when code complete
-                var appSettings = ConfigurationManager.AppSettings;
-                _shopServiceClient.ClientCredentials.UserName.UserName = credential.UserName ?? appSettings["ResursBankUserName"] ?? "Not Found";
-                _shopServiceClient.ClientCredentials.UserName.Password = credential.Password ?? appSettings["ResursBankUserNamePassword"] ?? "Not Found";
-
+                if (credential != null)
+                {
+                    _shopServiceClient.ClientCredentials.UserName.UserName = credential.UserName;
+                    _shopServiceClient.ClientCredentials.UserName.Password = credential.Password;
+                }
+                else
+                {
+                    var appSettings = ConfigurationManager.AppSettings;
+                    _shopServiceClient.ClientCredentials.UserName.UserName = appSettings["ResursBankUserName"] ?? "Not Found";
+                    _shopServiceClient.ClientCredentials.UserName.Password = appSettings["ResursBankUserNamePassword"] ?? "Not Found";
+                }
             }
-            else
-            {
-                var appSettings = ConfigurationManager.AppSettings;
-                _shopServiceClient.ClientCredentials.UserName.UserName = appSettings["ResursBankUserName"] ?? "Not Found";
-                _shopServiceClient.ClientCredentials.UserName.Password = appSettings["ResursBankUserNamePassword"] ?? "Not Found";
-            }
+            
         }
 
         public List<PaymentMethodResponse> GetPaymentMethods(string lang, string custType, decimal amount)
