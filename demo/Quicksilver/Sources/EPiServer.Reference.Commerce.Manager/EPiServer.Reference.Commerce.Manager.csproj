@@ -3249,6 +3249,7 @@
     <Content Include="BlobStorage\Public\placeholder.txt" />
     <Content Include="CHANGELOG.txt" />
     <Content Include="Default.aspx" />
+    <Content Include="Deploy\Geta.Test\robots.txt" />
     <Content Include="EPiServerDefault.aspx" />
     <Content Include="Global.asax" />
     <Content Include="LICENSE.txt" />
@@ -4230,6 +4231,7 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
+    <Content Include="Deploy\Geta.Test\License.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Asset\AssetStrings.da.resx">

@@ -438,6 +438,7 @@
     <Content Include="App_Data\Promotions\25_Percent_off_Mens_Shoes.xml" />
     <Content Include="App_Data\Promotions\50_off_Order_over_500.xml" />
     <Content Include="CHANGELOG.txt" />
+    <Content Include="Deploy\Geta.Test\Robots.txt" />
     <Content Include="lang\Quicksilver_SV.xml" />
     <Content Include="lang\Display_en.xml" />
     <Content Include="LICENSE.txt" />
@@ -467,6 +468,7 @@
       <DependentUpon>EPiServerFramework.config</DependentUpon>
       <IsTransformFile>True</IsTransformFile>
     </Content>
+    <Content Include="Deploy\Geta.Test\License.config" />
     <None Include="Service References\SimplifiedShopFlowService\configuration91.svcinfo" />
     <None Include="Service References\SimplifiedShopFlowService\configuration.svcinfo" />
     <None Include="Service References\SimplifiedShopFlowService\Reference.svcmap">
