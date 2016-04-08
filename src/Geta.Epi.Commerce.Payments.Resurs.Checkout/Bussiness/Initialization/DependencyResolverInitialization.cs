@@ -2,7 +2,6 @@ using System.Web.Mvc;
 using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
 using EPiServer.ServiceLocation;
-using Geta.Epi.Commerce.Payments.Resurs.Checkout.Initialization;
 using Geta.Resurs.Checkout;
 using StructureMap;
 

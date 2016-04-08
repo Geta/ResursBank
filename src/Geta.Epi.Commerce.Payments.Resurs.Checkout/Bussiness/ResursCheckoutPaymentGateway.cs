@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Configuration;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 using EPiServer.Framework.Cache;
 using EPiServer.Framework.Localization;
@@ -14,10 +11,9 @@ using Geta.EPi.Commerce.Payments.Resurs.Checkout.Extensions;
 using Geta.Resurs.Checkout;
 using Geta.Resurs.Checkout.Model;
 using Geta.Resurs.Checkout.SimplifiedShopFlowService;
-
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Exceptions;
-using Mediachase.Commerce.Orders.Search;
+
 using Mediachase.Commerce.Plugins.Payment;
 using Mediachase.Commerce.Website;
 

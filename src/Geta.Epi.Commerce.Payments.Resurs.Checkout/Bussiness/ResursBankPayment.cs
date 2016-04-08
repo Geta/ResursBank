@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
 using Geta.Resurs.Checkout.Model;
 using Mediachase.Commerce.Orders;
-using Mediachase.MetaDataPlus.Configurator;
 
 namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
 {

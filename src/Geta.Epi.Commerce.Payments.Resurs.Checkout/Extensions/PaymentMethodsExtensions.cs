@@ -53,14 +53,5 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Extensions
 
             return rows.Length > 0 ? rows[0] : null;
         }
-
-        //public static string GetOrderBaseUri(this PaymentMethodDto paymentMethod)
-        //{
-        //return (paymentMethod.GetParameter(KlarnaConstants.IsProduction, "0") == "1")
-        //    ? KlarnaConstants.ProductionBaseUri
-        //    : KlarnaConstants.TestBaseUri;
-        //}
-
-
     }
 }

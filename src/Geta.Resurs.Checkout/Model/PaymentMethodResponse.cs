@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Geta.Resurs.Checkout.Model
 {
@@ -33,8 +30,6 @@ namespace Geta.Resurs.Checkout.Model
             MaxLimitField = maxLimitField;
             SpecificTypeField = specificTypeField;
         }
-
-       
     }
 
     public enum PaymentMethodType

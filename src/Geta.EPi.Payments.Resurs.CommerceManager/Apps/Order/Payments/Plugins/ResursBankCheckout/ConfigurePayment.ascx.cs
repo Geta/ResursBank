@@ -1,5 +1,6 @@
 ﻿using Geta.Epi.Commerce.Payments.Resurs.Checkout;
 using Geta.Epi.Commerce.Payments.Resurs.Checkout.Extensions;
+using Geta.Resurs.Checkout;
 using Mediachase.Commerce.Orders.Dto;
 using Mediachase.Web.Console.Interfaces;
 

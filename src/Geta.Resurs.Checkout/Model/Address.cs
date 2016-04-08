@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Geta.Resurs.Checkout.Model
 {
+    [Serializable]
     public class Address
     {
         public string FullName { get; set; }

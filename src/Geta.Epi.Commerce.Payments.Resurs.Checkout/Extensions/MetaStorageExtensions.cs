@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Mediachase.Commerce.Storage;
+﻿using Mediachase.Commerce.Storage;
 
 namespace Geta.EPi.Commerce.Payments.Resurs.Checkout.Extensions
 {

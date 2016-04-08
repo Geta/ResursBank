@@ -3,6 +3,7 @@ using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
 using EPiServer.Logging;
 using Geta.Epi.Commerce.Payments.Resurs.Checkout;
+using Geta.Resurs.Checkout;
 using Mediachase.Commerce.Catalog;
 using Mediachase.MetaDataPlus;
 using Mediachase.MetaDataPlus.Configurator;

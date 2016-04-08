@@ -1,6 +1,5 @@
-﻿using System;
-using Geta.Epi.Commerce.Payments.Resurs.Checkout;
-using Geta.EPi.Commerce.Payments.Resurs.Checkout.Extensions;
+﻿using Geta.Epi.Commerce.Payments.Resurs.Checkout;
+using Geta.Resurs.Checkout;
 using Geta.Resurs.Checkout.Model;
 using Mediachase.Commerce.Orders;
 
@@ -22,9 +21,9 @@ namespace Geta.EPi.Commerce.Payments.Resurs.Checkout.Extensions
                 lineItem.Code,
                 lineItem.Description,
                 lineItem.Quantity,
-                "st",//hard code
+                "st",
                 lineItem.ListPrice,
-                vatPercent,//hard code
+                vatPercent,
                 totalVatAmount,
                 totalAmount
                 );

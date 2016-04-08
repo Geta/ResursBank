@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using StructureMap;
 
-namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Initialization
+namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness.Initialization
 {
     public class StructureMapDependencyResolver : IDependencyResolver
     {
