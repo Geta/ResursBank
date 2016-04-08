@@ -104,28 +104,34 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
                             bookPaymentObject.PaymentSpec = CreatePaymentSpecification(orderForm);
 
                             bookPaymentObject.MapEntry = null;
+                            
+                            var _signing = new signing()
+                            {
+                                failUrl = payment.GetStringValue(ResursConstants.FailBackUrl, string.Empty),
+                                forceSigning = false,
+                                forceSigningSpecified = false,
+                                successUrl = payment.GetStringValue(ResursConstants.SuccessfullUrl, string.Empty)
+                            };
 
-
-                            //Get value from MetaField
-                            resursBankPayment.Amount = Decimal.Parse(payment.GetStringValue(ResursConstants.AmountForNewCard, string.Empty)); ;
-                            resursBankPayment.CardNumber = payment.GetStringValue(ResursConstants.CardNumber, string.Empty);
-                            resursBankPayment.SuccessUrl = payment.GetStringValue(ResursConstants.SuccessfullUrl, string.Empty);
-                            resursBankPayment.FailUrl = payment.GetStringValue(ResursConstants.FailBackUrl, string.Empty);
-                            resursBankPayment.ForceSigning = false;
-                            resursBankPayment.SpecLines = orderForm.LineItems.Select(item => item.ToSpecLineItem()).ToList();
-
+                            bookPaymentObject.Signing = _signing;
                             bookPaymentObject.CallbackUrl = !string.IsNullOrEmpty(resursBankPayment.CallBackUrl) ? resursBankPayment.CallBackUrl : "/";
 
                             //card info
-                            var card = new Card();
+                            cardData customerCard = null;
                             invoiceData invoice = null;
                             if (bookPaymentObject.PaymentData.paymentMethodId.Equals(ResursPaymentMethodType.CARD))
                             {
-                                card.CardNumber = resursBankPayment.CardNumber;
+                                customerCard = new cardData();
+                                customerCard.cardNumber = payment.GetStringValue(ResursConstants.CardNumber, string.Empty);
                             }
                             else if (bookPaymentObject.PaymentData.paymentMethodId.Equals(ResursPaymentMethodType.NEWCARD))
                             {
-                                card.Amount = Convert.ToDecimal(resursBankPayment.Amount);
+                                
+                                customerCard = new cardData();
+                                customerCard.cardNumber = "0000";
+                                customerCard.amount = Decimal.Parse(payment.GetStringValue(ResursConstants.AmountForNewCard, string.Empty));
+                                customerCard.amountSpecified = true;
+                                bookPaymentObject.Signing.forceSigning = true;
                             }
                             else if (bookPaymentObject.PaymentData.paymentMethodId.Equals(ResursPaymentMethodType.INVOICE) || bookPaymentObject.PaymentData.finalizeIfBooked == true)
                             {
@@ -139,35 +145,8 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
                                 }
                                 invoice.invoiceDeliveryType = dType;
                             }
-
-
-                            //signing object
-                            var _signing = new signing()
-                            {
-                                failUrl = resursBankPayment.FailUrl,
-                                forceSigning = false,
-                                forceSigningSpecified = false,
-                                successUrl = resursBankPayment.SuccessUrl
-                            };
-                            bookPaymentObject.Signing = _signing;
-
                             //card object
-                            cardData customerCard = null;
-                            if (bookPaymentObject.PaymentData.paymentMethodId.Equals(ResursPaymentMethodType.CARD))
-                            {
-                                customerCard = new cardData();
-                                customerCard.cardNumber = card.CardNumber;
-                            }
-                            if (bookPaymentObject.PaymentData.paymentMethodId.Equals(ResursPaymentMethodType.NEWCARD))
-                            {
-                                customerCard = new cardData();
-                                customerCard.cardNumber = "0000";
-                                customerCard.amount = card.Amount;
-                                customerCard.amountSpecified = true;
-                                bookPaymentObject.Signing.forceSigning = true;
-                            }
                             bookPaymentObject.Card = customerCard;
-
                             //Invoice data
                             bookPaymentObject.InvoiceData = invoice;
 

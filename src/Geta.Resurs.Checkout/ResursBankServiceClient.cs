@@ -4,10 +4,8 @@ using System.Configuration;
 using Geta.Resurs.Checkout.Model;
 using Geta.Resurs.Checkout.SimplifiedShopFlowService;
 using address = Geta.Resurs.Checkout.SimplifiedShopFlowService.address;
-using countryCode = Geta.Resurs.Checkout.SimplifiedShopFlowService.countryCode;
 using customerType = Geta.Resurs.Checkout.SimplifiedShopFlowService.customerType;
-using paymentSpec = Geta.Resurs.Checkout.SimplifiedShopFlowService.paymentSpec;
-using specLine = Geta.Resurs.Checkout.SimplifiedShopFlowService.specLine;
+
 
 namespace Geta.Resurs.Checkout
 {
@@ -74,9 +72,7 @@ namespace Geta.Resurs.Checkout
         {
             return _shopServiceClient.bookSignedPayment(paymentId);
         }
-
-
-
+        
         public address GetAddress(string governmentId, string customerType, string customerIpAddress)
         {
             customerType cType = (customerType)System.Enum.Parse(typeof(customerType), customerType);
