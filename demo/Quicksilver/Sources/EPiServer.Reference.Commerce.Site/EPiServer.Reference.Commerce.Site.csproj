@@ -438,6 +438,7 @@
     <Content Include="App_Data\Promotions\25_Percent_off_Mens_Shoes.xml" />
     <Content Include="App_Data\Promotions\50_off_Order_over_500.xml" />
     <Content Include="CHANGELOG.txt" />
+    <Content Include="Deploy\Geta.Test\Robots.txt" />
     <Content Include="lang\Quicksilver_SV.xml" />
     <Content Include="lang\Display_en.xml" />
     <Content Include="LICENSE.txt" />
@@ -455,6 +456,19 @@
     <Content Include="Scripts\js\Product.js" />
     <Content Include="Scripts\js\Registration.js" />
     <Content Include="Scripts\js\Search.js" />
+    <Content Include="connectionStrings.Geta.Test.config">
+      <DependentUpon>connectionStrings.config</DependentUpon>
+      <IsTransformFile>True</IsTransformFile>
+    </Content>
+    <Content Include="episerver.Geta.Test.config">
+      <DependentUpon>episerver.config</DependentUpon>
+      <IsTransformFile>True</IsTransformFile>
+    </Content>
+    <Content Include="EPiServerFramework.Geta.Test.config">
+      <DependentUpon>EPiServerFramework.config</DependentUpon>
+      <IsTransformFile>True</IsTransformFile>
+    </Content>
+    <Content Include="Deploy\Geta.Test\License.config" />
     <None Include="Service References\SimplifiedShopFlowService\configuration91.svcinfo" />
     <None Include="Service References\SimplifiedShopFlowService\configuration.svcinfo" />
     <None Include="Service References\SimplifiedShopFlowService\Reference.svcmap">
@@ -883,17 +897,29 @@
     <Content Include="Styles\Pages\confirm.less" />
     <Content Include="Styles\Pages\digital_signing.less" />
     <Content Include="Styles\Pages\payment.less" />
-    <None Include="Web.Debug.config">
+    <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
-    </None>
-    <None Include="Web.Release.config">
+    </Content>
+    <Content Include="Web.Geta.Test.config">
       <DependentUpon>Web.config</DependentUpon>
-    </None>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="connectionStrings.config" />
-    <Content Include="episerver.config" />
-    <Content Include="EPiServerFramework.config" />
+    <Content Include="connectionStrings.config">
+      <DependentUpon>web.config</DependentUpon>
+      <TransformOnBuild>true</TransformOnBuild>
+    </Content>
+    <Content Include="episerver.config">
+      <DependentUpon>web.config</DependentUpon>
+      <TransformOnBuild>true</TransformOnBuild>
+    </Content>
+    <Content Include="EPiServerFramework.config">
+      <DependentUpon>web.config</DependentUpon>
+      <TransformOnBuild>true</TransformOnBuild>
+    </Content>
     <Content Include="EPiServerLog.config" />
   </ItemGroup>
   <ItemGroup>
@@ -1047,6 +1073,19 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <SlowCheetahTargets Condition=" '$(SlowCheetahTargets)'=='' ">$(LOCALAPPDATA)\Microsoft\MSBuild\SlowCheetah\v2.5.11\SlowCheetah.Transforms.targets</SlowCheetahTargets>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Geta.Test|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
@@ -1083,5 +1122,11 @@
   </Target>
   <Target Name="BuildLessFiles">
     <Exec WorkingDirectory="$(ProjectDir)" Command="&#xD;&#xA;          WHERE npm&#xD;&#xA;          IF %ERRORLEVEL% NEQ 0 ECHO nodejs is not installed. You need to install nodejs for changes in less files to appear in the css on the site. The old styles will still work.&#xD;&#xA;          IF %ERRORLEVEL% NEQ 0 GOTO :EOF&#xD;&#xA;          npm install &amp;&amp; npm run buildless" />
+  </Target>
+  <Import Project="$(SlowCheetahTargets)" Condition="Exists('$(SlowCheetahTargets)')" />
+  <Import Project="..\..\packages\OctoPack.3.0.60\tools\OctoPack.targets" Condition="Exists('..\..\packages\OctoPack.3.0.60\tools\OctoPack.targets')" />
+  <Target Name="EnsureOctoPackImported" BeforeTargets="BeforeBuild" Condition="'$(OctoPackImported)' == ''">
+    <Error Condition="!Exists('..\..\packages\OctoPack.3.0.60\tools\OctoPack.targets') And ('$(RunOctoPack)' != '' And $(RunOctoPack))" Text="You are trying to build with OctoPack, but the NuGet targets file that OctoPack depends on is not available on this computer. This is probably because the OctoPack package has not been committed to source control, or NuGet Package Restore is not enabled. Please enable NuGet Package Restore to download them. For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\..\packages\OctoPack.3.0.60\tools\OctoPack.targets') And ('$(RunOctoPack)' != '' And $(RunOctoPack))" Text="OctoPack cannot be run because NuGet packages were restored prior to the build running, and the targets file was unavailable when the build started. Please build the project again to include these packages in the build. You may also need to make sure that your build server does not delete packages prior to each build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
   </Target>
 </Project>
