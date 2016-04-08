@@ -24,6 +24,9 @@ namespace Geta.Resurs.Checkout
         public const string MinLimit = "MinLimit";
         public const string MaxLimit = "MaxLimit";
         public const string CallBackUrl = "MaxLimit";
+        public const string ResursVatPercent = "ResursVatPercent";
+        public const string LineItemExClass = "LineItemEx";
+        public const string InvoiceDeliveryType = "InvoiceDeliveryType";
 
     }
     public static class ResursPaymentMethodType
@@ -32,5 +35,10 @@ namespace Geta.Resurs.Checkout
         public const string NEWCARD = "NEWCARD";
         public const string PARTPAYMENT = "PARTPAYMENT";
         public const string INVOICE = "INVOICE";
+    }
+
+    public static class UnitMeasureType
+    {
+        public const string ST = "st";
     }
 }

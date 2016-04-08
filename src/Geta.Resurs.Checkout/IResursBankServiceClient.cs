@@ -9,9 +9,7 @@ namespace Geta.Resurs.Checkout
     public interface IResursBankServiceClient
     {
         List<PaymentMethodResponse> GetPaymentMethods(string lang, string custType, decimal amount);
-
-        bookPaymentResult BookPayment(string paymentMethodId, string customerIpAddress, List<SpecLine> specLines,
-           Customer customer, Card card, signing _signing, string callBackUrl);
+        bookPaymentResult BookPayment(BookPaymentObject bookPaymentObject);
         bookPaymentResult BookSignedPayment(string paymentId);
         address GetAddress(string governmentId, string customerType, string customerIpAddress);
     }

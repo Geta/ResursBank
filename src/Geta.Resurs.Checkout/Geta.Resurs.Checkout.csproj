@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IResursBankServiceClient.cs" />
+    <Compile Include="Model\BookPaymentObject.cs" />
     <Compile Include="Model\Card.cs" />
     <Compile Include="Model\Customer.cs" />
     <Compile Include="Model\Address.cs" />

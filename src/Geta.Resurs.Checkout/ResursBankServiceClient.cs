@@ -56,93 +56,12 @@ namespace Geta.Resurs.Checkout
             return paymentMethodList;
 
         }
-
-        public bookPaymentResult BookPayment(string paymentMethodId, string customerIpAddress, List<SpecLine> specLines, Customer customer, Card card, signing _signing, string callBackUrl)
+        
+        public bookPaymentResult BookPayment(BookPaymentObject bookPaymentObject)
         {
             try
             {
-                var paymentData = new paymentData();
-                paymentData.paymentMethodId = paymentMethodId;
-                paymentData.customerIpAddress = customerIpAddress;
-
-
-                //paymentspec
-                var paymentSpec = new paymentSpec();
-
-                specLine[] spLines = new specLine[specLines.Count];
-                var i = 0;
-                decimal totalAmount = 0;
-                decimal totalVatAmount = 0;
-                foreach (var specLine in specLines)
-                {
-                    var spLine = new specLine();
-                    spLine.id = specLine.Id;
-                    spLine.artNo = specLine.ArtNo;
-                    spLine.description = specLine.Description;
-                    spLine.quantity = specLine.Quantity;
-                    spLine.unitMeasure = specLine.UnitMeasure;
-                    spLine.unitAmountWithoutVat = specLine.UnitAmountWithoutVat;
-                    spLine.vatPct = specLine.VatPct;
-                    spLine.totalVatAmount = specLine.TotalVatAmount;
-                    spLine.totalAmount = specLine.TotalAmount;
-                    totalAmount += specLine.TotalAmount;
-                    totalVatAmount += specLine.TotalVatAmount;
-                    spLines[i] = spLine;
-                    i++;
-                }
-                paymentSpec.specLines = spLines;
-                paymentSpec.totalAmount = totalAmount;
-                paymentSpec.totalVatAmount = totalVatAmount;
-                paymentSpec.totalVatAmountSpecified = true;
-                //extendedCustomer
-                var extendedCustomer = new extendedCustomer();
-                extendedCustomer.governmentId = customer.GovernmentId;
-                extendedCustomer.address = new address();
-                extendedCustomer.address.fullName = customer.Address.FullName;
-                extendedCustomer.address.firstName = customer.Address.FirstName;
-                extendedCustomer.address.lastName = customer.Address.LastName;
-                extendedCustomer.address.addressRow1 = customer.Address.AddressRow1;
-                extendedCustomer.address.addressRow2 = customer.Address.AddressRow2;
-                extendedCustomer.address.postalArea = customer.Address.PostalArea;
-                extendedCustomer.address.postalCode = customer.Address.PostalCode;
-                countryCode cCode;
-                if (!System.Enum.TryParse<countryCode>(customer.Address.CountryCode, true, out cCode))
-                {
-                    cCode = countryCode.NO;
-                }
-                extendedCustomer.address.country = cCode;
-
-                extendedCustomer.phone = customer.Phone;
-                extendedCustomer.email = customer.Email;
-                customerType cType;
-                if (!System.Enum.TryParse<customerType>(customer.Type, true, out cType))
-                {
-                    cType = customerType.NATURAL;
-                }
-                extendedCustomer.type = cType;
-                //card data
-                cardData customerCard = null;
-                if (paymentMethodId.Equals("CARD"))
-                {
-                    customerCard = new cardData();
-                    customerCard.cardNumber = card.CardNumber;
-                }
-                if (paymentMethodId.Equals("NEWCARD"))
-                {
-                    customerCard = new cardData();
-                    customerCard.cardNumber = "0000";
-                    customerCard.amount = card.Amount;
-                    customerCard.amountSpecified = true;
-                    _signing.forceSigning = true;
-                }
-                //invoice data
-                invoiceData invoice = null;
-                if (paymentData.finalizeIfBooked == true)
-                {
-                    invoice = new invoiceData();
-                }
-
-                return _shopServiceClient.bookPayment(paymentData, paymentSpec, null, extendedCustomer, customerCard, _signing, invoice, callBackUrl);
+               return _shopServiceClient.bookPayment(bookPaymentObject.PaymentData, bookPaymentObject.PaymentSpec, bookPaymentObject.MapEntry, bookPaymentObject.ExtendedCustomer,bookPaymentObject.Card, bookPaymentObject.Signing,bookPaymentObject.InvoiceData, bookPaymentObject.CallbackUrl);
             }
             catch (Exception ex)
             {

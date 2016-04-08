@@ -56,5 +56,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.Models
         public decimal AmountForNewCard { get; set; }
         public decimal MinLimit { get; set; }
         public decimal MaxLimit { get; set; }
+
+        public string DeliveryType { get; set; }
+
     }
 }

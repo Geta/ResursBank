@@ -450,6 +450,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                         resursBankPaymentMethod.AmountForNewCard = resursBank.AmountForNewCard;
                         resursBankPaymentMethod.MinLimit = resursBank.MinLimit;
                         resursBankPaymentMethod.MaxLimit = resursBank.MaxLimit;
+                        resursBankPaymentMethod.InvoiceDeliveryType = resursBank.DeliveryType;
                     }
                 }
 

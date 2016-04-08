@@ -54,7 +54,13 @@ namespace Geta.EPi.Commerce.Payments.Resurs.Checkout
             JoinField(mdContext, maxLimit, ResursConstants.OtherPaymentClass);
 
             var callbackUrl = GetOrCreateCallBackField(mdContext);
-            JoinField(mdContext, callbackUrl, ResursConstants.CallBackUrl);
+            JoinField(mdContext, callbackUrl, ResursConstants.OtherPaymentClass);
+
+            var resursVatPercent = GetOrCreateResursVatPercentField(mdContext);
+            JoinField(mdContext, resursVatPercent, ResursConstants.LineItemExClass);
+
+            var deliveryType = GetOrCreateInvoiceDeliveryTypeField(mdContext);
+            JoinField(mdContext, deliveryType, ResursConstants.OtherPaymentClass);
         }
 
 
@@ -204,11 +210,37 @@ namespace Geta.EPi.Commerce.Payments.Resurs.Checkout
         private MetaField GetOrCreateCallBackField(MetaDataContext mdContext)
         {
 
-            var f = MetaField.Load(mdContext, ResursConstants.MaxLimit);
+            var f = MetaField.Load(mdContext, ResursConstants.CallBackUrl);
             if (f == null)
             {
                 Logger.Debug(string.Format("Adding meta field '{0}' for Resurs integration.", ResursConstants.CallBackUrl));
                 f = MetaField.Create(mdContext, ResursConstants.OrderNamespace, ResursConstants.CallBackUrl, ResursConstants.CallBackUrl, string.Empty, MetaDataType.LongString, Int32.MaxValue, true, false, false, false);
+            }
+
+            return f;
+        }
+
+        private MetaField GetOrCreateResursVatPercentField(MetaDataContext mdContext)
+        {
+
+            var f = MetaField.Load(mdContext, ResursConstants.ResursVatPercent);
+            if (f == null)
+            {
+                Logger.Debug(string.Format("Adding meta field '{0}' for Resurs integration.", ResursConstants.ResursVatPercent));
+                f = MetaField.Create(mdContext, ResursConstants.OrderNamespace, ResursConstants.ResursVatPercent, ResursConstants.ResursVatPercent, string.Empty, MetaDataType.Decimal, 0, true, false, false, false);
+            }
+
+            return f;
+        }
+
+        private MetaField GetOrCreateInvoiceDeliveryTypeField(MetaDataContext mdContext)
+        {
+
+            var f = MetaField.Load(mdContext, ResursConstants.InvoiceDeliveryType);
+            if (f == null)
+            {
+                Logger.Debug(string.Format("Adding meta field '{0}' for Resurs integration.", ResursConstants.InvoiceDeliveryType));
+                f = MetaField.Create(mdContext, ResursConstants.OrderNamespace, ResursConstants.InvoiceDeliveryType, ResursConstants.InvoiceDeliveryType, string.Empty, MetaDataType.ShortString, Int32.MaxValue, true, false, false, false);
             }
 
             return f;

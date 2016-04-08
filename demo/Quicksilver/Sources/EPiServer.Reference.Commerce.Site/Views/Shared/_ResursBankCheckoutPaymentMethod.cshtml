@@ -1,4 +1,4 @@
-﻿@using Geta.Epi.Commerce.Payments.Resurs.Checkout
+﻿@using Geta.Resurs.Checkout
 @model EPiServer.Reference.Commerce.Site.Features.Payment.Models.ResursBankCheckoutViewModel
 @Html.HiddenFor(model => model.PaymentMethod.PaymentMethodId)
 @{
@@ -14,8 +14,8 @@
             @{
                 <input type="hidden" name="ResursPaymentMethod" />
                 <input type="hidden" name="GovernmentId" />
-                <input type="hidden" name="MinLimit" />
-                <input type="hidden" name="MaxLimit" />
+                <input type="hidden" name="MinLimit" value="0" />
+                <input type="hidden" name="MaxLimit" value="0" />
 
                 foreach (var method in Model.ResursBankPaymentMethods)
                 {
@@ -73,13 +73,21 @@
                                         <label class="radio__label" for="method-payment-3">Invoice (by email) 30-60 days credit</label>
                                     </div>
                                     <div class="payment-method__detail-container" data-min="@method.MinLimitField" data-max="@method.MaxLimitField">
+                                        <div class="selectbox__container">
+                                            <span class="selectbox__label">Invoice delivery type</span>
+                                            <select name="DeliveryType" class="selectbox__input">
+                                                <option value="EMAIL">EMAIL</option>
+                                                <option value="POSTAL">POSTAL</option>
+                                                <option value="NONE">NONE</option>
+                                            </select>
+                                        </div>
                                         <div class="checkbox__container">
-                                            <input class="checkbox__input" type="checkbox" id="checkbox1" />
+                                            <input class="checkbox__input" type="checkbox" id="checkbox1"/>
                                             <label class="checkbox__label" for="checkbox1">Approve terms and condition</label>
                                         </div>
                                         <div class="textbox__container">
                                             <span class="textbox__label">Personnummer</span>
-                                            <input class="textbox__input" name="govid" type="text" />
+                                            <input class="textbox__input" name="govid" type="text"/>
                                         </div>
                                     </div>
                                 </div>

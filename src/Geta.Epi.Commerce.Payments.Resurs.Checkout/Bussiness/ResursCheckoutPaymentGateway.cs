@@ -15,6 +15,7 @@ using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Exceptions;
 
 using Mediachase.Commerce.Plugins.Payment;
+using Mediachase.Commerce.Storage;
 using Mediachase.Commerce.Website;
 
 
@@ -34,6 +35,7 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
         public decimal MaxLimit { get; set; }
 
         public decimal CallbackUrl { get; set; }
+        public string InvoiceDeliveryType { get; set; }
 
         public ResursCheckoutPaymentGateway(LocalizationService localizationService)
         {
@@ -81,59 +83,65 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
                     if (bookPaymentResult == null)
                     {
                         OrderForm orderForm = payment.Parent as OrderForm;
-
+                        BookPaymentObject bookPaymentObject = new BookPaymentObject();
                         var resursBankPayment = payment as ResursBankPayment;
                         if (resursBankPayment != null)
                         {
                             // Get information of Customer from Billing Address of Order form
                             var billingAddress = orderForm.Parent.OrderAddresses.FirstOrDefault(x => x.Name == orderForm.BillingAddressId);
-                            Customer customer = new Customer();
-                            if (billingAddress != null)
-                            {
-                                customer = new Customer();
-                                var address = new Address();
-                                address.FullName = billingAddress.FirstName + " " + billingAddress.LastName;
-                                address.FirstName = billingAddress.FirstName;
-                                address.LastName = billingAddress.LastName;
-                                address.AddressRow1 = billingAddress.Line1;
-                                address.AddressRow2 = !string.IsNullOrEmpty(billingAddress.Line2) ? billingAddress.Line2 : billingAddress.Line1;
-                                address.CountryCode = billingAddress.CountryCode;
-                                address.PostalCode = billingAddress.PostalCode;
-                                address.PostalArea = billingAddress.PostalCode;
-                                customer.Address = address;
-                                customer.Email = billingAddress.Email;
-                                customer.Phone = !string.IsNullOrEmpty(billingAddress.DaytimePhoneNumber) ? billingAddress.DaytimePhoneNumber : "+4797674852"; //hard code
-                                customer.GovernmentId = billingAddress.CountryCode.ToLower() == "swe" || billingAddress.CountryCode.ToLower() == "se"
-                                    ? payment.GetStringValue(ResursConstants.GovernmentId, string.Empty)
-                                    : "010986-14741";
-                                customer.Type = billingAddress.CountryCode.ToLower() == "swe" || billingAddress.CountryCode.ToLower() == "se" ? "LEGAL" : "NATURAL";
-                            }
-                            resursBankPayment.Customer = customer;
+                            
+                            bookPaymentObject.ExtendedCustomer = CreateExtendedCustomer(billingAddress);
+                            bookPaymentObject.ExtendedCustomer.governmentId = billingAddress.CountryCode.ToLower() == "swe" || billingAddress.CountryCode.ToLower() == "se"
+                    ? payment.GetStringValue(ResursConstants.GovernmentId, string.Empty)
+                    : "010986-14741";
+
+                            //create paymentData
+                            bookPaymentObject.PaymentData = new paymentData();
+                            bookPaymentObject.PaymentData.paymentMethodId = payment.GetStringValue(ResursConstants.ResursBankPaymentType, string.Empty);
+                            bookPaymentObject.PaymentData.customerIpAddress = HttpContext.Current.Request.UserHostAddress;
+                            
+                            //create paymentSpecification;
+                            bookPaymentObject.PaymentSpec = CreatePaymentSpecification(orderForm);
+
+                            bookPaymentObject.MapEntry = null;
+
 
                             //Get value from MetaField
-                            resursBankPayment.ResursBankPaymentMethodId = payment.GetStringValue(ResursConstants.ResursBankPaymentType, string.Empty);
                             resursBankPayment.Amount = Decimal.Parse(payment.GetStringValue(ResursConstants.AmountForNewCard, string.Empty)); ;
                             resursBankPayment.CardNumber = payment.GetStringValue(ResursConstants.CardNumber, string.Empty);
                             resursBankPayment.SuccessUrl = payment.GetStringValue(ResursConstants.SuccessfullUrl, string.Empty);
                             resursBankPayment.FailUrl = payment.GetStringValue(ResursConstants.FailBackUrl, string.Empty);
-
                             resursBankPayment.ForceSigning = false;
-                            resursBankPayment.CustomerIpAddress = HttpContext.Current.Request.UserHostAddress;
                             resursBankPayment.SpecLines = orderForm.LineItems.Select(item => item.ToSpecLineItem()).ToList();
-                            var callBackUrl = !string.IsNullOrEmpty(resursBankPayment.CallBackUrl) ? resursBankPayment.CallBackUrl : "/";
+
+                            bookPaymentObject.CallbackUrl = !string.IsNullOrEmpty(resursBankPayment.CallBackUrl) ? resursBankPayment.CallBackUrl : "/";
 
                             //card info
                             var card = new Card();
-                            if (resursBankPayment.ResursBankPaymentMethodId.Equals(ResursPaymentMethodType.CARD))
+                            invoiceData invoice = null;
+                            if (bookPaymentObject.PaymentData.paymentMethodId.Equals(ResursPaymentMethodType.CARD))
                             {
                                 card.CardNumber = resursBankPayment.CardNumber;
                             }
-                            else if (resursBankPayment.ResursBankPaymentMethodId.Equals(ResursPaymentMethodType.NEWCARD))
+                            else if (bookPaymentObject.PaymentData.paymentMethodId.Equals(ResursPaymentMethodType.NEWCARD))
                             {
                                 card.Amount = Convert.ToDecimal(resursBankPayment.Amount);
                             }
+                            else if (bookPaymentObject.PaymentData.paymentMethodId.Equals(ResursPaymentMethodType.INVOICE) || bookPaymentObject.PaymentData.finalizeIfBooked == true)
+                            {
+                                invoice = new invoiceData();
+                                invoice.invoiceDate = DateTime.Now;
+                                invoiceDeliveryTypeEnum dType;
+                                var invoiceDeliveryType = payment.GetStringValue(ResursConstants.InvoiceDeliveryType, string.Empty);
+                                if (!System.Enum.TryParse<invoiceDeliveryTypeEnum>(invoiceDeliveryType, true, out dType))
+                                {
+                                    dType = invoiceDeliveryTypeEnum.EMAIL;
+                                }
+                                invoice.invoiceDeliveryType = dType;
+                            }
 
-                            // signing object
+
+                            //signing object
                             var _signing = new signing()
                             {
                                 failUrl = resursBankPayment.FailUrl,
@@ -141,9 +149,30 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
                                 forceSigningSpecified = false,
                                 successUrl = resursBankPayment.SuccessUrl
                             };
+                            bookPaymentObject.Signing = _signing;
+
+                            //card object
+                            cardData customerCard = null;
+                            if (bookPaymentObject.PaymentData.paymentMethodId.Equals(ResursPaymentMethodType.CARD))
+                            {
+                                customerCard = new cardData();
+                                customerCard.cardNumber = card.CardNumber;
+                            }
+                            if (bookPaymentObject.PaymentData.paymentMethodId.Equals(ResursPaymentMethodType.NEWCARD))
+                            {
+                                customerCard = new cardData();
+                                customerCard.cardNumber = "0000";
+                                customerCard.amount = card.Amount;
+                                customerCard.amountSpecified = true;
+                                bookPaymentObject.Signing.forceSigning = true;
+                            }
+                            bookPaymentObject.Card = customerCard;
+
+                            //Invoice data
+                            bookPaymentObject.InvoiceData = invoice;
 
                             // booking payment to Resurs API
-                            bookPaymentResult = resursBankServices.BookPayment(resursBankPayment.ResursBankPaymentMethodId, resursBankPayment.CustomerIpAddress, resursBankPayment.SpecLines, resursBankPayment.Customer, card, _signing, callBackUrl);
+                            bookPaymentResult = resursBankServices.BookPayment(bookPaymentObject);
                             message = Newtonsoft.Json.JsonConvert.SerializeObject(bookPaymentResult);
 
                             // Booking succesfull
@@ -254,8 +283,7 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
                 //not valid
                 throw new Exception("total is not in limit from " + this.MinLimit + " to " + this.MaxLimit);
             }
-
-
+           
             if (!ValidateData())
                 return null;
 
@@ -282,6 +310,7 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
             payment.SetMetaField(ResursConstants.GovernmentId, GovernmentId, false);
             payment.SetMetaField(ResursConstants.AmountForNewCard, AmountForNewCard, false);
             payment.SetMetaField(ResursConstants.CallBackUrl, CallbackUrl, false);
+            payment.SetMetaField(ResursConstants.InvoiceDeliveryType, InvoiceDeliveryType, false);
             return payment;
         }
 
@@ -304,6 +333,67 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
             return lstPaymentMethodsResponse;
         }
 
+        private paymentSpec CreatePaymentSpecification(OrderForm orderForm)
+        {
+            var paymentSpec = new paymentSpec();
+            var specLines = orderForm.LineItems.Select(item => item.ToSpecLineItem()).ToList();
+            if (specLines != null && specLines.Any())
+            {
+                specLine[] spLines = new specLine[specLines.Count];
+                var i = 0;
+                decimal totalAmount = 0;
+                decimal totalVatAmount = 0;
+                foreach (var specLine in specLines)
+                {
+                    var spLine = new specLine();
+                    spLine.id = specLine.Id;
+                    spLine.artNo = specLine.ArtNo;
+                    spLine.description = specLine.Description;
+                    spLine.quantity = specLine.Quantity;
+                    spLine.unitMeasure = specLine.UnitMeasure;
+                    spLine.unitAmountWithoutVat = specLine.UnitAmountWithoutVat;
+                    spLine.vatPct = specLine.VatPct;
+                    spLine.totalVatAmount = specLine.TotalVatAmount;
+                    spLine.totalAmount = specLine.TotalAmount;
+                    totalAmount += specLine.TotalAmount;
+                    totalVatAmount += specLine.TotalVatAmount;
+                    spLines[i] = spLine;
+                    i++;
+                }
+                paymentSpec.specLines = spLines;
+                paymentSpec.totalAmount = totalAmount;
+                paymentSpec.totalVatAmount = totalVatAmount;
+                paymentSpec.totalVatAmountSpecified = true;
 
+            }
+            return paymentSpec;
+        }
+
+        private extendedCustomer CreateExtendedCustomer(OrderAddress billingAddress)
+        {
+            var extendCustomer = new extendedCustomer();
+            if (billingAddress != null)
+            {
+                extendCustomer.address = new address();
+                extendCustomer.address.fullName = billingAddress.FirstName + " " + billingAddress.LastName;
+                extendCustomer.address.firstName = billingAddress.FirstName;
+                extendCustomer.address.lastName = billingAddress.LastName;
+                extendCustomer.address.addressRow1 = billingAddress.Line1;
+                extendCustomer.address.addressRow2 = !string.IsNullOrEmpty(billingAddress.Line2) ? billingAddress.Line2 : billingAddress.Line1;
+                extendCustomer.address.postalArea = billingAddress.PostalCode;
+                extendCustomer.address.postalCode = billingAddress.PostalCode;
+                countryCode cCode;
+                if (!System.Enum.TryParse<countryCode>(billingAddress.CountryCode, true, out cCode))
+                {
+                    cCode = countryCode.NO;
+                }
+                extendCustomer.address.country = cCode;
+                extendCustomer.phone = !string.IsNullOrEmpty(billingAddress.DaytimePhoneNumber) ? billingAddress.DaytimePhoneNumber : "+4797674852";
+                extendCustomer.email = billingAddress.Email;
+                extendCustomer.type = billingAddress.CountryCode.ToLower() == "swe" || billingAddress.CountryCode.ToLower() == "se" ? customerType.LEGAL : customerType.NATURAL;
+
+            }
+            return extendCustomer;
+        }
     }
 }

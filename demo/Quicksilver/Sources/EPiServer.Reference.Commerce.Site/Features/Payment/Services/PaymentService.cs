@@ -5,6 +5,8 @@ using Mediachase.Commerce.Website;
 using Mediachase.Commerce.Website.Helpers;
 using System;
 using System.Linq;
+using Geta.Resurs.Checkout;
+using Mediachase.Commerce.Storage;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Payment.Services
 {
@@ -38,6 +40,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.Services
 
             cart.OrderForms[0].Payments.Add(payment);
             cart.AcceptChanges();
+
+            foreach (var lineItem in cart.OrderForms[0].LineItems)
+            {
+                var metaFieldItem = lineItem as MetaStorageBase;
+                //assume that vat is 0
+                metaFieldItem.SetMetaField(ResursConstants.ResursVatPercent, 0, false);
+                metaFieldItem.AcceptChanges();
+            }
 
             method.PostProcess(cart.OrderForms[0]);
         }
