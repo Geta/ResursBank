@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using EPiServer.ServiceLocation;
 using Geta.Resurs.Checkout.Model;
 using Geta.Resurs.Checkout.SimplifiedShopFlowService;
 using address = Geta.Resurs.Checkout.SimplifiedShopFlowService.address;
@@ -9,6 +10,7 @@ using customerType = Geta.Resurs.Checkout.SimplifiedShopFlowService.customerType
 
 namespace Geta.Resurs.Checkout
 {
+    [ServiceConfiguration(typeof(IResursBankServiceClient), Lifecycle = ServiceInstanceScope.Singleton)]
     public class ResursBankServiceClient : IResursBankServiceClient
     {
         private SimplifiedShopFlowWebServiceClient _shopServiceClient;

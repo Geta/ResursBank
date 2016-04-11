@@ -240,8 +240,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bussiness\Initialization\DependencyResolverInitialization.cs" />
-    <Compile Include="Bussiness\Initialization\StructureMapDependencyResolver.cs" />
     <Compile Include="Bussiness\ResursBankPayment.cs" />
     <Compile Include="Bussiness\ResursCheckoutPaymentGateway.cs" />
     <Compile Include="Extensions\LineItemExtensions.cs" />
