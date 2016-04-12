@@ -154,10 +154,6 @@
       <HintPath>..\..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Klarna.Checkout, Version=3.0.0.0, Culture=neutral, PublicKeyToken=2042c67c8f8466a5, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Klarna.Checkout.3.0.0.0\lib\net35\Klarna.Checkout.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
       <Private>True</Private>
@@ -3247,12 +3243,10 @@
     <Content Include="App_Data\log\placeholder.txt" />
     <Content Include="App_Data\SiteTemplates\Business To Consumer Site.xml" />
     <Content Include="BlobStorage\Public\placeholder.txt" />
-    <Content Include="CHANGELOG.txt" />
     <Content Include="Default.aspx" />
     <Content Include="Deploy\Geta.Test\robots.txt" />
     <Content Include="EPiServerDefault.aspx" />
     <Content Include="Global.asax" />
-    <Content Include="LICENSE.txt" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
