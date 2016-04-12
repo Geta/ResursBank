@@ -1,19 +1,18 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>Geta.EPi.Payments.Resurs.CommerceManager</id>
-    <version>1.0.0.0</version>
-    <title>Geta.EPi.Payments.Resurs.CommerceManager</title>
-    <authors>Geta.no</authors>
-    <owners>Geta.no</owners>
-    <projectUrl>http://geta.no</projectUrl>
-    <iconUrl>https://cdn.geta.no/opensource/icons/Geta-logo-3.png</iconUrl>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <projectUrl>https://github.com/Geta/ResursBank</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <copyright>Copyright 2016</copyright>
-    <tags>EPiServer Commerce 9</tags>
+    <copyright>Copyright Geta 2016</copyright>
+    <iconUrl>https://cdn.geta.no/opensource/icons/Geta-logo-3.png</iconUrl>
   </metadata>
-   <files>
+  <files>
       <file src="\Apps\Order\Payments\Plugins\ResursBankCheckout\*.ascx" target="" /> 
     </files>
 </package>
