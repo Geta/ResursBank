@@ -1,4 +1,4 @@
-﻿RELEASE NOTES for Resurs Checkout integration with EPiServer Commerce 1.0.0.0
+﻿RELEASE NOTES 1.0.0.0
 =============
 
 Release Date: 2016-04-15
