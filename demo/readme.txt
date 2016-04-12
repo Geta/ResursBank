@@ -1,1 +1,0 @@
-Setup Quicksilver (https://github.com/episerver/quicksilver) as demo with the Resurs Bank package

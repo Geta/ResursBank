@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Models;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Pages;
-using EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
-using Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness;
+using Geta.Epi.Commerce.Payments.Resurs.Checkout.Business;
 using Geta.Resurs.Checkout.Model;
 using Mediachase.Commerce.Website;
 

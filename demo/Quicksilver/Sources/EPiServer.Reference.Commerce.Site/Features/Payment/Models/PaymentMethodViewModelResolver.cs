@@ -1,7 +1,7 @@
 ﻿using EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods;
 using Mediachase.Commerce.Website;
 using System;
-using Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness;
+using Geta.Epi.Commerce.Payments.Resurs.Checkout.Business;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Payment.Models
 {

@@ -183,7 +183,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Geta.Resurs.Checkout, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Geta.Epi.Commerce.Payments.Resurs.Checkout.1.0.0.0\lib\net452\Geta.Resurs.Checkout.dll</HintPath>
+      <HintPath>..\..\packages\Geta.Resurs.Checkout.1.0.0.0\lib\net452\Geta.Resurs.Checkout.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">

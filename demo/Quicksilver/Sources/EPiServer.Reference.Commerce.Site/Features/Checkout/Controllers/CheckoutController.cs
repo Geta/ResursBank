@@ -29,9 +29,8 @@ using System.Collections.Specialized;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
-using Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness;
+using Geta.Epi.Commerce.Payments.Resurs.Checkout.Business;
 using Geta.Resurs.Checkout;
-using Geta.Resurs.Checkout.SimplifiedShopFlowService;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 {
