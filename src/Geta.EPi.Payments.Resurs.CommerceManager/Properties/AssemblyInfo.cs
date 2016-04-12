@@ -1,12 +1,11 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Geta.EPi.Payments.Resurs.CommerceManager")]
-[assembly: AssemblyDescription("Library for Resurs Checkout integration with EPiServer Commerce.")]
+[assembly: AssemblyDescription("Resurs Bank payment for Episerver Commerce Manager")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Geta")]
 [assembly: AssemblyProduct("Geta.EPi.Payments.Resurs.CommerceManager")]
