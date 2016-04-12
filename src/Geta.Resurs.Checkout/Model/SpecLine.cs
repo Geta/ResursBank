@@ -14,7 +14,6 @@ namespace Geta.Resurs.Checkout.Model
         public decimal TotalVatAmount { get; set; }
         public decimal TotalAmount { get; set; }
 
-
         public SpecLine(string id, string artNo,string description, decimal quantity, string unitMeasure, decimal unitAmountWithoutVat, decimal vatPct, decimal totalVatAmount, decimal totalAmount)
         {
             Id = id;
@@ -27,8 +26,5 @@ namespace Geta.Resurs.Checkout.Model
             TotalVatAmount = totalVatAmount;
             TotalAmount = totalAmount;
         }
-
-       
     }
-    
 }

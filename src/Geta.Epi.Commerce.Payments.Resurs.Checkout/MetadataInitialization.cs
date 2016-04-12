@@ -2,7 +2,6 @@
 using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
 using EPiServer.Logging;
-using Geta.Epi.Commerce.Payments.Resurs.Checkout;
 using Geta.Resurs.Checkout;
 using Mediachase.Commerce.Catalog;
 using Mediachase.MetaDataPlus;
@@ -10,6 +9,9 @@ using Mediachase.MetaDataPlus.Configurator;
 
 namespace Geta.EPi.Commerce.Payments.Resurs.Checkout
 {
+    /// <summary>
+    /// TODO clean this up and don't repeat code
+    /// </summary>
     [InitializableModule]
     [ModuleDependency(typeof(EPiServer.Commerce.Initialization.InitializationModule))]
     public class MetadataInitialization : IInitializableModule
@@ -262,11 +264,6 @@ namespace Geta.EPi.Commerce.Payments.Resurs.Checkout
         }
 
         public void Uninitialize(InitializationEngine context)
-        {
-
-        }
-
-        public void Preload(string[] parameters)
         {
 
         }

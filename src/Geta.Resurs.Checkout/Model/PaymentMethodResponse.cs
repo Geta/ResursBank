@@ -19,7 +19,7 @@ namespace Geta.Resurs.Checkout.Model
 
         public PaymentMethodType TypeField;
 
-        public System.Nullable<CustomerType>[] CustomerTypeField { get; set; }
+        public CustomerType? CustomerTypeField { get; set; }
 
         public string SpecificTypeField { get; set; }
         public PaymentMethodResponse(string id, string descriptionField, decimal minLimitField, decimal maxLimitField,string specificTypeField)

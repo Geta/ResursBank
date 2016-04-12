@@ -12,11 +12,7 @@ namespace Geta.Resurs.Checkout.Model
         public string AddressRow2 { get; set; }
         public string PostalArea { get; set; }
         public string PostalCode { get; set; }
-        /// <summary>
-        /// Country code
-        /// </summary>
         public string CountryCode { get; set; }
-
 
         public Address()
         {
@@ -34,8 +30,5 @@ namespace Geta.Resurs.Checkout.Model
             PostalCode = postalCode;
             CountryCode = countryCode;
         }
-
-
     }
-
 }

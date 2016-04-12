@@ -240,8 +240,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bussiness\ResursBankPayment.cs" />
-    <Compile Include="Bussiness\ResursCheckoutPaymentGateway.cs" />
+    <Compile Include="Business\ResursBankPayment.cs" />
+    <Compile Include="Business\ResursCheckoutPaymentGateway.cs" />
     <Compile Include="Extensions\LineItemExtensions.cs" />
     <Compile Include="Extensions\MetaStorageExtensions.cs" />
     <Compile Include="Extensions\PaymentMethodsExtensions.cs" />

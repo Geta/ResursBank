@@ -1,5 +1,4 @@
-﻿
-namespace Geta.Resurs.Checkout
+﻿namespace Geta.Resurs.Checkout
 {
     public static class ResursConstants
     {

@@ -15,8 +15,6 @@ namespace Geta.Resurs.Checkout
     {
         private SimplifiedShopFlowWebServiceClient _shopServiceClient;
 
-
-
         public ResursBankServiceClient(ResursCredential credential)
         {
             _shopServiceClient = new SimplifiedShopFlowWebServiceClient();

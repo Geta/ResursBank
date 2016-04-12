@@ -1,5 +1,4 @@
-﻿using Geta.Epi.Commerce.Payments.Resurs.Checkout;
-using Geta.Resurs.Checkout;
+﻿using Geta.Resurs.Checkout;
 using Geta.Resurs.Checkout.Model;
 using Mediachase.Commerce.Orders;
 
@@ -27,9 +26,6 @@ namespace Geta.EPi.Commerce.Payments.Resurs.Checkout.Extensions
                 totalVatAmount,
                 totalAmount
                 );
-
-
         }
-
     }
 }

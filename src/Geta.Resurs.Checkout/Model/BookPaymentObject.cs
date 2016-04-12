@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Geta.Resurs.Checkout.SimplifiedShopFlowService;
+﻿using Geta.Resurs.Checkout.SimplifiedShopFlowService;
 
 namespace Geta.Resurs.Checkout.Model
 {
@@ -17,6 +12,5 @@ namespace Geta.Resurs.Checkout.Model
         public signing Signing { get; set; }
         public invoiceData InvoiceData { get; set; }
         public string CallbackUrl { get; set; }
-        
     }
 }

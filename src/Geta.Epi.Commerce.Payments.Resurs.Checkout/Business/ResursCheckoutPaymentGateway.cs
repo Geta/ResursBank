@@ -15,11 +15,10 @@ using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Exceptions;
 
 using Mediachase.Commerce.Plugins.Payment;
-using Mediachase.Commerce.Storage;
 using Mediachase.Commerce.Website;
 
 
-namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
+namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
 {
     public class ResursCheckoutPaymentGateway : AbstractPaymentGateway, IPaymentOption
     {
@@ -373,6 +372,7 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
                 extendCustomer.type = billingAddress.CountryCode.ToLower() == "swe" || billingAddress.CountryCode.ToLower() == "se" ? customerType.LEGAL : customerType.NATURAL;
 
             }
+
             return extendCustomer;
         }
     }

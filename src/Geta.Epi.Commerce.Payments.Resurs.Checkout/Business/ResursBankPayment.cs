@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 using Geta.Resurs.Checkout.Model;
 using Mediachase.Commerce.Orders;
 
-namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
+namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
 {
     [Serializable]
     public class ResursBankPayment : OtherPayment

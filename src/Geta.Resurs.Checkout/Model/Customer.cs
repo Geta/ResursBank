@@ -20,5 +20,4 @@ namespace Geta.Resurs.Checkout.Model
             Type = type;
         }
     }
-
 }

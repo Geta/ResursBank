@@ -18,10 +18,14 @@ namespace Geta.EPi.Commerce.Payments.Resurs.Checkout.Extensions
         {
             if (item[fieldName] != null)
             {
-                decimal val = 0;
-                if(decimal.TryParse(item[fieldName].ToString(), out val))
-                    return val;
+                decimal value;
+
+                if (decimal.TryParse(item[fieldName].ToString(), out value))
+                {
+                    return value;
+                }
             }
+
             return defaultValue;
         }
     }
