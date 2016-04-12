@@ -30,12 +30,18 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.Services
             {
                 cart.OrderForms.AddNew();
             }
-
+            
             var payment = method.PreProcess(cart.OrderForms[0]);
 
             if (payment == null)
             {
                 throw new PreProcessException();
+            }
+
+            if (cart.OrderForms[0].Payments.Count > 0)
+            {
+                cart.OrderForms[0].Payments.Clear();
+                cart.AcceptChanges();
             }
 
             cart.OrderForms[0].Payments.Add(payment);

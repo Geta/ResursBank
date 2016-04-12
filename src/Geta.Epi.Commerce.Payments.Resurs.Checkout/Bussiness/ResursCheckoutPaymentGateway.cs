@@ -91,9 +91,9 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
                             var billingAddress = orderForm.Parent.OrderAddresses.FirstOrDefault(x => x.Name == orderForm.BillingAddressId);
                             
                             bookPaymentObject.ExtendedCustomer = CreateExtendedCustomer(billingAddress);
-                            bookPaymentObject.ExtendedCustomer.governmentId = billingAddress.CountryCode.ToLower() == "swe" || billingAddress.CountryCode.ToLower() == "se"
-                    ? payment.GetStringValue(ResursConstants.GovernmentId, string.Empty)
-                    : "010986-14741";
+
+                            bookPaymentObject.ExtendedCustomer.governmentId =
+                                payment.GetStringValue(ResursConstants.GovernmentId, string.Empty);
 
                             //create paymentData
                             bookPaymentObject.PaymentData = new paymentData();
@@ -281,6 +281,7 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness
                 Status = PaymentStatus.Pending.ToString(),
                 TransactionType = TransactionType.Authorization.ToString(),
             };
+            
 
             payment.SetMetaField(ResursConstants.ResursBankPaymentType, ResursPaymentMethod, false);
             payment.SetMetaField(ResursConstants.CardNumber, CardNumber, false);
