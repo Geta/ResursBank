@@ -141,14 +141,13 @@
       <HintPath>..\..\packages\EPiServer.CMS.Core.9.7.2\lib\net45\EPiServer.XForms.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Geta.Epi.Commerce.Payments.Resurs.Checkout">
-      <HintPath>..\..\..\..\src\Geta.EPi.Payments.Resurs.CommerceManager\bin\Debug\Geta.Epi.Commerce.Payments.Resurs.Checkout.dll</HintPath>
+    <Reference Include="Geta.EPi.Payments.Resurs.CommerceManager, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Geta.EPi.Payments.Resurs.CommerceManager.1.0.0.0\lib\net452\Geta.EPi.Payments.Resurs.CommerceManager.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Geta.EPi.Payments.Resurs.CommerceManager">
-      <HintPath>..\..\..\..\src\Geta.EPi.Payments.Resurs.CommerceManager\bin\Debug\Geta.EPi.Payments.Resurs.CommerceManager.dll</HintPath>
-    </Reference>
-    <Reference Include="Geta.Resurs.Checkout">
-      <HintPath>..\..\..\..\src\Geta.EPi.Payments.Resurs.CommerceManager\bin\Debug\Geta.Resurs.Checkout.dll</HintPath>
+    <Reference Include="Geta.Resurs.Checkout, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Geta.EPi.Payments.Resurs.CommerceManager.1.0.0.0\lib\net452\Geta.Resurs.Checkout.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <HintPath>..\..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
@@ -2324,6 +2323,7 @@
     <Content Include="Apps\Order\Payments\Plugins\Generic\ConfigurePayment.ascx" />
     <Content Include="Apps\Order\Payments\Plugins\ICharge\ConfigParams.xml" />
     <Content Include="Apps\Order\Payments\Plugins\ICharge\ConfigurePayment.ascx" />
+    <Content Include="Apps\Order\Payments\Plugins\ResursBankCheckout\ConfigurePayment.ascx" />
     <Content Include="Apps\Order\Payments\Tabs\PaymentMethodEditBaseTab.ascx" />
     <Content Include="Apps\Order\Payments\Tabs\PaymentMethodEditMarkets.ascx" />
     <Content Include="Apps\Order\Payments\Tabs\PaymentMethodEditParameters.ascx" />

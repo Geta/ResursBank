@@ -10,3 +10,4 @@ nuget pack Geta.Epi.Commerce.Payments.Resurs.Checkout\Geta.Epi.Commerce.Payments
 nuget pack Geta.EPi.Payments.Resurs.CommerceManager\Geta.EPi.Payments.Resurs.CommerceManager.csproj -IncludeReferencedProjects
 
 @echo on
+pause
