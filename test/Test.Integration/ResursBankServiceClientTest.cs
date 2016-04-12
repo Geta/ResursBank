@@ -1,21 +1,12 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Configuration;
-using EPiServer.ServiceLocation;
 using Geta.Resurs.Checkout;
 using Geta.Resurs.Checkout.Model;
 using Geta.Resurs.Checkout.SimplifiedShopFlowService;
 using Xunit;
 
-
-
 namespace Test.Integration
 {
-    /// <summary>
-    /// Summary description for ResursBankServiceClientTest
-    /// </summary>
-   
     public class ResursBankServiceClientTest
     {
         [Fact]
