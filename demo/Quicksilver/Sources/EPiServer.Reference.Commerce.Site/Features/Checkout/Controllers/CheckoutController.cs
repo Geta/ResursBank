@@ -29,7 +29,7 @@ using System.Collections.Specialized;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
-using Geta.Epi.Commerce.Payments.Resurs.Checkout.Business;
+using Geta.Epi.Commerce.Payments.Resurs.Checkout.Bussiness;
 using Geta.Resurs.Checkout;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers

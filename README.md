@@ -18,6 +18,7 @@ Start by installing NuGet packages (use [NuGet](http://nuget.episerver.com/)):
 For the Commerce Manager site run the following package:
 
     Install-Package Geta.EPi.Payments.Resurs.CommerceManager
+	Install-Package Geta.EPi.Commerce.Payments.Resurs.Checkout
 
 ## Setup
 

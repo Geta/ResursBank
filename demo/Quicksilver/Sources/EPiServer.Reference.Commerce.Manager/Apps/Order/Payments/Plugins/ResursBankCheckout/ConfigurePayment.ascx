@@ -9,8 +9,6 @@
             <td class="FormFieldCell">
                 <asp:TextBox runat="server" ID="txtUserName" />
                 <asp:RequiredFieldValidator ID="val1" runat="server" ControlToValidate="txtUserName" ErrorMessage="Username is required." />
-               <%-- <asp:CompareValidator ID="val2" runat="server" ErrorMessage="The username must be not empty."
-                    ControlToValidate="txtUserName" Type="Integer" Operator="GreaterThan" ValueToCompare="" />--%>
             </td>
         </tr>
         <tr>
