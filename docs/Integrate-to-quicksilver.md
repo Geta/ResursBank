@@ -12,6 +12,7 @@ Start by installing NuGet packages for EPiServer.Reference.Commerce.Site:
 For the EPiServer.Reference.Commerce.Manager site run the following package:
 
     Install-Package Geta.EPi.Payments.Resurs.CommerceManager
+
     Install-Package Geta.EPi.Commerce.Payments.Resurs.Checkout
 
 
@@ -41,7 +42,18 @@ In **Markets** tab select market for which this payment will be available.
 - Add service reference for "EPiServer.Reference.Commerce.Site" projects. Get link for test from [https://test.resurs.com/docs/display/ecom/Test+URLs](https://test.resurs.com/docs/display/ecom/Test+URLs)
 and for go-live from [https://test.resurs.com/docs/display/ecom/Live+URLs+and+go-live+checklist](https://test.resurs.com/docs/display/ecom/Live+URLs+and+go-live+checklist)
 
-###4. Changes in Quicksilver solution
+###4. Add keys for Appsetting of Webconfig
+
+Resurs Checkout requires to 2 app-setting key for authenticate service:
+This credential was supplied from Resurs Bank. Please contact to them to get detail.
+```XML
+  <appSettings>
+    <add key="ResursBankUserName" value="getano"/>
+    <add key="ResursBankUserNamePassword" value="fPij6eng"/>
+  </appSettings>
+```
+
+###5. Changes in Quicksilver solution
 
 - Include file "docs/sampleCodes/ResursBankCheckoutViewModel.cs" to  "EPiServer.Reference.Commerce.Site/Features/PaymentModels/"
 
@@ -104,6 +116,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.Models
 
 -  Changes in "EPiServer.Reference.Commerce.Site\Features\Checkout\Controllers\CheckoutController.cs"
     + Add BookSignedPayment Method
+
 ```C#
    [HttpGet]
         public ActionResult BookSignedpayment()
@@ -258,5 +271,5 @@ and
         }
 ```
 
-###5. The End
+###6. The End
 - Let build the solution and test it.

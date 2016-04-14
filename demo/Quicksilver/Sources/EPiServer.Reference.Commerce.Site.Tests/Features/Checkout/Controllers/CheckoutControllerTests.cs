@@ -1,7 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Formatting;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using EPiServer.Core;
 using EPiServer.Framework.Localization;
 using EPiServer.Reference.Commerce.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers;
@@ -15,7 +22,10 @@ using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Services;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
+using EPiServer.Reference.Commerce.Site.Features.Checkout.Models;
+using EPiServer.Reference.Commerce.Site.Features.Checkout.Pages;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
+using EPiServer.ServiceLocation;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
 {
@@ -41,12 +51,56 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
             Assert.IsInstanceOfType(result, typeof(EmptyResult));
         }
 
+        [TestMethod]
+        public void PurcharseTest()
+        {
+            HttpResponseMessage result = AddProductToCart("SKU-35278811").Result;
+        }
+
+        public async Task<HttpResponseMessage> AddProductToCart( string obj)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://geta-resurs.local/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-www-from-urlencoded"));
+
+
+                var postData = new List<KeyValuePair<string, string>>();
+                postData.Add(new KeyValuePair<string, string>("productCode", obj));
+                HttpContent content = new FormUrlEncodedContent(postData);
+
+                HttpResponseMessage response  = await client.PostAsync("http://geta-resurs.local/Checkout/AutoCheckout/", content);
+                return response;
+
+            }
+        }
+
+        public async Task<HttpResponseMessage> GetHttpAsync(string url,string data)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://localhost:9000/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // New code:
+                HttpResponseMessage response = await client.GetAsync(url);
+                return response;
+            }
+        }
+
+
+
+        private Mock<ICheckoutService> _checkoutService;
         Mock<HttpRequestBase> _httpRequestBase;
         Mock<HttpContextBase> _httpContextBase;
         Mock<RequestContext> _requestContext;
         ExceptionContext _exceptionContext;
         Mock<ControllerExceptionHandler> _controllerExceptionHandler;
         CheckoutController _subject;
+        Mock<IContentLoader> _contentLoader;
+        
 
         [TestInitialize]
         public void Setup()
@@ -54,9 +108,15 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
             _controllerExceptionHandler = new Mock<ControllerExceptionHandler>();
             _requestContext = new Mock<RequestContext>();
             _httpRequestBase = new Mock<HttpRequestBase>();
+            _checkoutService = new Mock<ICheckoutService>();
+            _contentLoader = new Mock<IContentLoader>();
 
             _httpContextBase = new Mock<HttpContextBase>();
             _httpContextBase.Setup(x => x.Request).Returns(_httpRequestBase.Object);
+            //_contentLoader.Setup(c => c.Get<CheckoutPage>(new ContentReference(8))).Returns(new CheckoutPage()
+            //{
+            //    Name= "Check out Page"
+            //});
 
             _exceptionContext = new ExceptionContext
             {
@@ -64,7 +124,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
                 RequestContext = _requestContext.Object
             };
 
-            _subject = new CheckoutController(null, null, null, null, null, null, null, null, null, null,null, _controllerExceptionHandler.Object,null);
+            _subject = new CheckoutController(null, null, null, null, _checkoutService.Object, null, null, null, null, null,null, _controllerExceptionHandler.Object,null);
         }
 
         private CheckoutControllerForTest CreateTestController()

@@ -8,7 +8,7 @@ namespace Geta.EPi.Commerce.Payments.Resurs.Checkout.Extensions
     {
         public static SpecLine ToSpecLineItem(this LineItem lineItem)
         {
-            var vatPercent = lineItem.GetDecimalValue(ResursConstants.VatPercent, 0);
+            var vatPercent = lineItem.GetDecimalValue(ResursConstants.ResursVatPercent, 0);
 
             var unitAmountWithoutVat = lineItem.ListPrice;
             var totalVatAmount = (lineItem.Quantity * unitAmountWithoutVat * vatPercent) / 100;

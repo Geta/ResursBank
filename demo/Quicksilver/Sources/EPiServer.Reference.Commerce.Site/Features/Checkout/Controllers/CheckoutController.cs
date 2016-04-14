@@ -29,8 +29,13 @@ using System.Collections.Specialized;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using EPiServer.Reference.Commerce.Site.Features.Cart.Controllers;
+using EPiServer.Reference.Commerce.Site.Features.Product.Services;
+using EPiServer.ServiceLocation;
 using Geta.Epi.Commerce.Payments.Resurs.Checkout.Business;
 using Geta.Resurs.Checkout;
+using Geta.Resurs.Checkout.Model;
+using Mediachase.Commerce;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 {
@@ -153,7 +158,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             return viewModel;
         }
 
-        private CheckoutViewModel InitializeCheckoutViewModel(CheckoutPage currentPage, CheckoutViewModel viewModel)
+        public CheckoutViewModel InitializeCheckoutViewModel(CheckoutPage currentPage, CheckoutViewModel viewModel)
         {
             var shipment = _checkoutService.CreateShipment();
             var shippingRates = _checkoutService.GetShippingRates(shipment);
@@ -523,10 +528,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             if (address.SaveAddress && User.Identity.IsAuthenticated && _addressBookService.CanSave(address))
             {
                 var currentContact = _customerContext.CurrentContact.CurrentContact;
-                var customerAddress = currentContact.ContactAddresses.FirstOrDefault(x => x.AddressId == address.AddressId) ?? CustomerAddress.CreateInstance();
+                var customerAddress = currentContact.ContactAddresses.FirstOrDefault(x => x.AddressId == address.AddressId)  ??  CustomerAddress.CreateInstance();
 
                 _addressBookService.MapModelToCustomerAddress(address, customerAddress);
-
+                
                 if (address.AddressId == null)
                 {
                     currentContact.AddContactAddress(customerAddress);
@@ -633,5 +638,97 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             return View("index", viewModel);
         }
 
+        //private  ICartService _wishListService;
+        private IProductService _productService = ServiceLocator.Current.GetInstance<IProductService>();
+        private ICartService _wishtListService = ServiceLocator.Current.GetInstance<ICartService>();
+        [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
+        public int AutoCheckout(string productCode)
+        {
+            var listResursPaymentMethods = (new ResursCheckoutPaymentGateway()).GetResursPaymentMethods("no", "NATURAL",10000);
+            List<int> listPurcharseOrder =  new List<int>();
+            if (listResursPaymentMethods != null && listResursPaymentMethods.Any())
+            {
+                foreach (var paymentMethod in listResursPaymentMethods)
+                {
+                    if(paymentMethod.Id == "PARTPAYMENT")
+                        listPurcharseOrder.Add(CreateOrder(paymentMethod, productCode,50));
+                }
+            }
+            return listPurcharseOrder.Count;
+        }
+
+        public int CreateOrder(PaymentMethodResponse paymentMethod,string productCode,int quantity)
+        { 
+            //Add Product to card
+            var cartController = new CartController(_contentLoader, _cartService, _wishtListService, _productService);
+            cartController.AddToCart(productCode);
+            cartController.ChangeCartItem(productCode, 40, "M", "M");
+
+            var checkoutPage = _contentRepository.Get<CheckoutPage>(new ContentReference(8));
+            var resursBankCheckViewModel = InitializeCheckoutViewModel(checkoutPage, null);
+
+            _cartHelper(Mediachase.Commerce.Orders.Cart.DefaultName).Cart.OrderAddresses.Clear();
+            var orderAdress = _cartHelper(Mediachase.Commerce.Orders.Cart.DefaultName).Cart.OrderAddresses.AddNew();
+
+            orderAdress.Name = Guid.NewGuid().ToString();
+            CreateBillingAddres(ref orderAdress);
+
+            _cartHelper(Mediachase.Commerce.Orders.Cart.DefaultName).Cart.OrderAddresses.AcceptChanges();
+
+            _cartHelper(Mediachase.Commerce.Orders.Cart.DefaultName).Cart.OrderForms[0].BillingAddressId = orderAdress.Name;
+            _cartHelper(Mediachase.Commerce.Orders.Cart.DefaultName).Cart.OrderForms[0].AcceptChanges();
+
+            var resursBankPaymentMethod = resursBankCheckViewModel.Payment.PaymentMethod as ResursCheckoutPaymentGateway;
+            if (resursBankPaymentMethod != null)
+            {
+                
+                resursBankPaymentMethod.ResursPaymentMethod = paymentMethod.Id;
+                resursBankPaymentMethod.CallBackUrlWhenFail = Url.Action("BookSignedpayment", "Checkout", null, this.Request.Url.Scheme);
+                resursBankPaymentMethod.SuccessUrl = "http://" + this.Request.Url.DnsSafeHost + Url.Action("BookSignedpayment");
+                resursBankPaymentMethod.CallBackUrlWhenFail = "http://" + this.Request.Url.DnsSafeHost + _contentRepository.GetFirstChild<OrderConfirmationPage>(checkoutPage.ContentLink).LinkURL;
+                resursBankPaymentMethod.GovernmentId = "180872-48794";
+                
+                resursBankPaymentMethod.MinLimit = paymentMethod.MinLimitField;
+                resursBankPaymentMethod.MaxLimit = paymentMethod.MaxLimitField;
+                resursBankPaymentMethod.InvoiceDeliveryType = "EMAIL";
+
+                if (paymentMethod.Id == "CARD")
+                {
+                    resursBankPaymentMethod.GovernmentId = "16066405994";
+                    resursBankPaymentMethod.CardNumber = "9000 0000 0000 5000";    
+                }
+                if (paymentMethod.Id == "NEWCARD")
+                {
+                    resursBankPaymentMethod.GovernmentId = "16066405994";
+                    resursBankPaymentMethod.AmountForNewCard = 10000;    
+                }
+
+            }
+
+            _cartService.RunWorkflow(OrderGroupWorkflowManager.CartPrepareWorkflowName);
+            _cartService.SaveCart();
+
+            _paymentService.ProcessPayment(resursBankCheckViewModel.Payment.PaymentMethod);
+            _cartService.RunWorkflow(OrderGroupWorkflowManager.CartCheckOutWorkflowName);
+
+            PurchaseOrder purchaseOrder = _checkoutService.SaveCartAsPurchaseOrder();
+            _checkoutService.ClearOrderAddresses();
+            _checkoutService.DeleteCart();
+
+            return purchaseOrder.Id;
+        }
+
+       
+        private void CreateBillingAddres(ref OrderAddress billingAddress)
+        {
+            billingAddress.FirstName = "Thien";
+            billingAddress.LastName = "Trinh";
+            billingAddress.CountryCode = "no";
+            billingAddress.PostalCode = "10000";
+            billingAddress.Line1 = "5 lane 97 Hoang Hoa Tham Street, Ba Dinh district";
+            billingAddress.City = "Hanoi";
+            billingAddress.DaytimePhoneNumber = "+4797674852";
+            billingAddress.Email = "thien.trinh@niteco.se";
+        }
     }
 }

@@ -3,6 +3,7 @@ using Mediachase.Commerce.Website;
 using System;
 using Geta.Epi.Commerce.Payments.Resurs.Checkout.Business;
 
+
 namespace EPiServer.Reference.Commerce.Site.Features.Payment.Models
 {
     public class PaymentMethodViewModelResolver
