@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Sample_Integrate_ResurCheckOut_To_QuickSilver</id>
+    <version>1.0.0.0</version>
+    <title>Sample package for integrating Resurs Checkout payment gateway to Quicksilver</title>
+    <authors>Geta</authors>
+    <owners>Geta</owners>  
+    <projectUrl>https://github.com/Geta/ResursBank</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Sample package for integrating Resurs Checkout payment gateway to Quicksilver</description>
+    <copyright>Copyright Geta 2016</copyright>
+    <iconUrl>https://cdn.geta.no/opensource/icons/Geta-logo-3.png</iconUrl>
+  </metadata>
+  <files>
+	<file src="bin\*.*" exclude="bin\*.*" />
+	<file src="\Scripts\JS\payment.js" target="content\Scripts\JS\" /> 
+	<file src="\Styles\form\*.*" target="content\Styles\form\" /> 
+	<file src="\Styles\Pages\common.less" target="content\Styles\Pages\" /> 
+	<file src="\Styles\Pages\confirm.less" target="content\Styles\Pages\" /> 
+	<file src="\Styles\Pages\digital_signing.less" target="content\Styles\Pages\" /> 
+	<file src="\Styles\Pages\payment.less" target="content\Styles\Pages\" /> 
+	<file src="\Views\Shared\_ResursBankCheckoutConfirmation.cshtml" target="content\Views\Shared\" />
+	<file src="\Views\Shared\_ResursBankCheckoutPaymentMethod.cshtml" target="content\Views\Shared\" />
+	<file src="\Features\Payment\Models\ResursBankCheckoutViewModel.cs" target="content\Features\Payment\Models\" />
+	<file src="Web.config.install.xdt" target="content" />
+  </files>
+</package>

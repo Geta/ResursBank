@@ -78,22 +78,6 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
             }
         }
 
-        public async Task<HttpResponseMessage> GetHttpAsync(string url,string data)
-        {
-            using (HttpClient client = new HttpClient())
-            {
-                client.BaseAddress = new Uri("http://localhost:9000/");
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                // New code:
-                HttpResponseMessage response = await client.GetAsync(url);
-                return response;
-            }
-        }
-
-
-
         private Mock<ICheckoutService> _checkoutService;
         Mock<HttpRequestBase> _httpRequestBase;
         Mock<HttpContextBase> _httpContextBase;
