@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
@@ -52,16 +53,17 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
         }
 
         [TestMethod]
-        public void PurcharseTest()
+        public void AutoCheckouTest()
         {
-            HttpResponseMessage result = AddProductToCart("SKU-35278811").Result;
+            HttpResponseMessage result = CallPostAsync("SKU-35278811").Result;
+            Assert.AreEqual(result.StatusCode, HttpStatusCode.OK);
         }
 
-        public async Task<HttpResponseMessage> AddProductToCart( string obj)
+        public async Task<HttpResponseMessage> CallPostAsync( string obj)
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://geta-resurs.local/");
+                client.BaseAddress = new Uri(System.Configuration.ConfigurationManager.AppSettings["Localdomain"]);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-www-from-urlencoded"));
 
@@ -70,7 +72,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
                 postData.Add(new KeyValuePair<string, string>("productCode", obj));
                 HttpContent content = new FormUrlEncodedContent(postData);
 
-                HttpResponseMessage response  = await client.PostAsync("http://geta-resurs.local/Checkout/AutoCheckout/", content);
+                HttpResponseMessage response  = await client.PostAsync(System.Configuration.ConfigurationManager.AppSettings["Localdomain"]+ "Checkout/AutoCheckout/", content);
                 return response;
 
             }

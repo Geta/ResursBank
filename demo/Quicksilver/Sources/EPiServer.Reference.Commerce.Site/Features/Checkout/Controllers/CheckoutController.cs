@@ -639,30 +639,37 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         }
 
         //private  ICartService _wishListService;
-        private IProductService _productService = ServiceLocator.Current.GetInstance<IProductService>();
-        private ICartService _wishtListService = ServiceLocator.Current.GetInstance<ICartService>();
-        [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
+       
+        [HttpPost]
         public int AutoCheckout(string productCode)
         {
+            
             var listResursPaymentMethods = (new ResursCheckoutPaymentGateway()).GetResursPaymentMethods("no", "NATURAL",10000);
             List<int> listPurcharseOrder =  new List<int>();
             if (listResursPaymentMethods != null && listResursPaymentMethods.Any())
             {
                 foreach (var paymentMethod in listResursPaymentMethods)
                 {
-                    if(paymentMethod.Id == "PARTPAYMENT")
-                        listPurcharseOrder.Add(CreateOrder(paymentMethod, productCode,50));
+                    if (paymentMethod.Id != "NEWCARD")
+                        listPurcharseOrder.Add(CreateOrder(paymentMethod, productCode, 1));
+                    //else
+                    //{
+                    //    // Total Order must above 1000$ so quantity is have to > 100
+                    //    listPurcharseOrder.Add(CreateOrder(paymentMethod, productCode, 100));
+                    //}
                 }
             }
             return listPurcharseOrder.Count;
         }
 
         public int CreateOrder(PaymentMethodResponse paymentMethod,string productCode,int quantity)
-        { 
+        {
+            IProductService _productService = ServiceLocator.Current.GetInstance<IProductService>();
+            ICartService _wishtListService = ServiceLocator.Current.GetInstance<ICartService>();
             //Add Product to card
             var cartController = new CartController(_contentLoader, _cartService, _wishtListService, _productService);
             cartController.AddToCart(productCode);
-            cartController.ChangeCartItem(productCode, 40, "M", "M");
+           // cartController.ChangeCartItem(productCode, 40, "M", "M");
 
             var checkoutPage = _contentRepository.Get<CheckoutPage>(new ContentReference(8));
             var resursBankCheckViewModel = InitializeCheckoutViewModel(checkoutPage, null);
