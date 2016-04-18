@@ -33,8 +33,8 @@ Resurs Checkout requires to 2 app-setting key for authenticate service:
 This credential was supplied from Resurs Bank. Please contact to them to get detail.
 ```XML
   <appSettings>
-    <add key="ResursBankUserName" value="service_username"/>
-    <add key="ResursBankUserNamePassword" value="service_password"/>
+    <add key="ResursBank:UserName" value="service_username"/>
+    <add key="ResursBank:Password" value="service_password"/>
   </appSettings>
 ```
 

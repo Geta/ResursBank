@@ -1,0 +1,32 @@
+﻿<?xml version="1.0"?>
+<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+  <system.serviceModel>
+    <bindings>
+      <basicHttpBinding>
+        <binding name="SimplifiedShopFlowWebServiceImplPortBinding" xdt:Transform="Insert">
+          <security mode="Transport">
+            <transport clientCredentialType="Basic" realm="Spring Security Application" />
+          </security>
+        </binding>
+        <binding name="AfterShopFlowWebServiceImplPortBinding" xdt:Transform="Insert">
+          <security mode="Transport" >
+            <transport clientCredentialType="Basic" realm="Spring Security Application" />
+          </security>
+        </binding>
+      </basicHttpBinding>
+    </bindings>
+    <client>
+      <endpoint address="https://ResursBankServiceClient.resurs.com/ecommerce-ResursBankServiceClient/ws/V4/SimplifiedShopFlowService"
+          binding="basicHttpBinding" bindingConfiguration="SimplifiedShopFlowWebServiceImplPortBinding"
+          contract="SimplifiedShopFlowService.SimplifiedShopFlowWebService"
+          name="SimplifiedShopFlowWebServiceImplPort" xdt:Transform="Insert" />
+      <endpoint address="https://test.resurs.com/ecommerce-test/ws/V4/AfterShopFlowService"
+          binding="basicHttpBinding" bindingConfiguration="AfterShopFlowWebServiceImplPortBinding"
+          contract="AfterShopFlowService.AfterShopFlowWebService" name="AfterShopFlowWebServiceImplPort" xdt:Transform="Insert" />
+    </client>
+  </system.serviceModel>
+  <appSettings>
+    <add key="ResursBank:UserName" value="username" xdt:Transform="Insert"/>
+    <add key="ResursBank:Password" value="password" xdt:Transform="Insert"/>
+  </appSettings>
+</configuration>

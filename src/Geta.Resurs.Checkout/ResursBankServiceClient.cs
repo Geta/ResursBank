@@ -28,8 +28,8 @@ namespace Geta.Resurs.Checkout
                 else
                 {
                     var appSettings = ConfigurationManager.AppSettings;
-                    _shopServiceClient.ClientCredentials.UserName.UserName = appSettings["ResursBankUserName"] ?? "Not Found";
-                    _shopServiceClient.ClientCredentials.UserName.Password = appSettings["ResursBankUserNamePassword"] ?? "Not Found";
+                    _shopServiceClient.ClientCredentials.UserName.UserName = appSettings["ResursBank:UserName"] ?? "Not Found";
+                    _shopServiceClient.ClientCredentials.UserName.Password = appSettings["ResursBank:Password"] ?? "Not Found";
                 }
             }
             
