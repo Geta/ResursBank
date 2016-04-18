@@ -78,6 +78,9 @@ https://test.resurs.com/docs/display/ecom/Step+By+Step%3A+Simplified+Basic+Shop+
 
 https://test.resurs.com/docs/display/ecom/Full+manual
 
+## Demo
+
+To setup your own demo environment (local or otherwise): [local demo setup](docs/local-demo-setup.md).
 
 ## Release notes
 
