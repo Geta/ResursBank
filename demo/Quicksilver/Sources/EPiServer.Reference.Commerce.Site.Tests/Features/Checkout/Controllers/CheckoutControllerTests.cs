@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using EPiServer.Core;
 using EPiServer.Framework.Localization;
 using EPiServer.Reference.Commerce.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers;
@@ -23,10 +20,7 @@ using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Services;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
-using EPiServer.Reference.Commerce.Site.Features.Checkout.Models;
-using EPiServer.Reference.Commerce.Site.Features.Checkout.Pages;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
-using EPiServer.ServiceLocation;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
 {
@@ -53,7 +47,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
         }
 
         [TestMethod]
-        public void AutoCheckouTest()
+        public void AutoCheckoutTest()
         {
             HttpResponseMessage result = CallPostAsync("SKU-35278811").Result;
             Assert.AreEqual(result.StatusCode, HttpStatusCode.OK);

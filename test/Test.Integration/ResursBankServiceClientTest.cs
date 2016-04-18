@@ -13,9 +13,9 @@ namespace Test.Integration
         public void GetPaymentMethods()
         {
             var appSettings = ConfigurationManager.AppSettings;
-            var testCredential = new ResursCredential(appSettings["ResursBankUserName"], appSettings["ResursBankUserNamePassword"]);
+            var testCredential = new ResursCredential(appSettings["ResursBank:UserName"], appSettings["ResursBank:Password"]);
             var resursBankServices = new ResursBankServiceClient(testCredential);
-            List<PaymentMethodResponse> list = resursBankServices.GetPaymentMethods("sv", "NATURAL", 1000);
+            List<PaymentMethodResponse> list = resursBankServices.GetPaymentMethods("no", "NATURAL", 1000);
             Assert.Equal(4,list.Count);
         }
 
@@ -24,8 +24,8 @@ namespace Test.Integration
         {
             var credential = new ResursCredential();
             var appSettings = ConfigurationManager.AppSettings;
-            credential.UserName = appSettings["ResursBankUserName"] ?? "Not Found";
-            credential.Password = appSettings["ResursBankUserNamePassword"] ?? "Not Found";
+            credential.UserName = appSettings["ResursBank:UserName"] ?? "Not Found";
+            credential.Password = appSettings["ResursBank:Password"] ?? "Not Found";
             var resursBankServiceClient = new ResursBankServiceClient(credential);
             var bookPaymentObject = CreateBookPaymentObject();
             var result = resursBankServiceClient.BookPayment(bookPaymentObject);
@@ -37,8 +37,8 @@ namespace Test.Integration
         {
             var credential = new ResursCredential();
             var appSettings = ConfigurationManager.AppSettings;
-            credential.UserName = appSettings["ResursBankUserName"] ?? "Not Found";
-            credential.Password = appSettings["ResursBankUserNamePassword"] ?? "Not Found";
+            credential.UserName = appSettings["ResursBank:UserName"] ?? "Not Found";
+            credential.Password = appSettings["ResursBank:Password"] ?? "Not Found";
             var resursBankServiceClient = new ResursBankServiceClient(credential);
 
             
@@ -104,7 +104,7 @@ namespace Test.Integration
             extendedCustomer.address.postalCode = "no";
             extendedCustomer.address.country = countryCode.NO;
             extendedCustomer.phone = "+4797674852";
-            extendedCustomer.email = "thien.trinh@niteco.se";
+            extendedCustomer.email = "post@geta.no";
             extendedCustomer.type = customerType.NATURAL;
 
             bookPaymentObject.ExtendedCustomer = extendedCustomer;

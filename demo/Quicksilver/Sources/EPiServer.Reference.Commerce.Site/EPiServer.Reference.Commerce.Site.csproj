@@ -471,12 +471,6 @@
       <IsTransformFile>True</IsTransformFile>
     </Content>
     <Content Include="Deploy\Geta.Test\License.config" />
-    <None Include="Service References\SimplifiedShopFlowService\configuration91.svcinfo" />
-    <None Include="Service References\SimplifiedShopFlowService\configuration.svcinfo" />
-    <None Include="Service References\SimplifiedShopFlowService\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
     <Content Include="Styles\font-awesome\.gitignore" />
     <Content Include="Styles\font-awesome\css\font-awesome.css" />
     <Content Include="Styles\font-awesome\css\font-awesome.min.css" />
@@ -695,11 +689,6 @@
     <Compile Include="Infrastructure\WebApi\StructureMapResolver.cs" />
     <Compile Include="Infrastructure\WebApi\StructureMapDependencyScope.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service References\SimplifiedShopFlowService\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
     <Content Include="Views\Search\QuickSearch.cshtml" />
     <Content Include="Views\OrderConfirmationMailPage\Index.cshtml" />
     <Content Include="Views\ResetPasswordMail\Index.cshtml" />
@@ -878,22 +867,6 @@
     <Content Include="modules\_protected\EPiServer.Commerce.Shell.ManagerIntegration\EPiServer.Commerce.Shell.ManagerIntegration.zip" />
     <Content Include="Views\Shared\_ResursBankCheckoutConfirmation.cshtml" />
     <Content Include="Views\Shared\_ResursBankCheckoutPaymentMethod.cshtml" />
-    <None Include="Service References\SimplifiedShopFlowService\common.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\SimplifiedShopFlowService\Exceptions.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\SimplifiedShopFlowService\shopflow.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\SimplifiedShopFlowService\simplifiedshopflow.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\SimplifiedShopFlowService\SimplifiedShopFlowService.wsdl" />
-    <None Include="Service References\SimplifiedShopFlowService\SimplifiedShopFlowServiceMessages.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <Content Include="Styles\form\form.less" />
     <Content Include="Styles\Pages\common.less" />
     <Content Include="Styles\Pages\confirm.less" />
@@ -1054,12 +1027,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Features\Login\Models\" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadataStorage Include="Service References\SimplifiedShopFlowService\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
