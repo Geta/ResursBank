@@ -2,7 +2,7 @@
 <configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
   <system.serviceModel>
     <bindings>
-      <basicHttpBinding>
+      <basicHttpBinding xdt:Transform="InsertIfMissing">
         <binding name="SimplifiedShopFlowWebServiceImplPortBinding" xdt:Transform="Insert">
           <security mode="Transport">
             <transport clientCredentialType="Basic" realm="Spring Security Application" />
