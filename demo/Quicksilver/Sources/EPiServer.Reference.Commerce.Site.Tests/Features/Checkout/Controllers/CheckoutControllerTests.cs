@@ -67,6 +67,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
                 HttpContent content = new FormUrlEncodedContent(postData);
 
                 HttpResponseMessage response  = await client.PostAsync(System.Configuration.ConfigurationManager.AppSettings["Localdomain"]+ "Checkout/AutoCheckout/", content);
+
+                string result = await response.Content.ReadAsStringAsync();
+
                 return response;
 
             }

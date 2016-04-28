@@ -16,10 +16,8 @@
       </basicHttpBinding>
     </bindings>
     <client>
-      <endpoint address="https://ResursBankServiceClient.resurs.com/ecommerce-ResursBankServiceClient/ws/V4/SimplifiedShopFlowService"
-          binding="basicHttpBinding" bindingConfiguration="SimplifiedShopFlowWebServiceImplPortBinding"
-          contract="SimplifiedShopFlowService.SimplifiedShopFlowWebService"
-          name="SimplifiedShopFlowWebServiceImplPort" xdt:Transform="InsertIfMissing" />
+      <endpoint address="https://test.resurs.com/ecommerce-test/ws/V4/SimplifiedShopFlowService" binding="basicHttpBinding" bindingConfiguration="SimplifiedShopFlowWebServiceImplPortBinding" contract="SimplifiedShopFlowService.SimplifiedShopFlowWebService" name="SimplifiedShopFlowWebServiceImplPort" xdt:Transform="InsertIfMissing" />
+
       <endpoint address="https://test.resurs.com/ecommerce-test/ws/V4/AfterShopFlowService"
           binding="basicHttpBinding" bindingConfiguration="AfterShopFlowWebServiceImplPortBinding"
           contract="AfterShopFlowService.AfterShopFlowWebService" name="AfterShopFlowWebServiceImplPort" xdt:Transform="InsertIfMissing" />
