@@ -304,7 +304,7 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
             if (lstPaymentMethodsResponse == null || !lstPaymentMethodsResponse.Any())
             {
                 var factory = ServiceLocator.Current.GetInstance<IResursBankServiceSettingFactory>();
-                var resursBankServices = factory.Init(new ResursCredential(ConfigurationManager.AppSettings["ResursBankUserName"],ConfigurationManager.AppSettings["ResursBankUserNamePassword"]));
+                var resursBankServices = factory.Init(new ResursCredential(ConfigurationManager.AppSettings["ResursBank:UserName"],ConfigurationManager.AppSettings["ResursBank:Password"]));
                 lstPaymentMethodsResponse = resursBankServices.GetPaymentMethods(lang, custType, amount);
                 //Cache list payment methods for 1 day as Resurs recommended.
                 EPiServer.CacheManager.Insert("GetListResursPaymentMethods", lstPaymentMethodsResponse, new CacheEvictionPolicy(null, new TimeSpan(1, 0, 0, 0), CacheTimeoutType.Absolute));
@@ -324,16 +324,18 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
                 decimal totalVatAmount = 0;
                 foreach (var specLine in specLines)
                 {
-                    var spLine = new specLine();
-                    spLine.id = specLine.Id;
-                    spLine.artNo = specLine.ArtNo;
-                    spLine.description = specLine.Description;
-                    spLine.quantity = specLine.Quantity;
-                    spLine.unitMeasure = specLine.UnitMeasure;
-                    spLine.unitAmountWithoutVat = specLine.UnitAmountWithoutVat;
-                    spLine.vatPct = specLine.VatPct;
-                    spLine.totalVatAmount = specLine.TotalVatAmount;
-                    spLine.totalAmount = specLine.TotalAmount;
+                    var spLine = new specLine
+                    {
+                        id = specLine.Id,
+                        artNo = specLine.ArtNo,
+                        description = specLine.Description,
+                        quantity = specLine.Quantity,
+                        unitMeasure = specLine.UnitMeasure,
+                        unitAmountWithoutVat = specLine.UnitAmountWithoutVat,
+                        vatPct = specLine.VatPct,
+                        totalVatAmount = specLine.TotalVatAmount,
+                        totalAmount = specLine.TotalAmount
+                    };
                     totalAmount += specLine.TotalAmount;
                     totalVatAmount += specLine.TotalVatAmount;
                     spLines[i] = spLine;
@@ -353,21 +355,24 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
             var extendCustomer = new extendedCustomer();
             if (billingAddress != null)
             {
-                extendCustomer.address = new address();
-                extendCustomer.address.fullName = billingAddress.FirstName + " " + billingAddress.LastName;
-                extendCustomer.address.firstName = billingAddress.FirstName;
-                extendCustomer.address.lastName = billingAddress.LastName;
-                extendCustomer.address.addressRow1 = billingAddress.Line1;
-                extendCustomer.address.addressRow2 = !string.IsNullOrEmpty(billingAddress.Line2) ? billingAddress.Line2 : billingAddress.Line1;
-                extendCustomer.address.postalArea = billingAddress.PostalCode;
-                extendCustomer.address.postalCode = billingAddress.PostalCode;
-                countryCode cCode;
-                if (!System.Enum.TryParse<countryCode>(billingAddress.CountryCode, true, out cCode))
+                extendCustomer.address = new address
                 {
-                    cCode = countryCode.NO;
+                    fullName = billingAddress.FirstName + " " + billingAddress.LastName,
+                    firstName = billingAddress.FirstName,
+                    lastName = billingAddress.LastName,
+                    addressRow1 = billingAddress.Line1,
+                    addressRow2 =
+                        !string.IsNullOrEmpty(billingAddress.Line2) ? billingAddress.Line2 : billingAddress.Line1,
+                    postalArea = billingAddress.PostalCode,
+                    postalCode = billingAddress.PostalCode
+                };
+                countryCode cCode;
+                if (!Enum.TryParse(billingAddress.CountryCode, true, out cCode))
+                {
+                    cCode = countryCode.SE;
                 }
                 extendCustomer.address.country = cCode;
-                extendCustomer.phone = !string.IsNullOrEmpty(billingAddress.DaytimePhoneNumber) ? billingAddress.DaytimePhoneNumber : "+4797674852";
+                extendCustomer.phone = billingAddress.DaytimePhoneNumber ?? billingAddress.EveningPhoneNumber;
                 extendCustomer.email = billingAddress.Email;
                 extendCustomer.type = billingAddress.CountryCode.ToLower() == "swe" || billingAddress.CountryCode.ToLower() == "se" ? customerType.LEGAL : customerType.NATURAL;
 
