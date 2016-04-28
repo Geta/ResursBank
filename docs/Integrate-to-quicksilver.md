@@ -39,12 +39,8 @@ Login into Commerce Manager and open **Administration -> Order System -> Payment
 
 In **Markets** tab select market for which this payment will be available.
 
-###3. Add Web service reference
-- Add service reference for "EPiServer.Reference.Commerce.Site" projects. Get link for test from [https://test.resurs.com/docs/display/ecom/Test+URLs](https://test.resurs.com/docs/display/ecom/Test+URLs)
-and for go-live from [https://test.resurs.com/docs/display/ecom/Live+URLs+and+go-live+checklist](https://test.resurs.com/docs/display/ecom/Live+URLs+and+go-live+checklist)
 
-
-###4. Changes in Quicksilver solution
+###3. Changes in Quicksilver solution
 
 - Include file "EPiServer.Reference.Commerce.Site/sampleCodes/ResursBankCheckoutViewModel.cs" to  project
 
@@ -257,5 +253,5 @@ and
         }
 ```
 
-###5. The End
+###4. The End
 - Let build the solution and test it.
