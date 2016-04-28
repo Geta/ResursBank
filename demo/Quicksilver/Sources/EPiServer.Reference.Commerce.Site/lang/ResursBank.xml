@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<languages>
+  <language name="English" id="en">
+    <resursbank>
+      <invoice>
+        <description>
+          Invoice (by email) 30-60 days credit
+        </description>
+      </invoice>
+      <partpayment>
+        <description>
+          Down payment (or invoice in post boc). Until 12 months down payment without interest, or longer period with low interest
+        </description>
+      </partpayment>
+      <newcard>
+        <description>
+          New Customer Card (credit application)
+        </description>
+      </newcard>
+    </resursbank>
+  </language>
+  <language name="Norsk" id="no">
+    <resursbank>
+      <invoice>
+        <description>
+          30-60 dager kreditt med mulighet for delbetaling. Fakturaen sendes via e-post.
+        </description>
+      </invoice>
+      <partpayment>
+        <description>
+          Del opp din betaling uten rente på X måneder. Avin i postkassen.
+        </description>
+      </partpayment>
+      <newcard>
+        <description>
+          30-60 dager kreditt med mulighet for delbetaling. Avin i postkassen.
+        </description>
+      </newcard>
+    </resursbank>
+  </language>
+  <language name="Svenska" id="sv">
+    <resursbank>
+      <invoice>
+        <description>
+          30-60 dagars kredit med möjlighet till delbetalning. Fakturan skickas via e-post.
+        </description>
+      </invoice>
+      <partpayment>
+        <description>
+          Delbetala räntefritt i upp till X månader. Avin kommer i brevlådan.
+        </description>
+      </partpayment>
+      <newcard>
+        <description>
+          30-60 dagars räntefri kredit med möjlighet till delbetalning. Avin kommer i brevlådan.
+        </description>
+      </newcard>
+    </resursbank>
+  </language>
+  <language name="Dansk" id="da">
+    <resursbank>
+      <invoice>
+        <description>
+          Op til 60 dages omkostningsfri kredit med mulighed for delbetaling. Faktura sendes med posten.
+        </description>
+      </invoice>
+      <partpayment>
+        <description>
+          Del din betaling op rentefrit i op til X måneder. Kontoudtog sendes med posten måneden efter dit køb.
+        </description>
+      </partpayment>
+      <newcard>
+        <description>
+          Op til 60 dages omkostningsfri kredit med mulighed for at delbetaling. Kontoudtog sendes med posten måneden efter dit køb.
+        </description>
+      </newcard>
+    </resursbank>
+  </language>
+  <language name="Suomi" id="fi">
+    <resursbank>
+      <invoice>
+        <description>
+          30-60 päivää luotto ja mahdollisuus osamaksu. Lasku lähetetään sähköpostilla.
+        </description>
+      </invoice>
+      <partpayment>
+        <description>
+          Jopa X kuukautta korotonta maksuaikaa. Lasku lähetetään postitse.
+        </description>
+      </partpayment>
+      <newcard>
+        <description>
+          30-60 päivän luotto osamaksumahdollisuudella. Lasku lähetetään postitse.
+        </description>
+      </newcard>
+    </resursbank>
+  </language>
+</languages>

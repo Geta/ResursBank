@@ -1,10 +1,6 @@
 ﻿@using Geta.Resurs.Checkout
 @model EPiServer.Reference.Commerce.Site.Features.Payment.Models.ResursBankCheckoutViewModel
 @Html.HiddenFor(model => model.PaymentMethod.PaymentMethodId)
-@{
-    var paymentMethods = Model.ResursBankPaymentMethods;
-
-}
 
 <div>
     Using Resurs Bank checkout payment
@@ -26,7 +22,7 @@
                                 <div class="payment-method__option-item">
                                     <div class="radio__container">
                                         <input class="radio__input" type="radio" id="method-payment-1" name="method-payment" value="@method.Id"/>
-                                        <label class="radio__label" for="method-payment-1">Customer Card</label>
+                                        <label class="radio__label" for="method-payment-1">@Html.Translate("/resursbank/newcard/description")</label>
                                     </div>
                                     <div class="payment-method__detail-container" data-min="@method.MinLimitField" data-max="@method.MaxLimitField">
                                         <div class="textbox__container">
@@ -46,7 +42,7 @@
                                 <div class="payment-method__option-item">
                                     <div class="radio__container">
                                         <input class="radio__input" type="radio" id="method-payment-2" name="method-payment" value="@method.Id"/>
-                                        <label class="radio__label" for="method-payment-2">New Customer Card (credit application)</label>
+                                        <label class="radio__label" for="method-payment-2">@Html.Translate("/resursbank/newcard/description")</label>
                                     </div>
                                     <div class="payment-method__detail-container" data-min="@method.MinLimitField" data-max="@method.MaxLimitField">
                                         <div class="selectbox__container">
@@ -70,7 +66,7 @@
                                 <div class="payment-method__option-item">
                                     <div class="radio__container">
                                         <input class="radio__input" type="radio" id="method-payment-3" name="method-payment" value="@method.Id"/>
-                                        <label class="radio__label" for="method-payment-3">Invoice (by email) 30-60 days credit</label>
+                                        <label class="radio__label" for="method-payment-3">@Html.Translate("/resursbank/invoice/description")</label>
                                     </div>
                                     <div class="payment-method__detail-container" data-min="@method.MinLimitField" data-max="@method.MaxLimitField">
                                         <div class="selectbox__container">
@@ -99,8 +95,7 @@
                                     <div class="radio__container">
                                         <input class="radio__input" type="radio" id="method-payment-4" name="method-payment" value="@method.Id"/>
                                         <label class="radio__label" for="method-payment-4">
-                                            Down payment (or invoice in post boc)<br/>
-                                            Until 12 months down payment without interest, or longer period with low interest
+                                            @Html.Translate("/resursbank/partpayment/description")
                                         </label>
                                     </div>
                                     <div class="payment-method__detail-container" data-min="@method.MinLimitField" data-max="@method.MaxLimitField">
@@ -117,18 +112,8 @@
                             </text>
                             break;
                     }
-
                 }
-
-
             }
-
-
-
-
-
-
-
         </div>
     </div>
 </div>
