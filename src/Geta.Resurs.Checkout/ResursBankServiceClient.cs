@@ -13,7 +13,7 @@ namespace Geta.Resurs.Checkout
     [ServiceConfiguration(typeof(IResursBankServiceClient), Lifecycle = ServiceInstanceScope.Singleton)]
     public class ResursBankServiceClient : IResursBankServiceClient
     {
-        private SimplifiedShopFlowWebServiceClient _shopServiceClient;
+        private readonly SimplifiedShopFlowWebServiceClient _shopServiceClient;
 
         public ResursBankServiceClient(ResursCredential credential)
         {
@@ -38,11 +38,13 @@ namespace Geta.Resurs.Checkout
         public List<PaymentMethodResponse> GetPaymentMethods(string lang, string custType, decimal amount)
         {
             if (_shopServiceClient == null || _shopServiceClient.ClientCredentials == null)
+            {
                 return null;
+            }
 
             var paymentMethodList = new List<PaymentMethodResponse>();
-            language langEnum = (language)System.Enum.Parse(typeof(language), lang);
-            customerType customerTypeEnum = (customerType)System.Enum.Parse(typeof(customerType), custType);
+            language langEnum = (language)Enum.Parse(typeof(language), lang);
+            customerType customerTypeEnum = (customerType)Enum.Parse(typeof(customerType), custType);
 
             var paymentMethods = _shopServiceClient.getPaymentMethods(langEnum, customerTypeEnum, amount);
             _shopServiceClient.Close();
@@ -75,7 +77,7 @@ namespace Geta.Resurs.Checkout
         
         public address GetAddress(string governmentId, string customerType, string customerIpAddress)
         {
-            customerType cType = (customerType)System.Enum.Parse(typeof(customerType), customerType);
+            customerType cType = (customerType)Enum.Parse(typeof(customerType), customerType);
             return _shopServiceClient.getAddress(governmentId, cType, customerIpAddress);
         }
     }

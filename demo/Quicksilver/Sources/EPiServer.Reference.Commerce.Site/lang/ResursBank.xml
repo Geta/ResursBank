@@ -4,17 +4,17 @@
     <resursbank>
       <invoice>
         <description>
-          Invoice (by email) 30-60 days credit
+          30-60 dager kreditt med mulighet for delbetaling. Fakturaen sendes via e-post.
         </description>
       </invoice>
       <partpayment>
         <description>
-          Down payment (or invoice in post boc). Until 12 months down payment without interest, or longer period with low interest
+          Del opp din betaling uten rente på X måneder. Avin i postkassen.
         </description>
       </partpayment>
       <newcard>
         <description>
-          New Customer Card (credit application)
+          30-60 dager kreditt med mulighet for delbetaling. Avin i postkassen.
         </description>
       </newcard>
     </resursbank>
