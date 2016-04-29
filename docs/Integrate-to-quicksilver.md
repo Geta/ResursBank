@@ -44,16 +44,6 @@ In **Markets** tab select market for which this payment will be available.
 
 - Include file "EPiServer.Reference.Commerce.Site/sampleCodes/ResursBankCheckoutViewModel.cs" to  project
 
-
-- Changes in "EPiServer.Reference.Commerce.Site/Scripts/Js/quicksilver.js" file
-
-```javascript
-    
-    // add this code for 4 Resurs payment methods
-    Payment.init();
-    
-```
-
 - Changes in  "EPiServer.Reference.Commerce.Site/Styles/style.less"
 
 ```CSS
