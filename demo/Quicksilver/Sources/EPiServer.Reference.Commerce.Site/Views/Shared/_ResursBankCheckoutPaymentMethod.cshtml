@@ -22,7 +22,10 @@
                                 <div class="payment-method__option-item">
                                     <div class="radio__container">
                                         <input class="radio__input" type="radio" id="method-payment-1" name="method-payment" value="@method.Id"/>
-                                        <label class="radio__label" for="method-payment-1">Kort</label>
+                                        <label class="radio__label" for="method-payment-1">
+                                            @method.DescriptionField <br/>
+                                            @Html.Translate("/resursbank/partpayment/description")
+                                        </label>
                                     </div>
                                     <div class="payment-method__detail-container" data-min="@method.MinLimitField" data-max="@method.MaxLimitField">
                                         <div class="textbox__container">
@@ -42,7 +45,10 @@
                                 <div class="payment-method__option-item">
                                     <div class="radio__container">
                                         <input class="radio__input" type="radio" id="method-payment-2" name="method-payment" value="@method.Id"/>
-                                        <label class="radio__label" for="method-payment-2">@Html.Translate("/resursbank/newcard/description")</label>
+                                        <label class="radio__label" for="method-payment-2">
+                                            @method.DescriptionField <br />
+                                            @Html.Translate("/resursbank/newcard/description")
+                                        </label>
                                     </div>
                                     <div class="payment-method__detail-container" data-min="@method.MinLimitField" data-max="@method.MaxLimitField">
                                         <div class="selectbox__container">
@@ -75,7 +81,10 @@
                                 <div class="payment-method__option-item">
                                     <div class="radio__container">
                                         <input class="radio__input" type="radio" id="method-payment-3" name="method-payment" value="@method.Id"/>
-                                        <label class="radio__label" for="method-payment-3">@Html.Translate("/resursbank/invoice/description")</label>
+                                        <label class="radio__label" for="method-payment-3">
+                                            @method.DescriptionField <br />
+                                            @Html.Translate("/resursbank/invoice/description")
+                                        </label>
                                     </div>
                                     <div class="payment-method__detail-container" data-min="@method.MinLimitField" data-max="@method.MaxLimitField">
                                         <input type="hidden" name="DeliveryType" value="EMAIL"/>
@@ -103,6 +112,7 @@
                                     <div class="radio__container">
                                         <input class="radio__input" type="radio" id="method-payment-4" name="method-payment" value="@method.Id"/>
                                         <label class="radio__label" for="method-payment-4">
+                                            @method.DescriptionField <br />
                                             @Html.Translate("/resursbank/partpayment/description")
                                         </label>
                                     </div>
