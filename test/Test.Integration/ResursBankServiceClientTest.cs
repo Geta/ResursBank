@@ -310,7 +310,7 @@ namespace Test.Integration
             {
                 return new extendedCustomer
                 {
-                    governmentId = "16066405994",
+                    governmentId = "010986-14741",
                     address = new address
                     {
                         fullName = "David Smeichel",
@@ -360,7 +360,7 @@ namespace Test.Integration
             {
                 return new extendedCustomer
                 {
-                    governmentId = "100370-897V",
+                    governmentId = "261171-203H",
                     address = new address
                     {
                         fullName = "David Smeichel",
