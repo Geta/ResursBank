@@ -23,7 +23,7 @@
                                     <div class="radio__container">
                                         <input class="radio__input" type="radio" id="method-payment-1" name="method-payment" value="@method.Id"/>
                                         <label class="radio__label" for="method-payment-1">
-                                            Kort <br/>
+                                            <strong>Kort</strong> <br/>
                                             @Html.Translate("/resursbank/card/description")
                                         </label>
                                     </div>
@@ -46,7 +46,7 @@
                                     <div class="radio__container">
                                         <input class="radio__input" type="radio" id="method-payment-2" name="method-payment" value="@method.Id"/>
                                         <label class="radio__label" for="method-payment-2">
-                                            Nytt kort/konto <br />
+                                            <strong>Nytt kort/konto</strong> <br />
                                             @Html.Translate("/resursbank/newcard/description")
                                         </label>
                                     </div>
@@ -82,7 +82,7 @@
                                     <div class="radio__container">
                                         <input class="radio__input" type="radio" id="method-payment-3" name="method-payment" value="@method.Id"/>
                                         <label class="radio__label" for="method-payment-3">
-                                            Faktura Resurs Bank <br />
+                                            <strong>Faktura Resurs Bank</strong> <br />
                                             @Html.Translate("/resursbank/invoice/description")
                                         </label>
                                     </div>
@@ -112,7 +112,7 @@
                                     <div class="radio__container">
                                         <input class="radio__input" type="radio" id="method-payment-4" name="method-payment" value="@method.Id"/>
                                         <label class="radio__label" for="method-payment-4">
-                                            Delbetaling Resurs Bank <br />
+                                            <strong>Delbetaling Resurs Bank</strong> <br />
                                             @Html.Translate("/resursbank/partpayment/description")
                                         </label>
                                     </div>
@@ -137,6 +137,11 @@
                             break;
                     }
                 }
+
+                <div class="checkbox__container">
+                    <input class="checkbox__input" type="checkbox" id="checkbox1" />
+                    <label class="checkbox__label" for="checkbox1">Approve terms and condition</label>
+                </div>
             }
         </div>
     </div>
