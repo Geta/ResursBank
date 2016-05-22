@@ -23,8 +23,8 @@
                                     <div class="radio__container">
                                         <input class="radio__input" type="radio" id="method-payment-1" name="method-payment" value="@method.Id"/>
                                         <label class="radio__label" for="method-payment-1">
-                                            @method.DescriptionField <br/>
-                                            @Html.Translate("/resursbank/partpayment/description")
+                                            Kort <br/>
+                                            @Html.Translate("/resursbank/card/description")
                                         </label>
                                     </div>
                                     <div class="payment-method__detail-container" data-min="@method.MinLimitField" data-max="@method.MaxLimitField">
@@ -46,17 +46,17 @@
                                     <div class="radio__container">
                                         <input class="radio__input" type="radio" id="method-payment-2" name="method-payment" value="@method.Id"/>
                                         <label class="radio__label" for="method-payment-2">
-                                            @method.DescriptionField <br />
+                                            Nytt kort/konto <br />
                                             @Html.Translate("/resursbank/newcard/description")
                                         </label>
                                     </div>
                                     <div class="payment-method__detail-container" data-min="@method.MinLimitField" data-max="@method.MaxLimitField">
                                         <div class="selectbox__container">
-                                            <span class="selectbox__label">Max Credit</span>
+                                            <span class="selectbox__label">Ønsket makskreditt</span>
                                             <select name="AmountForNewCard" class="selectbox__input">
-                                                <option value="10000">10.000</option>
-                                                <option value="15000">15.000</option>
-                                                <option value="20000">20.000</option>
+                                                <option value="10000">10000</option>
+                                                <option value="15000">15000</option>
+                                                <option value="20000">20000</option>
                                             </select>
                                         </div>
                                         @if (method.LegalInfoLinksField != null)
@@ -82,7 +82,7 @@
                                     <div class="radio__container">
                                         <input class="radio__input" type="radio" id="method-payment-3" name="method-payment" value="@method.Id"/>
                                         <label class="radio__label" for="method-payment-3">
-                                            @method.DescriptionField <br />
+                                            Faktura Resurs Bank <br />
                                             @Html.Translate("/resursbank/invoice/description")
                                         </label>
                                     </div>
@@ -112,7 +112,7 @@
                                     <div class="radio__container">
                                         <input class="radio__input" type="radio" id="method-payment-4" name="method-payment" value="@method.Id"/>
                                         <label class="radio__label" for="method-payment-4">
-                                            @method.DescriptionField <br />
+                                            Delbetaling Resurs Bank <br />
                                             @Html.Translate("/resursbank/partpayment/description")
                                         </label>
                                     </div>

@@ -10094,7 +10094,6 @@ input[type="checkbox"].checkbox__input {
 .payment-method__detail-container {
   border-top: 1px solid #dadada;
   padding: 5px 0;
-  display: none;
 }
 .confirm__information {
   background-color: #fdf8e4;
