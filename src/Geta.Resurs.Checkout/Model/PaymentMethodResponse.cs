@@ -22,13 +22,14 @@ namespace Geta.Resurs.Checkout.Model
         public CustomerType? CustomerTypeField { get; set; }
 
         public string SpecificTypeField { get; set; }
-        public PaymentMethodResponse(string id, string descriptionField, decimal minLimitField, decimal maxLimitField,string specificTypeField)
+        public PaymentMethodResponse(string id, string descriptionField, decimal minLimitField, decimal maxLimitField,string specificTypeField, WebLink[] legalInfoLinksField)
         {
             Id = id;
             DescriptionField = descriptionField;
             MinLimitField = minLimitField;
             MaxLimitField = maxLimitField;
             SpecificTypeField = specificTypeField;
+            LegalInfoLinksField = legalInfoLinksField;
         }
     }
 

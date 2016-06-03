@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using EPiServer.ServiceLocation;
 using Geta.Resurs.Checkout.Model;
 using Geta.Resurs.Checkout.SimplifiedShopFlowService;
@@ -48,9 +49,17 @@ namespace Geta.Resurs.Checkout
 
             var paymentMethods = _shopServiceClient.getPaymentMethods(langEnum, customerTypeEnum, amount);
             _shopServiceClient.Close();
-            foreach (var paymentMethod in paymentMethods)
+            foreach (paymentMethod paymentMethod in paymentMethods)
             {
-                var paymentMethodResponse = new PaymentMethodResponse(paymentMethod.id, paymentMethod.description, paymentMethod.minLimit, paymentMethod.maxLimit, paymentMethod.specificType);
+                WebLink[] legealInfoLinks = null;
+
+                if (paymentMethod.legalInfoLinks != null)
+                {
+                    legealInfoLinks = paymentMethod.legalInfoLinks.Select(l => new WebLink(l.appendPriceLast, l.endUserDescription, l.url)).ToArray();
+                }
+
+                var paymentMethodResponse = new PaymentMethodResponse(paymentMethod.id, paymentMethod.description, paymentMethod.minLimit, 
+                    paymentMethod.maxLimit, paymentMethod.specificType, legealInfoLinks);
                 paymentMethodList.Add(paymentMethodResponse);
             }
             return paymentMethodList;
