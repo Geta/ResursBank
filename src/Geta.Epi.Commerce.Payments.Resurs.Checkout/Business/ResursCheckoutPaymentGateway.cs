@@ -304,6 +304,7 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
                 //Cache list payment methods for 1 day as Resurs recommended.
                 EPiServer.CacheManager.Insert("GetListResursPaymentMethods", lstPaymentMethodsResponse, new CacheEvictionPolicy(null, new TimeSpan(1, 0, 0, 0), CacheTimeoutType.Absolute));
             }
+
             return lstPaymentMethodsResponse;
         }
 

@@ -8,10 +8,10 @@
         <h3 class="payment-method__title">Choose available payment</h3>
         <div class="payment-method__options">
             @{
-                <input type="hidden" name="ResursPaymentMethod"/>
+                <input type="hidden" name="ResursPaymentMethod" />
                 <input type="hidden" name="GovernmentId" />
-                <input type="hidden" name="MinLimit" value="0"/>
-                <input type="hidden" name="MaxLimit" value="0"/>
+                <input type="hidden" name="MinLimit" value="0" />
+                <input type="hidden" name="MaxLimit" value="0" />
 
                 foreach (var method in Model.ResursBankPaymentMethods)
                 {
@@ -21,20 +21,20 @@
                             <text>
                                 <div class="payment-method__option-item">
                                     <div class="radio__container">
-                                        <input class="radio__input" type="radio" id="method-payment-1" name="method-payment" value="@method.Id"/>
+                                        <input class="radio__input" type="radio" id="method-payment-1" name="method-payment" value="@method.Id" />
                                         <label class="radio__label" for="method-payment-1">
-                                            <strong>Kort</strong> <br/>
+                                            <strong>Kort</strong> <br />
                                             @Html.Translate("/resursbank/card/description")
                                         </label>
                                     </div>
                                     <div class="payment-method__detail-container" data-min="@method.MinLimitField" data-max="@method.MaxLimitField">
                                         <div class="textbox__container">
                                             <span class="textbox__label">Kortnummer</span>
-                                            <input name="CardNumber" class="textbox__input" type="text"/>
+                                            <input name="CardNumber" class="textbox__input" type="text" />
                                         </div>
                                         <div class="textbox__container">
                                             <span class="textbox__label">Personnummer</span>
-                                            <input class="textbox__input" name="govid" type="text"/>
+                                            <input class="textbox__input" name="govid" type="text" />
                                         </div>
                                     </div>
                                 </div>
@@ -44,7 +44,7 @@
                             <text>
                                 <div class="payment-method__option-item">
                                     <div class="radio__container">
-                                        <input class="radio__input" type="radio" id="method-payment-2" name="method-payment" value="@method.Id"/>
+                                        <input class="radio__input" type="radio" id="method-payment-2" name="method-payment" value="@method.Id" />
                                         <label class="radio__label" for="method-payment-2">
                                             <strong>Nytt kort/konto</strong> <br />
                                             @Html.Translate("/resursbank/newcard/description")
@@ -59,19 +59,17 @@
                                                 <option value="20000">20000</option>
                                             </select>
                                         </div>
-                                        @if (method.LegalInfoLinksField != null)
-                                        {
-                                            foreach (var legalInfo in method.LegalInfoLinksField)
-                                            {
-                                                <div class="checkbox__container">
-                                                    <a href="@legalInfo.Url">@legalInfo.EndUserDescription</a> @legalInfo.AppendPriceLast
-                                                </div>
-                                            }
-                                        }
+
                                         <div class="textbox__container">
                                             <span class="textbox__label">Personnummer</span>
-                                            <input class="textbox__input" name="govid" type="text"/>
+                                            <input class="textbox__input" name="govid" type="text" />
                                         </div>
+                                        @if (method.LegalInfoLinksField != null)
+                                        {
+                                            <div class="textbox__container">
+                                                <a href="@method.LegalInfoLinksField[0].Url" target="_blank">@method.LegalInfoLinksField[0].EndUserDescription</a>
+                                            </div>
+                                        }
                                     </div>
                                 </div>
                             </text>
@@ -80,28 +78,24 @@
                             <text>
                                 <div class="payment-method__option-item">
                                     <div class="radio__container">
-                                        <input class="radio__input" type="radio" id="method-payment-3" name="method-payment" value="@method.Id"/>
+                                        <input class="radio__input" type="radio" id="method-payment-3" name="method-payment" value="@method.Id" />
                                         <label class="radio__label" for="method-payment-3">
                                             <strong>Faktura Resurs Bank</strong> <br />
                                             @Html.Translate("/resursbank/invoice/description")
                                         </label>
                                     </div>
                                     <div class="payment-method__detail-container" data-min="@method.MinLimitField" data-max="@method.MaxLimitField">
-                                        <input type="hidden" name="DeliveryType" value="EMAIL"/>
-                                        @if (method.LegalInfoLinksField != null)
-                                        {
-                                            foreach (var legalInfo in method.LegalInfoLinksField)
-                                            {
-                                                <div class="checkbox__container">
-                                                    <a href="@legalInfo.Url">@legalInfo.EndUserDescription</a> @legalInfo.AppendPriceLast
-                                                </div>
-                                            }
-                                        }
-                                        
+                                        <input type="hidden" name="DeliveryType" value="EMAIL" />
                                         <div class="textbox__container">
                                             <span class="textbox__label">Personnummer</span>
-                                            <input class="textbox__input" name="govid" type="text"/>
+                                            <input class="textbox__input" name="govid" type="text" />
                                         </div>
+                                        @if (method.LegalInfoLinksField != null)
+                                        {
+                                            <div class="textbox__container">
+                                                <a href="@method.LegalInfoLinksField[0].Url" target="_blank">@method.LegalInfoLinksField[0].EndUserDescription</a>
+                                            </div>
+                                        }
                                     </div>
                                 </div>
                             </text>
@@ -110,28 +104,25 @@
                             <text>
                                 <div class="payment-method__option-item">
                                     <div class="radio__container">
-                                        <input class="radio__input" type="radio" id="method-payment-4" name="method-payment" value="@method.Id"/>
+                                        <input class="radio__input" type="radio" id="method-payment-4" name="method-payment" value="@method.Id" />
                                         <label class="radio__label" for="method-payment-4">
                                             <strong>Delbetaling Resurs Bank</strong> <br />
                                             @Html.Translate("/resursbank/partpayment/description")
                                         </label>
                                     </div>
                                     <div class="payment-method__detail-container" data-min="@method.MinLimitField" data-max="@method.MaxLimitField">
-                                        @if (method.LegalInfoLinksField != null)
-                                        {
-                                            foreach (var legalInfo in method.LegalInfoLinksField)
-                                            {
-                                                <div class="checkbox__container">
-                                                    <a href="@legalInfo.Url">@legalInfo.EndUserDescription</a> @legalInfo.AppendPriceLast
-                                                </div>
-                                            }
-                                        }
-                                        
                                         <div class="textbox__container">
                                             <span class="textbox__label">Personnummer</span>
-                                            <input class="textbox__input" name="govid" type="text"/>
+                                            <input class="textbox__input" name="govid" type="text" />
                                         </div>
+                                        @if (method.LegalInfoLinksField != null)
+                                        {
+                                            <div class="textbox__container">
+                                                <a href="@method.LegalInfoLinksField[0].Url" target="_blank">@method.LegalInfoLinksField[0].EndUserDescription</a>
+                                            </div>
+                                        }
                                     </div>
+
                                 </div>
                             </text>
                             break;

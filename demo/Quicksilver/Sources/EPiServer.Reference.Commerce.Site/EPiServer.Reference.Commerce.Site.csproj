@@ -178,12 +178,12 @@
       <HintPath>..\..\packages\EPiServer.CMS.Core.9.7.2\lib\net45\EPiServer.XForms.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Geta.Epi.Commerce.Payments.Resurs.Checkout, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Geta.Epi.Commerce.Payments.Resurs.Checkout.1.0.0.3\lib\net452\Geta.Epi.Commerce.Payments.Resurs.Checkout.dll</HintPath>
+    <Reference Include="Geta.Epi.Commerce.Payments.Resurs.Checkout, Version=1.0.0.7, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Geta.Epi.Commerce.Payments.Resurs.Checkout.1.0.0.7\lib\net452\Geta.Epi.Commerce.Payments.Resurs.Checkout.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Geta.Resurs.Checkout, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Geta.Resurs.Checkout.1.0.0.3\lib\net452\Geta.Resurs.Checkout.dll</HintPath>
+    <Reference Include="Geta.Resurs.Checkout, Version=1.0.0.7, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Geta.Resurs.Checkout.1.0.0.7\lib\net452\Geta.Resurs.Checkout.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">

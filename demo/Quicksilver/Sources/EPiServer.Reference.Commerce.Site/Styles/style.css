@@ -10092,6 +10092,7 @@ input[type="checkbox"].checkbox__input {
   margin: 0 0 5px;
 }
 .payment-method__detail-container {
+  display: none;
   border-top: 1px solid #dadada;
   padding: 5px 0;
 }

@@ -21,7 +21,6 @@
 
                         $('input[name="ResursPaymentMethod"]').val($(this).val());
 
-
                         $('input[name="MinLimit"]').val($(this).parent().parent().find('.payment-method__detail-container').attr('data-min'));
                         $('input[name="MaxLimit"]').val($(this).parent().parent().find('.payment-method__detail-container').attr('data-max'));
 
