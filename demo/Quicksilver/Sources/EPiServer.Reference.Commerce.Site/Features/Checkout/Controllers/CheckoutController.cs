@@ -644,7 +644,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         public int AutoCheckout(string productCode)
         {
             
-            var listResursPaymentMethods = (new ResursCheckoutPaymentGateway()).GetResursPaymentMethods("no", "NATURAL",10000);
+            var listResursPaymentMethods = (new ResursCheckoutPaymentGateway()).GetResursPaymentMethods("sv", "NATURAL",10000);
             List<int> listPurcharseOrder =  new List<int>();
             if (listResursPaymentMethods != null && listResursPaymentMethods.Any())
             {

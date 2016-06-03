@@ -15,7 +15,7 @@
                     var resurCheckoutModel = Model.Payment as ResursBankCheckoutViewModel;
                     if (resurCheckoutModel != null)
                     {
-                        resurCheckoutModel.ResursBankPaymentMethods = (Model.Payment.PaymentMethod as ResursCheckoutPaymentGateway).GetResursPaymentMethods("no", "NATURAL", 10000);
+                        resurCheckoutModel.ResursBankPaymentMethods = (Model.Payment.PaymentMethod as ResursCheckoutPaymentGateway).GetResursPaymentMethods("sv", "NATURAL", 10000);
                         Html.RenderPartial(controller, resurCheckoutModel);
                     }
 

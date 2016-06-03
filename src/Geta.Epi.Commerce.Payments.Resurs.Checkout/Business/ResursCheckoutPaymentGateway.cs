@@ -22,7 +22,6 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
 {
     public class ResursCheckoutPaymentGateway : AbstractPaymentGateway, IPaymentOption
     {
-
         private static readonly ILogger Logger = LogManager.GetLogger(typeof(ResursCheckoutPaymentGateway));
 
         protected readonly LocalizationService _localizationService;
@@ -50,7 +49,6 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
         {
             get
             {
-
                 if (_resursCredential == null)
                 {
                     _resursCredential = new ResursCredential(Settings[ResursConstants.UserName], Settings[ResursConstants.Password]);
@@ -70,13 +68,12 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
         {
             try
             {
-
                 Logger.Debug("Resurs checkout gateway. Processing Payment ....");
                 if (VerifyConfiguration())
                 {
                     var factory = ServiceLocator.Current.GetInstance<IResursBankServiceSettingFactory>();
                     var resursBankServices = factory.Init(ResursCredential);
-                    // Check payment was processed of not.
+                    // Check payment was processed or not.
                     bookPaymentResult bookPaymentResult = GetObjectFromCookie<bookPaymentResult>(ResursConstants.PaymentResultCookieName);
 
                     if (bookPaymentResult == null)
@@ -186,7 +183,6 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
                             SaveObjectToCookie(null, ResursConstants.PaymentResultCookieName, new TimeSpan(0, 1, 0, 0));
                             return false;
                         }
-
                     }
                 }
 
@@ -215,7 +211,6 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
             {
                 HttpContext.Current.Response.Cookies.Set(cookie);
             }
-
         }
 
         private T GetObjectFromCookie<T>(string keyName)
@@ -241,6 +236,7 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
                 throw new PaymentException(PaymentException.ErrorType.ConfigurationError, "",
                                            "Payment configuration is not valid. Missing payment provider password.");
             }
+
             Logger.Debug("Payment method configuuration verified.");
             return true;
         }
@@ -280,7 +276,6 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
                 Status = PaymentStatus.Pending.ToString(),
                 TransactionType = TransactionType.Authorization.ToString(),
             };
-            
 
             payment.SetMetaField(ResursConstants.ResursBankPaymentType, ResursPaymentMethod, false);
             payment.SetMetaField(ResursConstants.CardNumber, CardNumber, false);
@@ -347,6 +342,7 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
                 paymentSpec.totalVatAmountSpecified = true;
 
             }
+
             return paymentSpec;
         }
 
