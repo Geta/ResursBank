@@ -32,7 +32,7 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
         public decimal MinLimit { get; set; }
         public decimal MaxLimit { get; set; }
 
-        public decimal CallbackUrl { get; set; }
+        public string CallbackUrl { get; set; }
         public string InvoiceDeliveryType { get; set; }
 
         public ResursCheckoutPaymentGateway(LocalizationService localizationService)

@@ -22,7 +22,7 @@
         public const string AmountForNewCard = "AmountForNewCard";
         public const string MinLimit = "MinLimit";
         public const string MaxLimit = "MaxLimit";
-        public const string CallBackUrl = "MaxLimit";
+        public const string CallBackUrl = "CallBackUrl";
         public const string ResursVatPercent = "ResursVatPercent";
         public const string LineItemExClass = "LineItemEx";
         public const string InvoiceDeliveryType = "InvoiceDeliveryType";
