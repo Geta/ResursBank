@@ -6,10 +6,10 @@
     <title>$title$</title>
     <authors>$author$</authors>
     <owners>$author$</owners>
-    <projectUrl>https://github.com/Geta/EPi.Commerce.Payments/tree/master/ResursBank</projectUrl>
+    <projectUrl>https://github.com/Geta/ResursBank</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <copyright>Copyright Geta 2016</copyright>
+    <copyright>Copyright Geta 2018</copyright>
     <iconUrl>https://cdn.geta.no/opensource/icons/Geta-logo-3.png</iconUrl>
   </metadata>
 </package>
