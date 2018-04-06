@@ -18,6 +18,11 @@
                 <asp:RequiredFieldValidator ID="val3" runat="server" ControlToValidate="txtPassword" ErrorMessage="The shared secret is required." />
             </td>
         </tr>
-       
+        <tr>
+            <td class="FormLabelCell">Include shipment costs:</td>
+            <td class="FormFieldCell">
+                <asp:CheckBox runat="server" ID="chkIncludeShippingCost"  />
+            </td>
+        </tr>
     </tbody>
 </table>

@@ -20,6 +20,7 @@ namespace Geta.EPi.Payments.Resurs.CommerceManager.Apps.Order.Payments.Plugins.R
 
             txtUserName.Text = paymentMethod.GetParameter(ResursConstants.UserName, string.Empty);
             txtPassword.Text = paymentMethod.GetParameter(ResursConstants.Password, string.Empty);
+            chkIncludeShippingCost.Checked = GetBool(paymentMethod, ResursConstants.IncludeShippingCost);
         }
 
         public void SaveChanges(object dto)
@@ -37,6 +38,12 @@ namespace Geta.EPi.Payments.Resurs.CommerceManager.Apps.Order.Payments.Plugins.R
 
             paymentMethod.SetParameter(ResursConstants.UserName, txtUserName.Text);
             paymentMethod.SetParameter(ResursConstants.Password, txtPassword.Text);
+            paymentMethod.SetParameter(ResursConstants.IncludeShippingCost, chkIncludeShippingCost.Checked ? "true" : "false");
+        }
+
+        private bool GetBool(PaymentMethodDto paymentMethod, string fieldName, string defaultValue = "false")
+        {
+            return bool.TryParse(paymentMethod.GetParameter(fieldName, defaultValue), out bool includeShippingCosts) && includeShippingCosts;
         }
     }
 }

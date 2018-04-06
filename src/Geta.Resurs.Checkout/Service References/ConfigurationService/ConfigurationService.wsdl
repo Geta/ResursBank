@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:msg="http://ecommerce.resurs.com/v4/msg/configuration" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://ecommerce.resurs.com/v4" xmlns:exc="http://ecommerce.resurs.com/v4/msg/exception" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns="http://schemas.xmlsoap.org/wsdl/" name="ConfigurationService" targetNamespace="http://ecommerce.resurs.com/v4" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://ecommerce.resurs.com/v4/configuration">
+      <xsd:import schemaLocation="https://ecommerce.resurs.com/ws/V4/ConfigurationService?xsd=schemas/messages/ConfigurationServiceMessages.xsd" namespace="http://ecommerce.resurs.com/v4/msg/configuration" />
+      <xsd:import schemaLocation="https://ecommerce.resurs.com/ws/V4/ConfigurationService?xsd=schemas/messages/Exceptions.xsd" namespace="http://ecommerce.resurs.com/v4/msg/exception" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="removePassword">
+    <wsdl:part name="parameters" element="msg:removePassword" />
+  </wsdl:message>
+  <wsdl:message name="setInvoiceSequenceResponse">
+    <wsdl:part name="parameters" element="msg:setInvoiceSequenceResponse" />
+  </wsdl:message>
+  <wsdl:message name="unregisterEventCallbackResponse">
+    <wsdl:part name="parameters" element="msg:unregisterEventCallbackResponse" />
+  </wsdl:message>
+  <wsdl:message name="registerEventCallback">
+    <wsdl:part name="parameters" element="msg:registerEventCallback" />
+  </wsdl:message>
+  <wsdl:message name="registerEventCallbackResponse">
+    <wsdl:part name="parameters" element="msg:registerEventCallbackResponse" />
+  </wsdl:message>
+  <wsdl:message name="getRegisteredEventCallbackResponse">
+    <wsdl:part name="parameters" element="msg:getRegisteredEventCallbackResponse" />
+  </wsdl:message>
+  <wsdl:message name="setInvoiceDataResponse">
+    <wsdl:part name="parameters" element="msg:setInvoiceDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="changePassword">
+    <wsdl:part name="parameters" element="msg:changePassword" />
+  </wsdl:message>
+  <wsdl:message name="unregisterEventCallback">
+    <wsdl:part name="parameters" element="msg:unregisterEventCallback" />
+  </wsdl:message>
+  <wsdl:message name="peekInvoiceSequence">
+    <wsdl:part name="parameters" element="msg:peekInvoiceSequence" />
+  </wsdl:message>
+  <wsdl:message name="peekInvoiceSequenceResponse">
+    <wsdl:part name="parameters" element="msg:peekInvoiceSequenceResponse" />
+  </wsdl:message>
+  <wsdl:message name="getRegisteredEventCallback">
+    <wsdl:part name="parameters" element="msg:getRegisteredEventCallback" />
+  </wsdl:message>
+  <wsdl:message name="getInvoiceData">
+    <wsdl:part name="parameters" element="msg:getInvoiceData" />
+  </wsdl:message>
+  <wsdl:message name="ECommerceErrorException">
+    <wsdl:part name="fault" element="exc:ECommerceError" />
+  </wsdl:message>
+  <wsdl:message name="addPassword">
+    <wsdl:part name="parameters" element="msg:addPassword" />
+  </wsdl:message>
+  <wsdl:message name="addPasswordResponse">
+    <wsdl:part name="parameters" element="msg:addPasswordResponse" />
+  </wsdl:message>
+  <wsdl:message name="removePasswordResponse">
+    <wsdl:part name="parameters" element="msg:removePasswordResponse" />
+  </wsdl:message>
+  <wsdl:message name="setInvoiceData">
+    <wsdl:part name="parameters" element="msg:setInvoiceData" />
+  </wsdl:message>
+  <wsdl:message name="changePasswordResponse">
+    <wsdl:part name="parameters" element="msg:changePasswordResponse" />
+  </wsdl:message>
+  <wsdl:message name="setInvoiceSequence">
+    <wsdl:part name="parameters" element="msg:setInvoiceSequence" />
+  </wsdl:message>
+  <wsdl:message name="getInvoiceDataResponse">
+    <wsdl:part name="parameters" element="msg:getInvoiceDataResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ConfigurationWebService">
+    <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+The Configuration WebService provides all self administration services available to the representative.
+        </wsdl:documentation>
+    <wsdl:operation name="changePassword">
+      <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                Changes a password for the representative.
+                <br />Please ensure that the password is of sufficient strength. If not, the operation will be rejected.
+                <br /><strong>NB:</strong>Also see <code>addPassword</code> for more information on multiple passwords.
+            </wsdl:documentation>
+      <wsdl:input message="tns:changePassword" />
+      <wsdl:output message="tns:changePasswordResponse" />
+      <wsdl:fault name="ECommerceErrorException" message="tns:ECommerceErrorException">
+        <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">Failed to change the password. See error for details.</wsdl:documentation>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addPassword">
+      <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                Creates a new additional password to the representative.
+                <br />This function can be used to provide multiple, parallel logins for the same representative, 
+                something that can be quite useful when accessing the eCommerce platform from different systems 
+                that are not always in synch.
+                <br />Please ensure that the password is of sufficient strength. If not, the operation will be rejected.
+                <br /><strong>NB:</strong>Please be aware that separate expiration dates are kept for all the 
+                passwords.
+            </wsdl:documentation>
+      <wsdl:input message="tns:addPassword" />
+      <wsdl:output message="tns:addPasswordResponse" />
+      <wsdl:fault name="ECommerceErrorException" message="tns:ECommerceErrorException">
+        <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">Failed to add a new representative password. See error for details.</wsdl:documentation>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removePassword">
+      <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                Removes an additional representative password.
+                <br /><strong>NB:</strong>Please note that the "master" password cannot be removed, only those 
+                added using the <code>addPassword</code> method.
+            </wsdl:documentation>
+      <wsdl:input message="tns:removePassword" />
+      <wsdl:output message="tns:removePasswordResponse" />
+      <wsdl:fault name="ECommerceErrorException" message="tns:ECommerceErrorException">
+        <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">Failed to remove specified representative password. See error for details.</wsdl:documentation>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="registerEventCallback">
+      <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                Registers a new event callback. <br />
+                See separate event documentation for details!
+            </wsdl:documentation>
+      <wsdl:input message="tns:registerEventCallback" />
+      <wsdl:output message="tns:registerEventCallbackResponse" />
+      <wsdl:fault name="ECommerceErrorException" message="tns:ECommerceErrorException">
+        <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">Failed to register event callback. See error for details.</wsdl:documentation>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRegisteredEventCallback">
+      <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+               Returns the registered event callback URI template if it exists.
+            </wsdl:documentation>
+      <wsdl:input message="tns:getRegisteredEventCallback" />
+      <wsdl:output message="tns:getRegisteredEventCallbackResponse" />
+      <wsdl:fault name="ECommerceErrorException" message="tns:ECommerceErrorException">
+        <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">Failed to retrieve the event callback uri template. See error for details.</wsdl:documentation>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="unregisterEventCallback">
+      <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">
+                Unregisters an existing event callback.
+            </wsdl:documentation>
+      <wsdl:input message="tns:unregisterEventCallback" />
+      <wsdl:output message="tns:unregisterEventCallbackResponse" />
+      <wsdl:fault name="ECommerceErrorException" message="tns:ECommerceErrorException">
+        <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">Failed to unregister event callback. See error for details.</wsdl:documentation>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="peekInvoiceSequence">
+      <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">Returns the next invoice number to be used for automatic generation of invoice numbers.</wsdl:documentation>
+      <wsdl:input message="tns:peekInvoiceSequence" />
+      <wsdl:output message="tns:peekInvoiceSequenceResponse" />
+      <wsdl:fault name="ECommerceErrorException" message="tns:ECommerceErrorException">
+        <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">Failed to return invoice number sequence. See error for details.</wsdl:documentation>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="setInvoiceSequence">
+      <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">Sets the next invoice number to be used for automatic generation of invoice numbers.</wsdl:documentation>
+      <wsdl:input message="tns:setInvoiceSequence" />
+      <wsdl:output message="tns:setInvoiceSequenceResponse" />
+      <wsdl:fault name="ECommerceErrorException" message="tns:ECommerceErrorException">
+        <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">Failed to set the invoice number sequence. See error for details.</wsdl:documentation>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="setInvoiceData">
+      <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">Sets new data to the representative.</wsdl:documentation>
+      <wsdl:input message="tns:setInvoiceData" />
+      <wsdl:output message="tns:setInvoiceDataResponse" />
+      <wsdl:fault name="ECommerceErrorException" message="tns:ECommerceErrorException" />
+    </wsdl:operation>
+    <wsdl:operation name="getInvoiceData">
+      <wsdl:documentation xmlns="http://www.w3.org/1999/xhtml">Gets the representatives data.</wsdl:documentation>
+      <wsdl:input message="tns:getInvoiceData" />
+      <wsdl:output message="tns:getInvoiceDataResponse" />
+      <wsdl:fault name="ECommerceErrorException" message="tns:ECommerceErrorException" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ConfigurationWebServiceImplPortBinding" type="tns:ConfigurationWebService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="changePassword">
+      <soap:operation soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ECommerceErrorException">
+        <soap:fault use="literal" name="ECommerceErrorException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addPassword">
+      <soap:operation soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ECommerceErrorException">
+        <soap:fault use="literal" name="ECommerceErrorException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removePassword">
+      <soap:operation soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ECommerceErrorException">
+        <soap:fault use="literal" name="ECommerceErrorException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="registerEventCallback">
+      <soap:operation soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ECommerceErrorException">
+        <soap:fault use="literal" name="ECommerceErrorException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRegisteredEventCallback">
+      <soap:operation soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ECommerceErrorException">
+        <soap:fault use="literal" name="ECommerceErrorException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="unregisterEventCallback">
+      <soap:operation soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ECommerceErrorException">
+        <soap:fault use="literal" name="ECommerceErrorException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="peekInvoiceSequence">
+      <soap:operation soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ECommerceErrorException">
+        <soap:fault use="literal" name="ECommerceErrorException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="setInvoiceSequence">
+      <soap:operation soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ECommerceErrorException">
+        <soap:fault use="literal" name="ECommerceErrorException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="setInvoiceData">
+      <soap:operation soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ECommerceErrorException">
+        <soap:fault use="literal" name="ECommerceErrorException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getInvoiceData">
+      <soap:operation soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ECommerceErrorException">
+        <soap:fault use="literal" name="ECommerceErrorException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ConfigurationService">
+    <wsdl:port name="ConfigurationWebServiceImplPort" binding="tns:ConfigurationWebServiceImplPortBinding">
+      <soap:address location="https://ecommerce.resurs.com/ws/V4/ConfigurationService" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:types="http://ecommerce.resurs.com/v4/types/configuration" xmlns:tns="http://ecommerce.resurs.com/v4/msg/configuration" xmlns:common="http://ecommerce.resurs.com/v4/types/common" xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://ecommerce.resurs.com/v4/msg/configuration" version="4.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:import schemaLocation="https://ecommerce.resurs.com/ws/V4/ConfigurationService?xsd=schemas/types/common.xsd" namespace="http://ecommerce.resurs.com/v4/types/common" />
+  <xsd:import schemaLocation="https://ecommerce.resurs.com/ws/V4/ConfigurationService?xsd=schemas/types/configuration.xsd" namespace="http://ecommerce.resurs.com/v4/types/configuration" />
+  <xsd:element name="changePassword" type="tns:changePassword" />
+  <xsd:element name="changePasswordResponse" type="tns:changePasswordResponse" />
+  <xsd:element name="addPassword" type="tns:addPassword" />
+  <xsd:element name="addPasswordResponse" type="tns:addPasswordResponse" />
+  <xsd:element name="removePassword" type="tns:removePassword" />
+  <xsd:element name="removePasswordResponse" type="tns:removePasswordResponse" />
+  <xsd:element name="registerEventCallback" type="tns:registerEventCallback" />
+  <xsd:element name="registerEventCallbackResponse" type="tns:registerEventCallbackResponse" />
+  <xsd:element name="getRegisteredEventCallback" type="tns:getRegisteredEventCallback" />
+  <xsd:element name="getRegisteredEventCallbackResponse" type="tns:getRegisteredEventCallbackResponse" />
+  <xsd:element name="unregisterEventCallback" type="tns:unregisterEventCallback" />
+  <xsd:element name="unregisterEventCallbackResponse" type="tns:unregisterEventCallbackResponse" />
+  <xsd:element name="peekInvoiceSequence" type="tns:peekInvoiceSequence" />
+  <xsd:element name="peekInvoiceSequenceResponse" type="tns:peekInvoiceSequenceResponse" />
+  <xsd:element name="setInvoiceSequence" type="tns:setInvoiceSequence" />
+  <xsd:element name="setInvoiceSequenceResponse" type="tns:setInvoiceSequenceResponse" />
+  <xsd:element name="setInvoiceData" type="tns:setInvoiceData" />
+  <xsd:element name="setInvoiceDataResponse" type="tns:setInvoiceDataResponse" />
+  <xsd:element name="getInvoiceData" type="tns:getInvoiceData" />
+  <xsd:element name="getInvoiceDataResponse" type="tns:getInvoiceDataResponse" />
+  <xsd:complexType name="changePassword">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="identifier" nillable="true" type="common:id">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The password identifier.
+                        <br xmlns="http://www.w3.org/1999/xhtml" />If none is specified, the master password is assumed.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="newPassword" type="common:nonEmptyString">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The new password.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="changePasswordResponse">
+    <xsd:sequence />
+  </xsd:complexType>
+  <xsd:complexType name="addPassword">
+    <xsd:sequence>
+      <xsd:element name="identifier" type="common:id">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The password identifier as defined by the representative.
+                        <br />This is used to separate the different representative passwords.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="description" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">A textual description of the password.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="newPassword" type="common:nonEmptyString">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The password.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="addPasswordResponse">
+    <xsd:sequence />
+  </xsd:complexType>
+  <xsd:complexType name="removePassword">
+    <xsd:sequence>
+      <xsd:element name="identifier" type="common:id">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">The password identifier.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="removePasswordResponse">
+    <xsd:sequence />
+  </xsd:complexType>
+  <xsd:complexType name="registerEventCallback">
+    <xsd:sequence>
+      <xsd:element name="eventType" type="common:id">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The type of event call-back being registered.
+                        <br />Typical examples are PASSWORD_EXPIRATION for the mandatory password expiration event
+                        call-back, and UNFREEZE for notification of frozen payments being thawed after manual
+                        fraud control.
+                        <br />For full details on the call-back events available, please contact Resurs Bank.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="uriTemplate" type="common:nonEmptyString">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The call-back event URI template, with placeholders for the parameters to be returned. All
+                        placeholders are supplied in curly brackets, i.e. {}
+                        <br />The actual placeholders depend on the type of call-back event. However, there is
+                        one common: digest
+                        <br />For further information on URIs and placeholders, please contact Resurs Bank.
+                        <br />Example: http://www.resurs.se/?id={identifier}&amp;rep=4&amp;digest={digest}
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="basicAuthUserName" nillable="true" type="common:nonEmptyString">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        If Basic Access Authentication is to be used, the user name.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="basicAuthPassword" nillable="true" type="common:nonEmptyString">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        If Basic Access Authentication is to be used, the password.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="digestConfiguration" nillable="true" type="types:digestConfiguration">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        If a digest is to be used to confirm that the call-back is actually issued by Resurs Bank,
+                        the configuration of that digest.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="registerEventCallbackResponse">
+    <xsd:sequence />
+  </xsd:complexType>
+  <xsd:complexType name="getRegisteredEventCallback">
+    <xsd:sequence>
+      <xsd:element name="eventType" type="common:id">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                    The type of event call-back being fetched.
+                </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="getRegisteredEventCallbackResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="uriTemplate" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The registered callback URI template for the specified callback type,
+                        this function returns <pre>null</pre> if no callback is registered.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="unregisterEventCallback">
+    <xsd:sequence>
+      <xsd:element name="eventType" type="common:id" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="unregisterEventCallbackResponse">
+    <xsd:sequence />
+  </xsd:complexType>
+  <xsd:complexType name="peekInvoiceSequence">
+    <xsd:sequence />
+  </xsd:complexType>
+  <xsd:complexType name="peekInvoiceSequenceResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="nextInvoiceNumber" type="xsd:integer">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The next invoice number to be used for automatic generation of invoice numbers. If no sequence
+                        is set, this function returns <pre>null</pre>.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="setInvoiceSequence">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="nextInvoiceNumber" nillable="true" type="xsd:integer">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The next invoice number to be used for automatic generation of invoice numbers.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="setInvoiceSequenceResponse">
+    <xsd:sequence />
+  </xsd:complexType>
+  <xsd:complexType name="setInvoiceDataResponse">
+    <xsd:sequence />
+  </xsd:complexType>
+  <xsd:complexType name="setInvoiceData">
+    <xsd:sequence>
+      <xsd:element name="invoiceData" type="types:invoiceData">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        Sets the representative data that will be used in the invoices. The data will be set once and
+                        will be used on all future invoices until the representative call setInvoice again.
+                        The invoice is generated after you finalize the payment and will contain the invoiceData and the speclines submitted in the finalize.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="getInvoiceData">
+    <xsd:sequence />
+  </xsd:complexType>
+  <xsd:complexType name="getInvoiceDataResponse">
+    <xsd:sequence>
+      <xsd:element name="invoiceData" type="types:invoiceData" />
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

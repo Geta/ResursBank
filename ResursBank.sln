@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.8
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.Epi.Commerce.Payments.Resurs.Checkout", "src\Geta.Epi.Commerce.Payments.Resurs.Checkout\Geta.Epi.Commerce.Payments.Resurs.Checkout.csproj", "{04F3862D-4D3C-4A50-90B2-B1484CA01E5A}"
 EndProject
@@ -41,5 +41,8 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{8EB54260-484E-4A72-8CF4-93C5548518BD} = {16BD253A-6763-4BE4-B301-3A84F6ED9608}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9D617428-2003-4A5A-9E66-0DA840E63D7E}
 	EndGlobalSection
 EndGlobal

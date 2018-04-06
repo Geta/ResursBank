@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:tns="http://ecommerce.resurs.com/v4/types/common" xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://ecommerce.resurs.com/v4/types/common" version="4.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:complexType name="customer">
+    <xsd:annotation>
+      <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                Details about a (potential) customer, be it natural or legal.
+            </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="governmentId" nillable="true" type="tns:nonEmptyString">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        Identifying a customer uniquely within the country.
+                        <ul xmlns="http://www.w3.org/1999/xhtml"><li>SE: Personnummer/Organisationsnummer</li><li>DK: CPR-number</li><li>NO: Fødselsnummer</li><li>FI: Henkilötunnus</li></ul></xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="address" type="tns:address">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">Address of the customer.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="phone" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The customer telephone number.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="email" type="tns:nonEmptyString">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The customer email address.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="type" nillable="true" type="tns:customerType">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The type of customer.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="address">
+    <xsd:annotation>
+      <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">The customer address details.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="fullName" type="tns:nonEmptyString">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">The full (possibly composite name) of the
+                        customer.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="firstName" type="tns:nonEmptyString">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">If available, the first name of the
+                        customer.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="lastName" type="tns:nonEmptyString">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">If available, the last name of the
+                        customer.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="addressRow1" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">The first row of the customer address.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="addressRow2" type="tns:nonEmptyString">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">The second row of the customer address.
+                        <br xmlns="http://www.w3.org/1999/xhtml" />
+                        In practice: Located as a second line on printouts and graphics, like invoices.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="postalArea" type="tns:nonEmptyString">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">The postal area.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="postalCode" type="tns:nonEmptyString">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">The postal code.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="country" type="tns:countryCode">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">In which country is this address located?
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="mapEntry">
+    <xsd:annotation>
+      <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                A representation of a simple map. WebService frameworks are not good at supporting maps natively.
+                <br />
+                An instance of this object contains<tt>{key, value}</tt>-pair. If a list of this type is used,
+                <tt>keys</tt><strong>must</strong>
+                be unique within the list.
+            </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="key" type="tns:nonEmptyString">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">The key of the pair.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="value" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">The value of the pair.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="countryCode">
+    <xsd:annotation>
+      <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">The country code as defined by the ISO 3166-1
+                standard.
+            </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="SE">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">Sweden</xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="NO">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">Norway</xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="DK">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">Denmark</xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="FI">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">Finland</xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="language">
+    <xsd:annotation>
+      <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">The language code as defined by the ISO 639-2
+                standard.
+            </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="sv" />
+      <xsd:enumeration value="no" />
+      <xsd:enumeration value="da" />
+      <xsd:enumeration value="fi" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="id">
+    <xsd:annotation>
+      <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">The standard identity type.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1" />
+      <xsd:pattern value="[\p{L}0-9 \._/\-]*" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="nonEmptyString">
+    <xsd:annotation>
+      <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">A string that cannot be empty.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="positiveDecimal">
+    <xsd:annotation>
+      <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">A decimal value of at least zero (0).
+            </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:decimal">
+      <xsd:minInclusive value="0" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="percent">
+    <xsd:annotation>
+      <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">A percentage between 0% and 100%.
+            </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:decimal">
+      <xsd:minInclusive value="0" />
+      <xsd:maxInclusive value="100" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="multiplier">
+    <xsd:annotation>
+      <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">A decimal multiplier used when calculating annuity
+                factors. Between 0 and 1.
+            </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:decimal">
+      <xsd:minInclusive value="0" />
+      <xsd:maxInclusive value="1" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="paymentSpec">
+    <xsd:annotation>
+      <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                The payment details.
+                <br />In it's simples form it's just sum, i e
+                <code>totalAmount</code>
+                and
+                <code>totalVatAmount</code>
+                is
+                set, but there are no <code>specLines</code>. If nothing else is said you should send<code>
+                specLines</code>.
+            </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="specLines" type="tns:specLine">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The list of payment lines. In the case you're sending a simple payment, without lines, this
+                        parameter should be left empty. Sending payment lines may, or may not, be mandatory, depending
+                        on the contract with Resurs Bank.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="totalAmount" type="tns:positiveDecimal">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The total payment amount. The sum of all line amounts (if there are lines supplied)
+                        <strong>including vat</strong>. If this payment is without lines this is the only value to be
+                        set on the
+                        payment spec.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="totalVatAmount" nillable="true" type="xsd:decimal">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The total VAT amount of the payment.
+                        <br />This field is <strong>required</strong> when specification lines are supplied and<br /><strong>not</strong> allowed if no specification lines are supplied.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="bonusPoints" type="xsd:nonNegativeInteger">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The number of bonus points to use in this purchase.
+                        <p /><a href="https://test.resurs.com/docs/x/CAAv">Read more about bonus</a></xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="specLine">
+    <xsd:annotation>
+      <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                The payment line (item) specification. These can be used to provide detailed information about the
+                contents of the payment.
+            </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="id" type="tns:id">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The line identity
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="artNo" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        Article number of the item.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="description" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The item description.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="quantity" type="xsd:decimal">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The line quantity.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="unitMeasure" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The line unit.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="unitAmountWithoutVat" type="xsd:decimal">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The unit amount without VAT.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="vatPct" type="tns:percent">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The VAT percentage.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="totalVatAmount" type="xsd:decimal">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The total item VAT amount.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="totalAmount" type="xsd:decimal">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The total item amount, including VAT.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="paymentStatus">
+    <xsd:annotation>
+      <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                Payment status.
+            </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="DEBITABLE">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        Can be debited.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="CREDITABLE">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        Can be credited.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="IS_DEBITED">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        Is debited.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="IS_CREDITED">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        Is credited.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="IS_ANNULLED">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        Is annulled
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="limit">
+    <xsd:annotation>
+      <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                Detailed information about the limit.
+            </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="approvedAmount" type="tns:positiveDecimal">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The amount that has been approved. This can be the requested amount, or more.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="decision" type="tns:limitDecision">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The limit decision.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="customer" type="tns:customer">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The customer details.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="limitRequestId" type="tns:id">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        Identifies this limit request uniquely, whether it's granted or not. It can be used to request
+                        more information, by phone, about the application from Resurs Bank, if there is any questions.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="limitDecision">
+    <xsd:annotation>
+      <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                The possible decisions returned by a limit application.
+            </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="DENIED">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        No limit at all is given.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="GRANTED">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The applied limit
+                        <strong>or more</strong>
+                        is given.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="TRIAL">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        No limit could be<strong>immediately</strong>approved. Some form of additional information
+                        is required before a final decision can be made, and the customer has to contact Resurs
+                        Bank.
+                        <br />
+                        If, after a further inspection, the customer limit is approved, it will automatically be used
+                        the next time the same customer applies for the same (or lower amount) on the same payment
+                        method.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="customerType">
+    <xsd:annotation>
+      <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                The type of customer.
+            </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="LEGAL">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The customer is a legal customer.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="NATURAL">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The customer is a natural customer, i.e. a person.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="paymentMethodType">
+    <xsd:annotation>
+      <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                Payment methods are divided into groups.
+                This information can be used to retrieve orders based on which payment method type was used.
+            </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="INVOICE">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The customer wants to have an invoice sent to him, where he's able to pay the whole amount at
+                        once.
+                        <p>That can be many payment methods of this type. Fetch a list with the function
+                            <tt class="method">PaymentMethodService.getPaymentMethods</tt>.
+                        </p></xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="REVOLVING_CREDIT">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        The customer wants to start a new account, and finance the purchase with that account's
+                        credit limit. The purchase can be paid in a series of installments. In most cases there will be
+                        made a
+                        branded card sent to customer, depending on how your collaboration with Resurs Bank looks like.
+                        A credit
+                        application will need to be made, and the customer needs to sign a credit contract.
+                        <p>There can be many payment methods of this type. Fetch a list with the function
+                            <tt class="method">ShopFlowService.getPaymentMethods</tt>.
+                        </p></xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="CARD">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        Every card issued by Resurs Bank falls into this group, while cards from other banks or credit
+                        institutions do NOT! This means that customers which have a branded Resurs card from another of
+                        Resurs representatives still can use it in your webshop.
+                        <p>The will at most be one payment method of this type. Use the method
+                            <tt class="method">ShopFlowService.isCardPaymentAvailable</tt>
+                            to see if you
+                            can use it.
+                        </p></xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="PAYMENT_PROVIDER">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        This paymentmethod type is used when connecting to external paymentproviders.
+                        Like Card,Bank Payment etc.
+                        <p /><p>There can be many payment methods of this type. Fetch a list with the function
+                            <tt class="method">ShopFlowService.getPaymentMethods</tt>.
+                        </p></xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="invoiceDeliveryTypeEnum">
+    <xsd:annotation>
+      <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                This Enum indicates how a invoice should be delivered, if not specified it should default back to the
+                EMAIL type.
+            </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="NONE">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        Do not let Resurs Bank deliver the Invoices.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="EMAIL">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        This option will let Resurs Bank deliver the invoice by mail. This is the default option if
+                        nothing is specified.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="POSTAL">
+        <xsd:annotation>
+          <xsd:documentation xmlns="http://www.w3.org/1999/xhtml">
+                        This option will let Resurs Bank deliver the invoice by post.
+                    </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:schema>

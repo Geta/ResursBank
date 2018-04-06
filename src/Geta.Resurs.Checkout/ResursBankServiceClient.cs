@@ -33,7 +33,6 @@ namespace Geta.Resurs.Checkout
                     _shopServiceClient.ClientCredentials.UserName.Password = appSettings["ResursBank:Password"] ?? "Not Found";
                 }
             }
-            
         }
 
         public List<PaymentMethodResponse> GetPaymentMethods(string lang, string custType, decimal amount)
