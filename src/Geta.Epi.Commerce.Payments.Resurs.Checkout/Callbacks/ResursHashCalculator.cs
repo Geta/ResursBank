@@ -1,20 +1,11 @@
 using System.Security.Cryptography;
 using System.Text;
-using EPiServer.ServiceLocation;
-using StructureMap;
 
 namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Callbacks
 {
-    [ServiceConfiguration(typeof(IResursHashCalculator))]
     public class ResursHashCalculator : IResursHashCalculator
     {
         private readonly HashAlgorithm _algorithm;
-
-        [DefaultConstructor]
-        public ResursHashCalculator()
-        {
-            _algorithm = new SHA1CryptoServiceProvider();
-        }
 
         public ResursHashCalculator(HashAlgorithm algorithm)
         {

@@ -12,7 +12,7 @@ namespace Test.Integration
             var salt = "iCanHasCheezeburger";
             var paymentId = "lePayment";
             var hashCalculator = new ResursHashCalculator(new MD5CryptoServiceProvider());
-            
+
             var result = hashCalculator.Compute(new CallbackData
             {
                 PaymentId = paymentId
