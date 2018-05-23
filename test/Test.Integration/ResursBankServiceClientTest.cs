@@ -55,7 +55,7 @@ namespace Test.Integration
             Assert.Equal(4, list.Count);
         }
 
-        
+
 
         [Fact]
         public void GetPaymentMethodsFinland()
@@ -89,7 +89,7 @@ namespace Test.Integration
         public void BookPaymentFinland()
         {
             var resursBankServiceClient = new ResursBankServiceClient(FinlandCredentials);
-            
+
             var bookPaymentObject = CreateBookPaymentObject("100370-897V", PaymentSpecFinland);
             var result = resursBankServiceClient.BookPayment(bookPaymentObject);
             Assert.NotEqual(bookPaymentStatus.DENIED, result.bookPaymentStatus);
@@ -172,7 +172,7 @@ namespace Test.Integration
                     customerIpAddress = "127.0.0.1"
                 }
             };
-            
+
             //create paymentSpecification;
             bookPaymentObject.PaymentSpec = paymentSpecification;
             bookPaymentObject.MapEntry = null;
