@@ -1,4 +1,4 @@
-﻿using Mediachase.Commerce.Orders;
+﻿using EPiServer.Commerce.Order;
 
 namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Callbacks
 {
@@ -8,6 +8,6 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Callbacks
         void UnRegisterCallbackUrl(CallbackEventType callbackEventType);
         void ProcessCallback(CallbackData callbackData, string digest);
         bool CheckDigest(CallbackData callbackData, string digest);
-        void ProcessFrozenPayments(PurchaseOrder purchaseOrder);
+        void ProcessFrozenPayments(IPurchaseOrder purchaseOrder);
     }
 }

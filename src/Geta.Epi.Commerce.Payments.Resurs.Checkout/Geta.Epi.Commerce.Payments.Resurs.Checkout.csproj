@@ -229,10 +229,11 @@
     <Compile Include="Extensions\PurchaseOrderExtensions.cs" />
     <Compile Include="Callbacks\ResursBankCallbackClient.cs" />
     <Compile Include="Callbacks\ResursBankCallbackClientFactory.cs" />
-    <Compile Include="Extensions\LineItemExtensions.cs" />
+    <Compile Include="Extensions\ILineItemExtensions.cs" />
     <Compile Include="Extensions\MetaStorageExtensions.cs" />
     <Compile Include="Extensions\PaymentExtensions.cs" />
     <Compile Include="Extensions\PaymentMethodsExtensions.cs" />
+    <Compile Include="IResursBankRedirectSettings.cs" />
     <Compile Include="MetadataInitialization.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResursCallbackInitialization.cs" />

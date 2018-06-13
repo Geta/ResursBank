@@ -10,7 +10,6 @@ using Geta.Resurs.Checkout;
 using Geta.Resurs.Checkout.ConfigurationService;
 using Geta.Resurs.Checkout.Model;
 using Mediachase.Commerce.Orders;
-using Mediachase.Commerce.Orders.Managers;
 using Mediachase.Commerce.Orders.Search;
 using Newtonsoft.Json;
 
@@ -21,6 +20,7 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Callbacks
         private readonly ILogger _logger = LogManager.GetLogger(typeof(ResursBankCallbackClient));
 
         private Injected<IResursHashCalculator> InjectedHashCalculator { get; set; }
+        private Injected<IOrderRepository> InjectedOrderRepository { get; set; }
 
         private readonly ConfigurationWebServiceClient _configurationService;
 
@@ -133,53 +133,60 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Callbacks
 
             // Add order note
             var message = $"ResursBankCallback: processed {callbackData.EventType}";
-            order.AddNote(message, message);
+            var note = order.CreateOrderNote();
+            note.Title = message;
+            note.Detail = message;
+
+            order.Notes.Add(note);
 
             _logger.Information($"ProcessCallback: Processed {JsonConvert.SerializeObject(callbackData)}");
         }
 
-        protected virtual bool CheckOrderFrozenStatus(PurchaseOrder order, Payment payment)
+        protected virtual bool CheckOrderFrozenStatus(IPurchaseOrder order, IPayment payment)
         {
-            if (order.Status.Equals(OrderStatus.OnHold.ToString()) && payment.GetResursFreezeStatus())
+            if (order.OrderStatus.Equals(OrderStatus.OnHold) && payment.GetResursFreezeStatus())
             {
                 return true;
             }
 
-            _logger.Information($"Order not on hold or payment not frozen. ResursPaymentId: {payment.GetString(ResursConstants.ResursPaymentId)} PO: {order.TrackingNumber} OrderGroupId: {order.OrderGroupId}");
+            _logger.Information($"Order not on hold or payment not frozen. ResursPaymentId: {payment.Properties[ResursConstants.ResursPaymentId]} PO: {order.OrderNumber} OrderGroupId: {order.OrderLink.OrderGroupId}");
+
             return false;
         }
 
-        protected virtual bool ProcessUnfreeze(PurchaseOrder order, Payment payment)
+        protected virtual bool ProcessUnfreeze(IPurchaseOrder order, IPayment payment)
         {
             if (!CheckOrderFrozenStatus(order, payment)) return false;
 
-            order.Status = OrderStatus.InProgress.ToString();
-            order.AcceptChanges();
-            payment.SetMetaField(ResursConstants.PaymentFreezeStatus, false);
+            order.OrderStatus = OrderStatus.InProgress;
+            payment.Properties[ResursConstants.PaymentFreezeStatus] = false;
             payment.Status = PaymentStatus.Processed.ToString();
-            payment.AcceptChanges();
+
+            InjectedOrderRepository.Service.Save(order);
+
             return true;
         }
 
-        protected virtual bool ProcessAnnulment(PurchaseOrder order, Payment payment)
+        protected virtual bool ProcessAnnulment(IPurchaseOrder order, IPayment payment)
         {
             if (!CheckOrderFrozenStatus(order, payment)) return false;
-            order.Status = OrderStatus.Cancelled.ToString();
-            order.AcceptChanges();
-            payment.SetMetaField(ResursConstants.PaymentFreezeStatus, false);
+
+            order.OrderStatus = OrderStatus.Cancelled;
+            payment.Properties[ResursConstants.PaymentFreezeStatus] = false;
             payment.Status = PaymentStatus.Failed.ToString();
-            payment.AcceptChanges();
+
+            InjectedOrderRepository.Service.Save(order);
+
             return true;
         }
 
-        private Payment GetPayment(CallbackData callbackData, PurchaseOrder order)
+        private IPayment GetPayment(CallbackData callbackData, IPurchaseOrder order)
         {
-            return order.OrderForms.SelectMany(x => x.Payments)
-                .FirstOrDefault(payment => payment.GetStringValue(ResursConstants.ResursPaymentId, string.Empty)
-                    .Equals(callbackData.PaymentId));
+            return order.Forms.SelectMany(x => x.Payments)
+                              .FirstOrDefault(payment => callbackData.PaymentId.Equals(payment.Properties[ResursConstants.ResursPaymentId]));
         }
 
-        protected virtual PurchaseOrder GetOrderByPayment(string paymentId)
+        protected virtual IPurchaseOrder GetOrderByPayment(string paymentId)
         {
             var searchOptions = new OrderSearchOptions
             {
@@ -216,34 +223,38 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Callbacks
             return digest.Equals(InjectedHashCalculator.Service.Compute(callbackData, GetSalt()));
         }
 
-        public void ProcessFrozenPayments(PurchaseOrder purchaseOrder)
+        public void ProcessFrozenPayments(IPurchaseOrder purchaseOrder)
         {
             // Hold order and set payment(s) to pending
             var frozenPayments =
                 purchaseOrder
-                    .OrderForms
+                    .Forms
                     .SelectMany(x => x.Payments)
                     .Where(payment => payment.GetResursFreezeStatus())
                     .ToList();
+
             if (!frozenPayments.Any())
             {
-                _logger.Information($"ProcessFrozenPayments: no frozen payments for order {purchaseOrder.TrackingNumber} - {purchaseOrder.OrderGroupId}");
+                _logger.Information($"ProcessFrozenPayments: no frozen payments for order {purchaseOrder.OrderNumber} - {purchaseOrder.OrderLink.OrderGroupId}");
                 return;
             }
 
             foreach (var frozenPayment in frozenPayments)
             {
                 frozenPayment.Status = PaymentStatus.Pending.ToString();
-                frozenPayment.AcceptChanges();
             }
 
-            purchaseOrder.Status = OrderStatus.OnHold.ToString();
-            purchaseOrder.AcceptChanges();
+            purchaseOrder.OrderStatus = OrderStatus.OnHold;
 
-            var message = "Order on hold due to FROZEN payment status";
-            purchaseOrder.AddNote(message, message);
+            var note = purchaseOrder.CreateOrderNote();
+            note.Title = "Order on hold";
+            note.Detail = "Order on hold due to FROZEN payment status";
 
-            _logger.Information($"ProcessFrozenPayments: {message}. {purchaseOrder.TrackingNumber} - {purchaseOrder.OrderGroupId}");
+            purchaseOrder.Notes.Add(note);
+
+            InjectedOrderRepository.Service.Save(purchaseOrder);
+
+            _logger.Information($"ProcessFrozenPayments: {note.Detail}. {purchaseOrder.OrderNumber} - {purchaseOrder.OrderLink.OrderGroupId}");
         }
 
         protected virtual digestAlgorithm GetDigestAlgorithm()
