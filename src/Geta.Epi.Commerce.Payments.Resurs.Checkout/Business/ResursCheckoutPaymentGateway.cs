@@ -136,20 +136,20 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
             }
         }
 
-        private string GetResursPaymentId(IPayment payment)
+        public string CreatePreferredPaymentId()
         {
-            return payment.Properties[ResursConstants.ResursPaymentId]?.ToString();
+            return Guid.NewGuid().ToString().ToLower();
         }
 
         private BookPaymentObject CreateBookPaymentObject(IOrderGroup orderGroup, IPayment payment, ResursBankPayment resursBankPayment)
         {
             // Get information of Customer from Billing Address of Order form
             var billingAddress = payment.BillingAddress;
-
+            var preferredPaymentId = CreatePreferredPaymentId();
             var bookPaymentObject = new BookPaymentObject
             {
                 ExtendedCustomer = CreateExtendedCustomer(billingAddress, payment.Properties[ResursConstants.GovernmentId] as string ?? string.Empty),
-                PaymentData = CreatePaymentData(payment),
+                PaymentData = CreatePaymentData(payment, preferredPaymentId),
                 PaymentSpec = CreatePaymentSpecification(orderGroup, orderGroup.GetFirstForm(), IncludeShipping),
                 MapEntry = null,
                 Signing = CreateSigning(payment),
@@ -266,10 +266,11 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
             };
         }
 
-        private paymentData CreatePaymentData(IPayment payment)
+        private paymentData CreatePaymentData(IPayment payment, string preferredPaymentId)
         {
             return new paymentData
             {
+                preferredId = preferredPaymentId,
                 paymentMethodId = payment.Properties[ResursConstants.ResursBankPaymentType] as string ?? string.Empty,
                 customerIpAddress = HttpContext.Current.Request.UserHostAddress
             };
