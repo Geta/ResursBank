@@ -1,16 +1,16 @@
 ﻿using System;
+using EPiServer.Commerce.Order;
 using Geta.Resurs.Checkout;
-using Mediachase.Commerce.Orders;
 
 namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Extensions
 {
     public static class PaymentExtensions
     {
-        public static bool GetResursFreezeStatus(this Payment resursPayment, bool fallback = false)
+        public static bool GetResursFreezeStatus(this IPayment resursPayment, bool fallback = false)
         {
             try
             {
-                return resursPayment.GetBool(ResursConstants.PaymentFreezeStatus);
+                return resursPayment.Properties[ResursConstants.PaymentFreezeStatus] as bool? ?? false;
             }
             catch (Exception)
             {
