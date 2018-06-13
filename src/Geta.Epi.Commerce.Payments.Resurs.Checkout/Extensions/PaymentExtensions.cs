@@ -17,5 +17,10 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Extensions
                 return fallback;
             }
         }
+
+        public static string GetResursPaymentId(this IPayment resursPayment)
+        {
+            return resursPayment.Properties[ResursConstants.ResursPaymentId]?.ToString() ?? string.Empty;
+        }
     }
 }

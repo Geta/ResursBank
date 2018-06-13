@@ -219,6 +219,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Business\ResursBankPayment.cs" />
+    <Compile Include="Business\ResursCheckoutPaymentErrors.cs" />
     <Compile Include="Business\ResursCheckoutPaymentGateway.cs" />
     <Compile Include="Callbacks\CallbackData.cs" />
     <Compile Include="Callbacks\CallbackEventType.cs" />
