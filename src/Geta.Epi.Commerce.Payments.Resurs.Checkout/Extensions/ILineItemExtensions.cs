@@ -27,7 +27,8 @@ namespace Geta.EPi.Commerce.Payments.Resurs.Checkout.Extensions
             var extendedPrice = lineItem.GetExtendedPrice(orderGroup.Currency);
             var extendedSalesTax = calculator.GetSalesTax(lineItem, market, shipment.ShippingAddress, extendedPrice);
 
-            var vatPercent = (unitPrice + unitTax) / unitTax;
+            var price = orderGroup.PricesIncludeTax ? unitPrice : unitPrice + unitTax;
+            var vatPercent = unitTax.Amount * 100 / unitPrice;
 
             var totalWithoutVat = orderGroup.PricesIncludeTax ? extendedPrice.Amount - extendedSalesTax : extendedPrice.Amount;
             var totalVatAmount = extendedSalesTax.Amount;
