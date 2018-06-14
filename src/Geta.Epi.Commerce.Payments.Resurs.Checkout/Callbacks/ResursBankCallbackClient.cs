@@ -4,11 +4,14 @@ using System.Linq;
 using EPiServer.Commerce.Order;
 using EPiServer.Logging;
 using EPiServer.ServiceLocation;
+using Geta.Epi.Commerce.Payments.Resurs.Checkout.Business;
 using Geta.Epi.Commerce.Payments.Resurs.Checkout.Extensions;
 using Geta.EPi.Commerce.Payments.Resurs.Checkout.Extensions;
 using Geta.Resurs.Checkout;
+using Geta.Resurs.Checkout.AfterShopFlowService;
 using Geta.Resurs.Checkout.ConfigurationService;
 using Geta.Resurs.Checkout.Model;
+using Geta.Resurs.Checkout.SimplifiedShopFlowService;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Search;
 using Newtonsoft.Json;
@@ -242,19 +245,14 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Callbacks
             foreach (var frozenPayment in frozenPayments)
             {
                 frozenPayment.Status = PaymentStatus.Pending.ToString();
+                purchaseOrder.AddNote($"Resurs: Order on hold due to FROZEN payment status {frozenPayment.GetResursPaymentId()}");
             }
 
             purchaseOrder.OrderStatus = OrderStatus.OnHold;
-
-            var note = purchaseOrder.CreateOrderNote();
-            note.Title = "Order on hold";
-            note.Detail = "Order on hold due to FROZEN payment status";
-
-            purchaseOrder.Notes.Add(note);
-
+            
             InjectedOrderRepository.Service.Save(purchaseOrder);
 
-            _logger.Information($"ProcessFrozenPayments: {note.Detail}. {purchaseOrder.OrderNumber} - {purchaseOrder.OrderLink.OrderGroupId}");
+            _logger.Information($"ProcessFrozenPayments: {purchaseOrder.OrderNumber} - {purchaseOrder.OrderLink.OrderGroupId}");
         }
 
         protected virtual digestAlgorithm GetDigestAlgorithm()

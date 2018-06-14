@@ -219,6 +219,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Business\IResursBankPaymentInfo.cs" />
+    <Compile Include="Extensions\OrderGroupExtensions.cs" />
     <Compile Include="Business\ResursBankPayment.cs" />
     <Compile Include="Business\ResursCheckoutPaymentErrors.cs" />
     <Compile Include="Business\ResursCheckoutPaymentGateway.cs" />
@@ -228,7 +229,6 @@
     <Compile Include="Callbacks\IResursBankCallbackClientFactory.cs" />
     <Compile Include="Callbacks\IResursHashCalculator.cs" />
     <Compile Include="Callbacks\ResursHashCalculator.cs" />
-    <Compile Include="Extensions\PurchaseOrderExtensions.cs" />
     <Compile Include="Callbacks\ResursBankCallbackClient.cs" />
     <Compile Include="Callbacks\ResursBankCallbackClientFactory.cs" />
     <Compile Include="Extensions\ILineItemExtensions.cs" />

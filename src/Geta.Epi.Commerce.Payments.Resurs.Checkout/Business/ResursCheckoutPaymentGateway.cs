@@ -29,6 +29,7 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
         private readonly IOrderFormCalculator _orderFormCalculator;
         private readonly IMarketService _marketService;
         private readonly IResursBankRedirectSettings _redirectSettings;
+        private readonly IOrderRepository _orderRepository;
 
         public IOrderGroup OrderGroup { get; set; }
 
@@ -37,6 +38,7 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
             _orderFormCalculator = ServiceLocator.Current.GetInstance<IOrderFormCalculator>();
             _marketService = ServiceLocator.Current.GetInstance<IMarketService>();
             _redirectSettings = ServiceLocator.Current.GetInstance<IResursBankRedirectSettings>();
+            _orderRepository = ServiceLocator.Current.GetInstance<IOrderRepository>();
         }
 
         private ResursCredential _resursCredential;
@@ -102,12 +104,12 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
                     payment.Properties[ResursConstants.ResursPaymentId] = bookPaymentResult.paymentId;
 
                     // Booking succesfull
-                    return HandleBookPaymentResult(payment, bookPaymentResult);
+                    return HandleBookPaymentResult(payment, orderGroup, bookPaymentResult);
                 }
                 else
                 {
                     // Existing payment, check signing result
-                    return ReProcessBooking(resursBankServices, payment, resursPaymentId);
+                    return ReProcessBooking(resursBankServices, payment, orderGroup, resursPaymentId);
                 }
             }
             catch (FaultException<ECommerceError> exception)
@@ -152,20 +154,28 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
             return bookPaymentObject;
         }
 
-        private PaymentProcessingResult HandleBookPaymentResult(IPayment payment, bookPaymentResult bookPaymentResult)
+        private PaymentProcessingResult HandleBookPaymentResult(IPayment payment, IOrderGroup orderGroup, bookPaymentResult bookPaymentResult)
         {
             switch (bookPaymentResult.bookPaymentStatus)
             {
                 case bookPaymentStatus.FROZEN:
                     payment.Properties[ResursConstants.PaymentFreezeStatus] = true;
+                    payment.Status = PaymentStatus.Pending.ToString();
+                    orderGroup.AddNote($"Resurs: {bookPaymentStatus.FROZEN.ToString()} {payment.GetResursPaymentId()}");
+                    _orderRepository.Save(orderGroup);
                     return PaymentProcessingResult.CreateSuccessfulResult(string.Empty);
                 case bookPaymentStatus.BOOKED:
                 case bookPaymentStatus.FINALIZED:
                     payment.Properties[ResursConstants.PaymentFreezeStatus] = false;
+                    orderGroup.AddNote($"Resurs: {bookPaymentStatus.BOOKED.ToString()}/{bookPaymentStatus.FINALIZED.ToString()} {payment.GetResursPaymentId()}");
+                    _orderRepository.Save(orderGroup);
                     return PaymentProcessingResult.CreateSuccessfulResult(string.Empty);
                 case bookPaymentStatus.SIGNING:
+                    orderGroup.AddNote($"Resurs: {bookPaymentStatus.SIGNING.ToString()} {payment.GetResursPaymentId()}");
+                    _orderRepository.Save(orderGroup);
                     return PaymentProcessingResult.CreateSuccessfulResult(string.Empty, bookPaymentResult.signingUrl);
                 case bookPaymentStatus.DENIED:
+                    orderGroup.AddNote($"Resurs: {bookPaymentStatus.DENIED.ToString()} {payment.GetResursPaymentId()}");
                     return PaymentProcessingResult.CreateUnsuccessfulResult(ResursCheckoutPaymentErrors.PaymentDenied);
                 default:
                     return PaymentProcessingResult.CreateUnsuccessfulResult(ResursCheckoutPaymentErrors.UnknownPaymentStatus);
@@ -178,12 +188,13 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
         private PaymentProcessingResult ReProcessBooking(
             ResursBankServiceClient resursBankServices,
             IPayment payment,
+            IOrderGroup orderGroup,
             string resursPaymentId)
         {
             // Try to book the signed payment
             var bookPaymentResult = resursBankServices.BookSignedPayment(resursPaymentId);
 
-            return HandleBookPaymentResult(payment, bookPaymentResult);
+            return HandleBookPaymentResult(payment, orderGroup, bookPaymentResult);
         }
 
         private cardData CreateCustomerCard(IPayment payment, BookPaymentObject bookPaymentObject)
@@ -249,7 +260,7 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
             //TODO querystring
             return new signing
             {
-                failUrl = $"{_redirectSettings.SigningFailedUrl}?paymentId={preferredPaymentId}",
+                failUrl = $"{_redirectSettings.SigningFailedUrl}",
                 forceSigning = false,
                 forceSigningSpecified = false,
                 successUrl = $"{_redirectSettings.SigningSuccessUrl}?paymentId={preferredPaymentId}"
@@ -335,7 +346,7 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
         public bool PostProcess(IOrderForm orderForm)
         {
             var resursPayment =
-                orderForm.Payments.FirstOrDefault(x => x.PaymentMethodName.Equals("ResursBankCheckout"));
+                orderForm.Payments.FirstOrDefault(x => x.PaymentMethodName.Equals(ResursConstants.SystemName));
 
             // Check if payment frozen, if so set payment pending
             if (resursPayment == null)
@@ -481,7 +492,5 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
             var countryMap = countryCodeDictionary.GetCountryMap();
             return countryMap.ContainsKey(billingCountryCode) ? countryMap[billingCountryCode] : billingCountryCode;
         }
-
-        
     }
 }
