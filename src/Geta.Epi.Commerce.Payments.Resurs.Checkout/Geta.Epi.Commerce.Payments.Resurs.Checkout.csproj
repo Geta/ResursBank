@@ -218,6 +218,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Business\IResursBankPaymentInfo.cs" />
     <Compile Include="Business\ResursBankPayment.cs" />
     <Compile Include="Business\ResursCheckoutPaymentErrors.cs" />
     <Compile Include="Business\ResursCheckoutPaymentGateway.cs" />
