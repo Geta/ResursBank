@@ -6,6 +6,7 @@
         public static readonly string Password = "Password";
         public static readonly string IncludeShippingCost = "IncludeShippingCost";
 
+        public const string SystemName = "ResursBankCheckout";
         public const string OrderNamespace = "Mediachase.Commerce.Orders";
         public const string ResursBankPaymentMethod = "ResursBankPaymentMethod";
         public const string GovernmentId = "GovernmentId";
