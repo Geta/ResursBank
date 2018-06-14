@@ -32,15 +32,6 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
 
         public IOrderGroup OrderGroup { get; set; }
 
-        public string CardNumber { get; set; }
-        public string ResursPaymentMethod { get; set; }
-        public string GovernmentId { get; set; }
-        public decimal AmountForNewCard { get; set; }
-        public decimal MinLimit { get; set; }
-        public decimal MaxLimit { get; set; }
-        
-        public string InvoiceDeliveryType { get; set; }
-
         public ResursCheckoutPaymentGateway()
         {
             _orderFormCalculator = ServiceLocator.Current.GetInstance<IOrderFormCalculator>();
@@ -89,7 +80,7 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
                     return PaymentProcessingResult.CreateUnsuccessfulResult(ResursCheckoutPaymentErrors.Configuration);
                 }
 
-                if (!(payment is ResursBankPayment resursBankPayment))
+	            if (!payment.PaymentMethodName.Equals(ResursConstants.ResursBankPaymentMethod))
                 {
                     return PaymentProcessingResult.CreateUnsuccessfulResult(ResursCheckoutPaymentErrors.PaymentType);
                 }
@@ -102,7 +93,7 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
                 if (string.IsNullOrWhiteSpace(resursPaymentId))
                 {
                     // New payment, call bookPayment
-                    var bookPaymentObject = CreateBookPaymentObject(orderGroup, payment, resursBankPayment);
+                    var bookPaymentObject = CreateBookPaymentObject(orderGroup, payment);
 
                     // booking payment to Resurs API
                     var bookPaymentResult = resursBankServices.BookPayment(bookPaymentObject);
@@ -141,7 +132,7 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
             return Guid.NewGuid().ToString().ToLower();
         }
 
-        private BookPaymentObject CreateBookPaymentObject(IOrderGroup orderGroup, IPayment payment, ResursBankPayment resursBankPayment)
+        private BookPaymentObject CreateBookPaymentObject(IOrderGroup orderGroup, IPayment payment)
         {
             // Get information of Customer from Billing Address of Order form
             var billingAddress = payment.BillingAddress;
@@ -152,10 +143,8 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
                 PaymentData = CreatePaymentData(payment, preferredPaymentId),
                 PaymentSpec = CreatePaymentSpecification(orderGroup, orderGroup.GetFirstForm(), IncludeShipping),
                 MapEntry = null,
-                Signing = CreateSigning(payment),
-                CallbackUrl = !string.IsNullOrEmpty(resursBankPayment.CallBackUrl)
-                ? resursBankPayment.CallBackUrl
-                : null
+                Signing = CreateSigning(payment, preferredPaymentId),
+                CallbackUrl = null
             };
             bookPaymentObject.Card = CreateCustomerCard(payment, bookPaymentObject);
             bookPaymentObject.InvoiceData = CreateInvoiceData(payment, bookPaymentObject);
@@ -255,14 +244,15 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
             return dType;
         }
 
-        private signing CreateSigning(IPayment payment)
+        private signing CreateSigning(IPayment payment, string preferredPaymentId)
         {
+            //TODO querystring
             return new signing
             {
-                failUrl = payment.Properties[ResursConstants.FailBackUrl] as string ?? string.Empty,
+                failUrl = $"{_redirectSettings.SigningFailedUrl}?paymentId={preferredPaymentId}",
                 forceSigning = false,
                 forceSigningSpecified = false,
-                successUrl = payment.Properties[ResursConstants.SuccessfullUrl] as string ?? string.Empty
+                successUrl = $"{_redirectSettings.SigningSuccessUrl}?paymentId={preferredPaymentId}"
             };
         }
 
@@ -300,50 +290,47 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
             return true;
         }
 
-        public IPayment PreProcess(IOrderGroup orderGroup, IOrderForm orderForm)
-        {
-            if (orderForm == null) throw new ArgumentNullException(nameof(orderForm));
+        //public IPayment PreProcess(IOrderGroup orderGroup, IOrderForm orderForm)
+        //{
+        //    if (orderForm == null) throw new ArgumentNullException(nameof(orderForm));
 
-            var market = _marketService.GetMarket(orderGroup.MarketId);
-            var totals = _orderFormCalculator.GetOrderFormTotals(orderForm, market, orderGroup.Currency);
+        //    var market = _marketService.GetMarket(orderGroup.MarketId);
+        //    var totals = _orderFormCalculator.GetOrderFormTotals(orderForm, market, orderGroup.Currency);
 
-            //validate
-            if (totals.Total > MaxLimit || totals.Total < MinLimit)
-            {
-                //not valid
-                throw new Exception($"total is not in limit from {MinLimit} to {MaxLimit}");
-            }
+        //    //validate
+        //    if (totals.Total > MaxLimit || totals.Total < MinLimit)
+        //    {
+        //        //not valid
+        //        throw new Exception($"total is not in limit from {MinLimit} to {MaxLimit}");
+        //    }
            
-            if (!ValidateData())
-                return null;
+        //    if (string.IsNullOrWhiteSpace(_redirectSettings.SuccessRedirectUrl) || 
+        //        string.IsNullOrWhiteSpace(_redirectSettings.FailureCallbackUrl))
+        //    {
+        //        throw new Exception($"Please configure IResursbankRedirectSettings");
+        //    }
 
-            if (orderForm == null) throw new ArgumentNullException(nameof(orderForm));
+        //    if (orderForm == null) throw new ArgumentNullException(nameof(orderForm));
 
-            if (!ValidateData())
-                return null;
+        //    var payment = new ResursBankPayment
+        //    {
+        //        PaymentMethodId = PaymentMethodId,
+        //        PaymentMethodName = "ResursBankCheckout",
+        //        OrderFormId = orderForm.OrderFormId,
+        //        OrderGroupId = orderGroup.OrderLink.OrderGroupId,
+        //        Amount = totals.Total,
+        //        Status = PaymentStatus.Pending.ToString(),
+        //        TransactionType = TransactionType.Authorization.ToString(),
+        //    };
 
-            var payment = new ResursBankPayment
-            {
-                PaymentMethodId = PaymentMethodId,
-                PaymentMethodName = "ResursBankCheckout",
-                OrderFormId = orderForm.OrderFormId,
-                OrderGroupId = orderGroup.OrderLink.OrderGroupId,
-                Amount = totals.Total,
-                Status = PaymentStatus.Pending.ToString(),
-                TransactionType = TransactionType.Authorization.ToString(),
-            };
+        //    payment.SetMetaField(ResursConstants.ResursBankPaymentType, ResursPaymentMethod, false);
+        //    payment.SetMetaField(ResursConstants.CardNumber, CardNumber, false);
+        //    payment.SetMetaField(ResursConstants.GovernmentId, GovernmentId, false);
+        //    payment.SetMetaField(ResursConstants.AmountForNewCard, AmountForNewCard, false);
+        //    payment.SetMetaField(ResursConstants.InvoiceDeliveryType, InvoiceDeliveryType, false);
 
-            payment.SetMetaField(ResursConstants.ResursBankPaymentType, ResursPaymentMethod, false);
-            payment.SetMetaField(ResursConstants.CardNumber, CardNumber, false);
-            payment.SetMetaField(ResursConstants.CallBackUrl, _redirectSettings.CallbackUrl, false);
-            payment.SetMetaField(ResursConstants.FailBackUrl, _redirectSettings.FailureCallbackUrl, false);
-            payment.SetMetaField(ResursConstants.SuccessfullUrl, _redirectSettings.SuccessRedirectUrl, false);
-            payment.SetMetaField(ResursConstants.GovernmentId, GovernmentId, false);
-            payment.SetMetaField(ResursConstants.AmountForNewCard, AmountForNewCard, false);
-            payment.SetMetaField(ResursConstants.InvoiceDeliveryType, InvoiceDeliveryType, false);
-
-            return payment;
-        }
+        //    return payment;
+        //}
 
         public bool PostProcess(IOrderForm orderForm)
         {
@@ -461,10 +448,9 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
                     firstName = billingAddress.FirstName,
                     lastName = billingAddress.LastName,
                     addressRow1 = billingAddress.Line1,
-                    addressRow2 =
-                        !string.IsNullOrEmpty(billingAddress.Line2) ? billingAddress.Line2 : billingAddress.Line1,
+                    addressRow2 = billingAddress.Line2,
                     postalArea = billingAddress.PostalCode,
-                    postalCode = billingAddress.PostalCode
+                    postalCode = billingAddress.City
                 };
 
                 var billingCountryCode = GetBillingCountryCode(billingAddress.CountryCode);

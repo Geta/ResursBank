@@ -2,8 +2,7 @@
 {
     public interface IResursBankRedirectSettings
     {
-        string SuccessRedirectUrl { get; }
-        string FailureCallbackUrl { get; }
-        string CallbackUrl { get; }
+        string SigningSuccessUrl { get; }
+        string SigningFailedUrl { get; }
     }
 }
