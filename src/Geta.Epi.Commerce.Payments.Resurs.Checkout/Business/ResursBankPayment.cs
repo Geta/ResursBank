@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 using EPiServer.Commerce.Order;
 using EPiServer.ServiceLocation;
 using Geta.Resurs.Checkout;
 using Geta.Resurs.Checkout.Model;
-using Geta.Resurs.Checkout.SimplifiedShopFlowService;
 using Mediachase.Commerce.Orders;
 
 namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
@@ -14,6 +13,7 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
     public class ResursBankPayment : OtherPayment
     {
         private Injected<IOrderGroupFactory> InjectedOrderGroupFactory { get; set; }
+        private Injected<IResursBankPaymentMethodService> InjectedResursBankPaymentMethodService { get; set; }
 
         public ResursBankPayment() { }
 
@@ -21,14 +21,22 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
         {
         }
 
-        public IPayment CreatePayment(decimal amount, IOrderGroup orderGroup, PaymentMethodResponse paymentMethod, ResursBankPaymentInfo resursBankPaymentInfo, out string validationMessage)
+        public IPayment CreatePayment(
+            decimal amount, 
+            IOrderGroup orderGroup,
+            PaymentMethodResponse paymentMethod,
+            ResursBankPaymentInfo resursBankPaymentInfo,
+            out string validationMessage,
+            string language = "no",
+            string customerType = "NATURAL")
         {
-            if (Validate(amount, resursBankPaymentInfo, out validationMessage)) return null;
+            if (Validate(amount, resursBankPaymentInfo, out validationMessage, language, customerType)) return null;
 
             var payment = orderGroup.CreatePayment(InjectedOrderGroupFactory.Service, typeof(ResursBankPayment));
-            //payment.PaymentMethodId = PaymentMethodId;
-            //payment.PaymentMethodName = "ResursBankCheckout";
+            payment.PaymentMethodId = PaymentMethodId;
+            payment.PaymentMethodName = ResursConstants.SystemName;
             payment.Amount = amount;
+            payment.PaymentType = PaymentType.Other;
             payment.Status = PaymentStatus.Pending.ToString();
             payment.TransactionType = Mediachase.Commerce.Orders.TransactionType.Authorization.ToString();
 
@@ -38,26 +46,39 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
             return payment;
         }
 
-        private static bool Validate(decimal amount, ResursBankPaymentInfo resursBankPaymentInfo, out string validationMessage)
+        private bool Validate(
+            decimal amount,
+            ResursBankPaymentInfo resursBankPaymentInfo,
+            out string validationMessage,
+            string language = "no",
+            string customerType = "NATURAL")
         {
-            //validate
-            //if (amount > resursBankPaymentInfo.MaxLimit || amount < resursBankPaymentInfo.MinLimit)
-            //{
-            //    //not valid
-            //    validationMessage =
-            //        $"total is not in limit from {resursBankPaymentInfo.MinLimit} to {resursBankPaymentInfo.MaxLimit}";
-            //    return true;
-            //}
+            var method = InjectedResursBankPaymentMethodService.Service
+                .GetResursPaymentMethods(language, customerType, amount)
+                .FirstOrDefault(x => x.Id.Equals(resursBankPaymentInfo.ResursPaymentMethod));
+            if (method == null)
+            {
+                validationMessage = $"Unknown payment method";
+                return false;
+            }
 
-            //if (string.IsNullOrWhiteSpace(resursBankPaymentInfo.SigningSuccessUrl) ||
-            //    string.IsNullOrWhiteSpace(resursBankPaymentInfo.SigningFailedUrl))
-            //{
-            //    validationMessage = $"Please configure IResursbankRedirectSettings";
-            //    return true;
-            //}
+            //validate
+            if (amount > method.MaxLimitField || amount < method.MinLimitField)
+            {
+                //not valid
+                validationMessage = $"total is not in limit from {method.MinLimitField} to {method.MaxLimitField}";
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(resursBankPaymentInfo.SigningSuccessUrl) ||
+                string.IsNullOrWhiteSpace(resursBankPaymentInfo.SigningFailedUrl))
+            {
+                validationMessage = $"Please configure IResursbankRedirectSettings";
+                return false;
+            }
 
             validationMessage = null;
-            return false;
+            return true;
         }
     }
 

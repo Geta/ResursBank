@@ -35,7 +35,7 @@ namespace Geta.Resurs.Checkout
             }
         }
 
-        public List<PaymentMethodResponse> GetPaymentMethods(string lang, string custType, decimal amount)
+        public List<PaymentMethodResponse> GetPaymentMethods(string lang, string custType, decimal? amount)
         {
             if (_shopServiceClient == null || _shopServiceClient.ClientCredentials == null)
             {

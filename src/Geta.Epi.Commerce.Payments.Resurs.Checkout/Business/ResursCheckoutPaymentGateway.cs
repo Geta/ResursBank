@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.ServiceModel;
 using System.Web;
@@ -21,24 +19,31 @@ using Mediachase.Commerce.Plugins.Payment;
 
 namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
 {
-
     public class ResursCheckoutPaymentGateway : AbstractPaymentGateway, IPaymentPlugin
     {
         private static readonly ILogger Logger = LogManager.GetLogger(typeof(ResursCheckoutPaymentGateway));
 
-        private readonly IOrderFormCalculator _orderFormCalculator;
-        private readonly IMarketService _marketService;
-        private readonly IResursBankRedirectSettings _redirectSettings;
-        private readonly IOrderRepository _orderRepository;
+        internal Injected<IOrderFormCalculator> InjectedOrderFormCalculator { get; set; }
+        private IOrderFormCalculator _orderFormCalculator => InjectedOrderFormCalculator.Service;
+        internal Injected<IMarketService> InjectedMarketService { get; set; }
+        private IMarketService _marketService => InjectedMarketService.Service;
+        internal Injected<IResursBankRedirectSettings> InjectedRedirectSettings { get; set; }
+        private IResursBankRedirectSettings _redirectSettings => InjectedRedirectSettings.Service;
+        internal Injected<IOrderRepository> InjectedOrderRepository { get; set; }
+        private IOrderRepository _orderRepository => InjectedOrderRepository.Service;
+        internal Injected<ISynchronizedObjectInstanceCache> InjectedCache { get; set; }
+        private ISynchronizedObjectInstanceCache _cache => InjectedCache.Service;
+        internal Injected<IResursBankServiceSettingFactory> InjectedResursBankServiceSettingFactory { get; set; }
+        private IResursBankServiceSettingFactory _resursBankServiceSettingFactory =>
+            InjectedResursBankServiceSettingFactory.Service;
+        private Injected<IResursBankPaymentMethodService> InjectedResursBankPaymentMethodService { get; set; }
+        private IResursBankPaymentMethodService _resursBankPaymentMethodService =>
+            InjectedResursBankPaymentMethodService.Service;
 
         public IOrderGroup OrderGroup { get; set; }
 
         public ResursCheckoutPaymentGateway()
         {
-            _orderFormCalculator = ServiceLocator.Current.GetInstance<IOrderFormCalculator>();
-            _marketService = ServiceLocator.Current.GetInstance<IMarketService>();
-            _redirectSettings = ServiceLocator.Current.GetInstance<IResursBankRedirectSettings>();
-            _orderRepository = ServiceLocator.Current.GetInstance<IOrderRepository>();
         }
 
         private ResursCredential _resursCredential;
@@ -87,8 +92,7 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
                     return PaymentProcessingResult.CreateUnsuccessfulResult(ResursCheckoutPaymentErrors.PaymentType);
                 }
 
-                var factory = ServiceLocator.Current.GetInstance<IResursBankServiceSettingFactory>();
-			    var resursBankServices = factory.Init(ResursCredential);
+	            var resursBankServices = _resursBankServiceSettingFactory.Init(ResursCredential);
 
                 // Check if we already have a ResursPaymentId
                 var resursPaymentId = payment.GetResursPaymentId();
@@ -301,48 +305,6 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
             return true;
         }
 
-        //public IPayment PreProcess(IOrderGroup orderGroup, IOrderForm orderForm)
-        //{
-        //    if (orderForm == null) throw new ArgumentNullException(nameof(orderForm));
-
-        //    var market = _marketService.GetMarket(orderGroup.MarketId);
-        //    var totals = _orderFormCalculator.GetOrderFormTotals(orderForm, market, orderGroup.Currency);
-
-        //    //validate
-        //    if (totals.Total > MaxLimit || totals.Total < MinLimit)
-        //    {
-        //        //not valid
-        //        throw new Exception($"total is not in limit from {MinLimit} to {MaxLimit}");
-        //    }
-           
-        //    if (string.IsNullOrWhiteSpace(_redirectSettings.SuccessRedirectUrl) || 
-        //        string.IsNullOrWhiteSpace(_redirectSettings.FailureCallbackUrl))
-        //    {
-        //        throw new Exception($"Please configure IResursbankRedirectSettings");
-        //    }
-
-        //    if (orderForm == null) throw new ArgumentNullException(nameof(orderForm));
-
-        //    var payment = new ResursBankPayment
-        //    {
-        //        PaymentMethodId = PaymentMethodId,
-        //        PaymentMethodName = "ResursBankCheckout",
-        //        OrderFormId = orderForm.OrderFormId,
-        //        OrderGroupId = orderGroup.OrderLink.OrderGroupId,
-        //        Amount = totals.Total,
-        //        Status = PaymentStatus.Pending.ToString(),
-        //        TransactionType = TransactionType.Authorization.ToString(),
-        //    };
-
-        //    payment.SetMetaField(ResursConstants.ResursBankPaymentType, ResursPaymentMethod, false);
-        //    payment.SetMetaField(ResursConstants.CardNumber, CardNumber, false);
-        //    payment.SetMetaField(ResursConstants.GovernmentId, GovernmentId, false);
-        //    payment.SetMetaField(ResursConstants.AmountForNewCard, AmountForNewCard, false);
-        //    payment.SetMetaField(ResursConstants.InvoiceDeliveryType, InvoiceDeliveryType, false);
-
-        //    return payment;
-        //}
-
         public bool PostProcess(IOrderForm orderForm)
         {
             var resursPayment =
@@ -360,21 +322,6 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Business
             }
 
             return true;
-        }
-
-        public List<PaymentMethodResponse> GetResursPaymentMethods(string lang, string custType, decimal amount)
-        {
-            var lstPaymentMethodsResponse = EPiServer.CacheManager.Get("GetListResursPaymentMethods") as List<PaymentMethodResponse>;
-            if (lstPaymentMethodsResponse == null || !lstPaymentMethodsResponse.Any())
-            {
-                var factory = ServiceLocator.Current.GetInstance<IResursBankServiceSettingFactory>();
-                var resursBankServices = factory.Init(new ResursCredential(ConfigurationManager.AppSettings["ResursBank:UserName"],ConfigurationManager.AppSettings["ResursBank:Password"]));
-                lstPaymentMethodsResponse = resursBankServices.GetPaymentMethods(lang, custType, amount);
-                //Cache list payment methods for 1 day as Resurs recommended.
-                EPiServer.CacheManager.Insert("GetListResursPaymentMethods", lstPaymentMethodsResponse, new CacheEvictionPolicy(new TimeSpan(1, 0, 0, 0), CacheTimeoutType.Absolute));
-            }
-
-            return lstPaymentMethodsResponse;
         }
 
         private paymentSpec CreatePaymentSpecification(IOrderGroup orderGroup, IOrderForm orderForm, bool includeShipping = false)
