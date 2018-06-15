@@ -4,14 +4,10 @@ using System.Linq;
 using EPiServer.Commerce.Order;
 using EPiServer.Logging;
 using EPiServer.ServiceLocation;
-using Geta.Epi.Commerce.Payments.Resurs.Checkout.Business;
 using Geta.Epi.Commerce.Payments.Resurs.Checkout.Extensions;
-using Geta.EPi.Commerce.Payments.Resurs.Checkout.Extensions;
 using Geta.Resurs.Checkout;
-using Geta.Resurs.Checkout.AfterShopFlowService;
 using Geta.Resurs.Checkout.ConfigurationService;
 using Geta.Resurs.Checkout.Model;
-using Geta.Resurs.Checkout.SimplifiedShopFlowService;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Search;
 using Newtonsoft.Json;
@@ -165,6 +161,8 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Callbacks
             payment.Properties[ResursConstants.PaymentFreezeStatus] = false;
             payment.Status = PaymentStatus.Processed.ToString();
 
+            order.AddNote($"Resurs: UNFREEZE {payment.GetResursPaymentId()}");
+
             InjectedOrderRepository.Service.Save(order);
 
             return true;
@@ -177,6 +175,8 @@ namespace Geta.Epi.Commerce.Payments.Resurs.Checkout.Callbacks
             order.OrderStatus = OrderStatus.Cancelled;
             payment.Properties[ResursConstants.PaymentFreezeStatus] = false;
             payment.Status = PaymentStatus.Failed.ToString();
+
+            order.AddNote($"Resurs: ANNULMENT {payment.GetResursPaymentId()}");
 
             InjectedOrderRepository.Service.Save(order);
 
