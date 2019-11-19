@@ -27,12 +27,12 @@ namespace Geta.EPi.Commerce.Payments.Resurs.Checkout.Extensions
             var extendedPrice = lineItem.GetExtendedPrice(orderGroup.Currency);
             var extendedSalesTax = calculator.GetSalesTax(lineItem, market, shipment.ShippingAddress, extendedPrice);
 
-            var price = orderGroup.PricesIncludeTax ? unitPrice : unitPrice + unitTax;
             var vatPercent = unitTax.Amount * 100 / unitPrice;
 
             var totalWithoutVat = orderGroup.PricesIncludeTax ? extendedPrice.Amount - extendedSalesTax : extendedPrice.Amount;
             var totalVatAmount = extendedSalesTax.Amount;
             var totalAmount = totalWithoutVat + totalVatAmount;
+            var singleItemPriceWithoutTax = totalWithoutVat / lineItem.Quantity;
 
             // Resurs Bank uses different price and vat formats for checkout and order update
             return new SpecLine(
@@ -41,7 +41,7 @@ namespace Geta.EPi.Commerce.Payments.Resurs.Checkout.Extensions
                 lineItem.DisplayName,
                 lineItem.Quantity,
                 UnitMeasureType.ST,
-                unitPrice,
+                singleItemPriceWithoutTax,
                 vatPercent,
                 totalVatAmount,
                 totalAmount
