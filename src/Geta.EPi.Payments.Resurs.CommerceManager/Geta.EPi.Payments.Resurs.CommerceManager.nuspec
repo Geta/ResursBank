@@ -13,6 +13,6 @@
     <iconUrl>https://cdn.geta.no/opensource/icons/Geta-logo-3.png</iconUrl>
   </metadata>
   <files>
-      <file src="\Apps\Order\Payments\Plugins\ResursBankCheckout\*.ascx" target="" /> 
+      <file src="Apps\Order\Payments\Plugins\ResursBankCheckout\*.ascx" target="" /> 
     </files>
 </package>
