@@ -1,5 +1,8 @@
 # Resurs Bank Checkout integration with EPiServer Commerce
 
+* Master<br>
+![](http://tc.geta.no/app/rest/builds/buildType:(id:Kolumbus_Main_00ci),branch:master/statusIcon)
+
 ## Description
 
 Geta.EPi.Commerce.Payments.Resurs.Checkout is library which helps to integrate Resurs Bank Checkout as one of the payment options in your EPiServer Commerce site.
