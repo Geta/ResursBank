@@ -11,6 +11,7 @@
     <description>$description$</description>
     <copyright>Copyright Geta 2016</copyright>
     <iconUrl>https://cdn.geta.no/opensource/icons/Geta-logo-3.png</iconUrl>
+    <repository type="git" url="URL" branch="BRANCH_NAME" commit="COMMIT" />
   </metadata>
   <files>
       <file src="Apps\Order\Payments\Plugins\ResursBankCheckout\*.ascx" target="" /> 
